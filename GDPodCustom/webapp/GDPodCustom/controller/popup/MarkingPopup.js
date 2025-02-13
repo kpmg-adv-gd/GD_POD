@@ -19,6 +19,14 @@ sap.ui.define([
             that.loadMarkingData();
             that.onGetShift();
             that.openDialog();
+            that.clearData();
+        },
+
+        clearData: function () {
+            var that = that;
+            that.getView().byId("markingDatePicker").setValue("");
+            that.getView().byId("startTimePicker").setValue("");
+            that.getView().byId("finishTimePicker").setValue("");
         },
 
         loadHeaderData: function () {
