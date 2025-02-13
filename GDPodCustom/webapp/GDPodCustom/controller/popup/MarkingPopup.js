@@ -23,7 +23,7 @@ sap.ui.define([
         },
 
         clearData: function () {
-            var that = that;
+            var that = this;
             that.getView().byId("markingDatePicker").setValue("");
             that.getView().byId("startTimePicker").setValue("");
             that.getView().byId("finishTimePicker").setValue("");
