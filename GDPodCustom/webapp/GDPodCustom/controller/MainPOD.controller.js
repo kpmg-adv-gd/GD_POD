@@ -299,7 +299,7 @@ sap.ui.define([
         onMarkPress: function(oEvent){
             var that=this;
             let idMarkButton = oEvent.getParameter("id");
-            let pathMarkOperation = sap.ui.getCore().byId(idMarkButton.getParent().getBindingContext("PODOperationModel").getPath());
+            let pathMarkOperation = sap.ui.getCore().byId(idMarkButton).getParent().getBindingContext("PODOperationModel").getPath();
             let markOperation = that.getView().getModel("PODOperationModel").getProperty(pathMarkOperation);
 
         },
