@@ -11,7 +11,7 @@
     <Dialog id="markingDialog" title="{i18n>marking.popup.title}" class="markingPopupDialog" showHeader="true" contentHeight="400px"  contentWidth="800px"> 
         <content>
             <!-- Container principale -->
-            <VBox width="90%" height="90%" renderType="Bare" class="mainContainer">
+            <VBox width="90%" height="90%" renderType="Bare" class="mainContainer" alignContent="Center" justifyContent="Center">
                 <!-- Header -->
                 <HBox width="100%" height="20%" renderType="Bare" class="markingHeaderContainer">
                     <HBox class="space" renderType="Bare" alignItems="Center">
