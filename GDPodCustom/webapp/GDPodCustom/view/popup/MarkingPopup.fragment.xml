@@ -7,15 +7,15 @@
                 <HBox width="100%" height="20%" class="markingHeaderContainer">
                     <HBox class="space">
                         <Label text="WBS Element" class="markingHeaderLabel markingLabel"></Label>
-                        <Label text="{MarkingPopupModel>/wbe}" class="markingLabel"></Label>
+                        <Label text="{/wbe}" class="markingLabel"></Label>
                     </HBox>
                     <HBox class="space">
                         <Label text="SFC" class="markingHeaderLabel markingLabel"></Label>
-                        <Label text="{MarkingPopupModel>/sfc}" class="markingLabel"></Label>
+                        <Label text="{/sfc}" class="markingLabel"></Label>
                     </HBox>
                     <HBox class="space">
                         <Label text="Order" class="markingHeaderLabel markingLabel"></Label>
-                        <Label text="{MarkingPopupModel>/order}" class="markingLabel"></Label>
+                        <Label text="{/order}" class="markingLabel"></Label>
                     </HBox>
                 </HBox>
 
@@ -24,15 +24,15 @@
                     <VBox width="50%" height="30%" class="markingOperationContainer">
                         <HBox width="100%" height="50%" class="inputRow">
                             <Label text="Operation" class="markingLabel"></Label>
-                            <Label text="{MarkingPopupModel>/operation}"></Label>
+                            <Label text="{/operation}"></Label>
                         </HBox>
                         <HBox width="100%" height="50%" class="inputRow">
                             <Label text="Confirmation Number" class="markingLabel"></Label>
-                            <Label text="{MarkingPopupModel>/confirmNumber}"></Label>
+                            <Label text="{/confirmNumber}"></Label>
                         </HBox>
                         <HBox width="100%" height="50%" class="inputRow">
                             <Label text="Personnel Number" class="markingLabel"></Label>
-                            <Label text="{MarkingPopupModel>/personnelNumber}"></Label>
+                            <Label text="{/personnelNumber}"></Label>
                         </HBox>
                     </VBox>
                     <VBox width="50%" height="30%" ></VBox>
@@ -84,24 +84,24 @@
                     <VBox width="50%" class="markingHoursContainer">
                         <HBox class="markingHoursRow">
                             <Label text="Planned Labor" class="markingLabel"></Label>
-                            <Label text="{MarkingPopupModel>/plannedLabor}"></Label>
+                            <Label text="{/plannedLabor}"></Label>
                         </HBox>
                         <HBox class="markingHoursRow">
                             <Label text="Marked Labor" class="markingLabel"></Label>
-                            <Label text="{MarkingPopupModel>/markedLabor}"></Label>
+                            <Label text="{/markedLabor}"></Label>
                         </HBox>
                         <HBox class="markingHoursRow">
                             <Label text="Remaining Labor" class="markingLabel"></Label>
-                            <Label text="{MarkingPopupModel>/remainingLabor}"></Label>
+                            <Label text="{/remainingLabor}"></Label>
                         </HBox>
                         <HBox class="markingHoursRow">
                             <Label text="Variance Labor" class="markingLabel"></Label>
-                            <Label text="{MarkingPopupModel>/varianceLabor}"></Label>
+                            <Label text="{/varianceLabor}"></Label>
                         </HBox>
                         
                         <!-- Bottoni -->
                         <HBox class="markingButtonContainer">
-                            <Button text="Cancel" type="Emphasized" press="onCloseDialog" />
+                            <Button text="Cancel" type="Emphasized" press="onClosePopup" />
                             <Button text="Confirm" type="Emphasized" press="onConfirm" />
                         </HBox>
                     </VBox>

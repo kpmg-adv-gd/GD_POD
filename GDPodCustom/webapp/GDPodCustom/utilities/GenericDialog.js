@@ -19,12 +19,21 @@ sap.ui.define([
             // connect dialog to view (models, lifecycle)
             this._view = view;
             this._model = model;
+<<<<<<< HEAD
+            this._infoModel = view.getModel("infoModel");
+            this._view.addDependent(this._dialog);
+            if(!!!!this._infoModel){
+                this._dialog.setModel(this._infoModel,"infoModel");
+            }
+            this._dialog.setModel(this._model);
+=======
             // this._infoModel = view.getModel("infoModel");
             // this._view.addDependent(this._dialog);
             // if(!!!!this._infoModel){
             //     this._dialog.setModel(this._infoModel,"infoModel");
             // }
              
+>>>>>>> 55ac256ff8eb6d27ff6ad3fec592ad5db38c8c69
             return this._dialog;
         },
         openDialog: function () {
