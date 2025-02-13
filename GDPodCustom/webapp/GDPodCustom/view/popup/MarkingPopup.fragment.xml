@@ -60,8 +60,8 @@
                             <Label text="Start Time" class="markingLabel"/>
                             <TimePicker 
                                 id="startTimePicker" 
-                                valueFormat="HH:mm:ss"
-                                displayFormat="HH:mm:ss"
+                                valueFormat="HH:mm"
+                                displayFormat="HH:mm"
                                 width="15rem"  
                                 value="{/dateValue}"/>
                         </HBox>
@@ -69,8 +69,8 @@
                             <Label text="Finish Time" class="markingLabel"/>
                             <TimePicker 
                                 id="finishTimePicker" 
-                                valueFormat="HH:mm:ss"
-                                displayFormat="HH:mm:ss"
+                                valueFormat="HH:mm"
+                                displayFormat="HH:mm"
                                 width="15rem" 
                                 value="{/dateValue}"/>
                         </HBox>
