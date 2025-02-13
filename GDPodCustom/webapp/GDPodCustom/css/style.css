@@ -279,14 +279,14 @@
 }
 
 /* Allineamento Header */
-.markingHeaderContainer {
+/* .markingHeaderContainer {
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     gap: 3rem;
     margin-bottom: 1rem;
-}
+} */
 
 .markingHeaderLabel {
     font-size: 1rem;
@@ -294,12 +294,12 @@
 }
 
 /* Operazione e Numero Conferma */
-.markingOperationContainer {
+/* .markingOperationContainer {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
     margin-bottom: 1rem;
-}
+} */
 
 /* Input e Label */
 .markingInputContainer {
@@ -335,12 +335,12 @@
 }
 
 /* Bottoni */
-.markingButtonContainer {
+/* .markingButtonContainer {
     display: flex;
     justify-content: flex-end;
     gap: 1rem;
     margin-top: 0.5rem;
-}
+} */
 
 .markingReasonDesc {
     border: solid 1px grey;
