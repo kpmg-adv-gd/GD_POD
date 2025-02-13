@@ -193,6 +193,10 @@
     width: 46%;
 }
 
+.kpmgGDIconTabBar .sapMITBFilter .sapMITBText .sapMITHTextContent{
+    overflow: visible !important;
+}
+
 
 
 
