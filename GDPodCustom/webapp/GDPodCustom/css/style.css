@@ -75,10 +75,21 @@
     justify-content: end;
     align-items: center;
 }
-.headerBox{
-    justify-content: space-between;
+
+.headerMainPod {
+    justify-content: space-evenly;
     align-items: center;
+    padding-right: 0.5%;
+    background-color: white;
 }
+
+.headerBox .sapMLabel:not(.sapMLabelWrapped) .sapMLabelTextWrapper {
+    display: inline-block;
+    vertical-align: top;
+    max-width: none !important;
+}
+
+
 /* FASCIA BOTTONI START E COMPLETE */
 .headerOperations{
     width: 100%;

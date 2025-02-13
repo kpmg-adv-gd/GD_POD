@@ -3,33 +3,33 @@
         <content>
             <VBox width="100%" height="100%" renderType="Bare">
                 <!--Fascia Header - Info SFC selezionato -->
-                <HBox width="100%" height="8%" class="headerContainer" renderType="Bare" >
+                <HBox width="100%" height="8%" class="headerContainerMainPod" renderType="Bare" >
                     <HBox width="1.5%" height="100%" class="headerBox" renderType="Bare">
                         <Button icon="sap-icon://nav-back" type="Transparent" press="onNavBack" tooltip="{i18n>mainPOD.tooltip.back}" class="kpmgGDMediumlLabelInfo" />
                     </HBox>
-                    <HBox width="16.4%" height="100%" class="headerBox" renderType="Bare">
+                    <HBox width="auto" height="100%" class="headerBox" renderType="Bare">
                         <Label text="{i18n>mainPOD.label.wbs}:"  textAlign="End" vAlign="Middle" class="kpmgGDMediumlLabelInfo" />
-                        <Label text="{PODSfcModel>/WBE}" textAlign="Left" vAlign="Middle" class="kpmgGDMediumlLabel paddingLeft" />
+                        <Label text="{PODSfcModel>/WBE}"  textAlign="Left" vAlign="Middle" class="kpmgGDMediumlLabel paddingLeft" />
                     </HBox>
-                    <HBox width="16.4%" height="100%" class="headerBox" renderType="Bare">
-                        <Label text="{i18n>mainPOD.label.workcenter}:" width="60%" textAlign="End" vAlign="Middle" class="kpmgGDMediumlLabelInfo" />
+                    <HBox width="auto" height="100%" class="headerBox" renderType="Bare">
+                        <Label text="{i18n>mainPOD.label.workcenter}:" textAlign="End" vAlign="Middle" class="kpmgGDMediumlLabelInfo" />
                         <Label text="{PODSfcModel>/WORKCENTER}" textAlign="Left" vAlign="Middle" class="kpmgGDMediumlLabel paddingLeft" />
                     </HBox>
-                    <HBox width="16.4%" height="100%" class="headerBox" renderType="Bare">
+                    <HBox width="auto" height="100%" class="headerBox" renderType="Bare">
                         <Label text="{i18n>mainPOD.label.sfc}:"  textAlign="End" vAlign="Middle" class="kpmgGDMediumlLabelInfo" />
-                        <Label text="{PODSfcModel>/sfc}"  textAlign="Left" vAlign="Middle" class="kpmgGDMediumlLabel paddingLeft" />
+                        <Label text="{PODSfcModel>/sfc}" textAlign="Left" vAlign="Middle" class="kpmgGDMediumlLabel paddingLeft" />
                     </HBox>
-                    <HBox width="16.4%" height="100%" class="headerBox" renderType="Bare">
+                    <HBox width="auto" height="100%" class="headerBox" renderType="Bare">
                         <Label text="{i18n>mainPOD.label.order}:" textAlign="End" vAlign="Middle" class="kpmgGDMediumlLabelInfo" />
                         <Label text="{PODSfcModel>/order}" textAlign="Left" vAlign="Middle" class="kpmgGDMediumlLabel paddingLeft" />
                     </HBox>
-                    <HBox width="16.4%" height="100%" class="headerBox" renderType="Bare">
+                    <HBox width="auto" height="100%" class="headerBox" renderType="Bare">
                         <Label text="{i18n>mainPOD.label.material}:" textAlign="End" vAlign="Middle" class="kpmgGDMediumlLabelInfo" />
                         <Label text="{PODSfcModel>/material/material}" textAlign="Left" vAlign="Middle" class="kpmgGDMediumlLabel paddingLeft" />
                     </HBox>
-                    <HBox width="16.4%" height="100%" class="headerBox" renderType="Bare">
+                    <HBox width="auto" height="100%" class="headerBox" renderType="Bare">
                         <Label text="{i18n>mainPOD.label.parentMaterial}:" textAlign="End" vAlign="Middle" class="kpmgGDMediumlLabelInfo" />
-                        <Label text="{PODSfcModel>/MATERIALEPADRE}"  textAlign="Left" vAlign="Middle" class="kpmgGDMediumlLabel paddingLeft" />
+                        <Label text="{PODSfcModel>/MATERIALEPADRE}" textAlign="Left" vAlign="Middle" class="kpmgGDMediumlLabel paddingLeft" />
                     </HBox>
                 </HBox>
                 <HBox width="100%" height="92%" renderType="Bare" >
