@@ -122,6 +122,10 @@ sap.ui.define([
             var oDialog = new sap.m.Dialog({
                 title: fileName,
                 content: [oText], // Passa il controllo oText al content del dialog
+                contentWidth: "50%",  // Larghezza minima
+                contentHeight: "50%", // Altezza minima
+                resizable: true, // Permette di ridimensionarlo
+                draggable: true, // Permette di trascinarlo
                 beginButton: new sap.m.Button({
                     text: "Close",
                     press: function () {
@@ -146,6 +150,10 @@ sap.ui.define([
             var oDialog = new sap.m.Dialog({
                 title: fileName,
                 content: [oHtml],
+                contentWidth: "50%",  // Larghezza minima
+                contentHeight: "50%", // Altezza minima
+                resizable: true, // Permette di ridimensionarlo
+                draggable: true, // Permette di trascinarlo
                 beginButton: new sap.m.Button({
                     text: "Close",
                     press: function () {
@@ -177,6 +185,8 @@ sap.ui.define([
                         height: "100%"
                     })
                 ],
+                resizable: true, // Permette di ridimensionarlo
+                draggable: true, // Permette di trascinarlo
                 beginButton: new sap.m.Button({
                     text: "Close",
                     press: function () {
@@ -218,3 +228,5 @@ sap.ui.define([
 		}
     });
 });
+
+//# sourceURL=https://g-d--s-p-a--sap-dmc-test-96ypknc8-ext-dev-space-gdpodcustom.cfapps.eu20-001.hana.ondemand.com/GDPodCustom/GDPodCustom/controller/BaseController.js?eval
