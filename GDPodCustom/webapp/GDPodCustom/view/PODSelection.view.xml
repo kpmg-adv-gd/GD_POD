@@ -85,13 +85,13 @@
                                     <Text wrapping="false" text="{PODSelectionModel>WBE}"  />
                                 </t:template>
                             </t:Column>
-                            <t:Column sortProperty="SEZIONEMACCHINA" filterProperty="SEZIONEMACCHINA" width="10%">
+                            <t:Column sortProperty="SEZIONEMACCHINA" filterProperty="SEZIONEMACCHINA" width="6%">
                                 <Label text="{i18n>podSelection.table.MachineSection}"  />
                                 <t:template>
                                     <Text wrapping="false" text="{PODSelectionModel>SEZIONEMACCHINA}"  />
                                 </t:template>
                             </t:Column>
-                            <t:Column sortProperty="sfc" filterProperty="sfc" width="10%">
+                            <t:Column sortProperty="sfc" filterProperty="sfc" width="17%">
                                 <Label wrapping="false" text="{i18n>podSelection.table.sfc}"  />
                                 <t:template>
                                     <Text wrapping="false" text="{PODSelectionModel>sfc}"  />
@@ -103,25 +103,25 @@
                                     <Text wrapping="false" text="{PODSelectionModel>order}"  />
                                 </t:template>
                             </t:Column>
-                            <t:Column sortProperty="material/material" filterProperty="material/material" width="10%">
+                            <t:Column sortProperty="material/material" filterProperty="material/material" width="16%">
                                 <Label text="{i18n>podSelection.table.material}"  />
                                 <t:template>
                                     <Text wrapping="false" text="{PODSelectionModel>material/material}"  />
                                 </t:template>
                             </t:Column>
-                            <t:Column sortProperty="MATERIALEPADRE" filterProperty="MATERIALEPADRE" width="10%">
+                            <t:Column sortProperty="MATERIALEPADRE" filterProperty="MATERIALEPADRE" width="16%">
                                 <Label text="{i18n>podSelection.table.parentMaterial}"  />
                                 <t:template>
                                     <Text wrapping="false" text="{PODSelectionModel>MATERIALEPADRE}"  />
                                 </t:template>
                             </t:Column>
-                            <t:Column sortProperty="status/code" width="10%"  hAlign="Center">
+                            <t:Column sortProperty="status/code" width="5%"  hAlign="Center">
                                 <Label text="{i18n>podSelection.table.status}"  />
                                 <t:template>
                                     <core:Icon src="{path: 'PODSelectionModel>status/code',formatter: '.getStatusIcon'}" color="{path: 'PODSelectionModel>status/code', formatter: '.getStatusColor' }" class="statusIcon" />
                                 </t:template>
                             </t:Column>
-                            <t:Column sortProperty="ORDER_TYPE" filterProperty="ORDER_TYPE" width="10%">
+                            <t:Column sortProperty="ORDER_TYPE" filterProperty="ORDER_TYPE" width="5%">
                                 <Label text="{i18n>podSelection.table.orderType}"  />
                                 <t:template>
                                     <Text wrapping="false" text="{PODSelectionModel>ORDER_TYPE}"  />
@@ -139,7 +139,7 @@
                                     <Text wrapping="false" text="{PODSelectionModel>DATADIFINESCHEDULATA}"  />
                                 </t:template>
                             </t:Column>    -->
-                            <t:Column sortProperty="MANCANTI" width="10%" hAlign="Center">
+                            <t:Column sortProperty="MANCANTI" width="5%" hAlign="Center">
                                 <Label text="{i18n>podSelection.table.missingComponents}"  />
                                 <t:template>
                                     <core:Icon src="sap-icon://alert" color="#E5BE01" visible="{= (${PODSelectionModel>MANCANTI} === 'Si') ? true:false}" class="statusIcon" />
