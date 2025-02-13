@@ -2,13 +2,15 @@ sap.ui.define([
     'jquery.sap.global',
 	"sap/ui/model/json/JSONModel",
     "./BaseController",
-    "../utilities/CommonCallManager"
-], function (jQuery, JSONModel, BaseController, CommonCallManager) {
+    "../utilities/CommonCallManager",
+    "./popup/MarkinPopup"
+], function (jQuery, JSONModel, BaseController, CommonCallManager, MarkingPopup) {
     "use strict";
 
     return BaseController.extend("kpmg.custom.pod.GDPodCustom.GDPodCustom.controller.MainPOD", {
         oPODSfcModel: new JSONModel(),
         oPODOperationModel: new JSONModel(),
+        MarkingPopup: new MarkingPopup(),
         onInit: function () {
             this.getView().setModel(this.oPODSfcModel, "PODSfcModel");
             this.getView().setModel(this.oPODOperationModel, "PODOperationModel");
@@ -301,6 +303,8 @@ sap.ui.define([
             let idMarkButton = oEvent.getParameter("id");
             let pathMarkOperation = sap.ui.getCore().byId(idMarkButton.getParent().getBindingContext("PODOperationModel").getPath());
             let markOperation = that.getView().getModel("PODOperationModel").getProperty(pathMarkOperation);
+
+            that.MarkinPopup.open(that.getView(), that, markOperation);
 
         },
         onCollapse: function(){
