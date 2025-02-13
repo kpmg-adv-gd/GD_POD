@@ -27,6 +27,7 @@ sap.ui.define([
             that.getView().byId("markingDatePicker").setValue("");
             that.getView().byId("startTimePicker").setValue("");
             that.getView().byId("finishTimePicker").setValue("");
+            that.getView().byId("selectedVarianceText").setText("");
         },
 
         loadHeaderData: function () {
