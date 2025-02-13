@@ -241,13 +241,17 @@
     background-color: antiquewhite; /* rgba(211, 211, 211, 0.5)  */  
 }
 
-/* CONENUTO TABS (XML VIEW)  */
+/* CONTENUTO TABS (XML VIEW)  */
 .kpmgGDIconTabBar .sapMITB,
 .kpmgGDIconTabBar .sapMITBContainerContent{
     height: 100%;
 }
 
-
+/* MARKING POPUP */
+.markingPopupDialog {
+    height: 400px;
+    width: 800px;
+}
 
 
 
