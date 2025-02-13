@@ -169,14 +169,12 @@
 .collapseExpandIcon .sapMBtnIcon.sapMBtnIconLeft{
     font-size: xx-large;
 }
-.collapseExpandIcon .sapMBtnInner.sapMBtnHoverable :hover {
-    background-color: inherit !important;
-    border-color: inherit !important;
-    color: inherit !important;
+.collapseExpandIcon .sapMBtnHoverable:not(.sapMBtnDisabled):hover {
+    background-color: transparent !important;
+    border: none !important;
     box-shadow: none !important;
-    opacity: 1 !important;
-    filter: none !important;
 }
+
 .collapseExpandIcon .sapMBtnIcon.sapMBtnIconLeft{
     background-color: inherit !important;
     border-color: inherit !important;
