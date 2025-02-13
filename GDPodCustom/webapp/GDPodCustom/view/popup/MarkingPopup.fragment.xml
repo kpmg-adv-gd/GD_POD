@@ -53,8 +53,7 @@
                                 id="markingDatePicker" 
                                 valueFormat="dd/MM/yyyy"
                                 displayFormat="dd/MM/yyyy"
-                                width="15rem" 
-                                value="{/dateValue}"/>
+                                width="15rem"/>
                         </HBox>
                         <HBox class="markingInputRow" renderType="Bare" alignItems="Center">
                             <Label text="Start Time" class="markingLabel"/>
@@ -62,8 +61,7 @@
                                 id="startTimePicker" 
                                 valueFormat="HH:mm"
                                 displayFormat="HH:mm"
-                                width="15rem"  
-                                value="{/dateValue}"/>
+                                width="15rem"/>
                         </HBox>
                         <HBox class="markingInputRow" renderType="Bare" alignItems="Center">
                             <Label text="Finish Time" class="markingLabel"/>
@@ -71,8 +69,7 @@
                                 id="finishTimePicker" 
                                 valueFormat="HH:mm"
                                 displayFormat="HH:mm"
-                                width="15rem" 
-                                value="{/dateValue}"/>
+                                width="15rem"/>
                         </HBox>
                         <HBox class="markingInputRow" renderType="Bare" alignItems="Center">
                             <Label text="Variance" class="markingLabel"/>

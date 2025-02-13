@@ -112,6 +112,8 @@ sap.ui.define([
             let pathReasonForVarianceApi = "/db/getReasonsForVariance";
             let url = BaseProxyURL + pathReasonForVarianceApi;
 
+            let params = {};
+
             // Callback di successo
             var successCallback = function (response) {
                 var oModel = new JSONModel();
