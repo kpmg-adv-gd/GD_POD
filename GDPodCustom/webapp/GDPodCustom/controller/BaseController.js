@@ -191,7 +191,6 @@ sap.ui.define([
             oDialog.open();
         },
         showDialogVideo: function(fileUrl,fileName,contentType){
-            sap.ui.core.busyindicator.show(0);
             // Crea un video
             var oVideo = new sap.ui.core.HTML({
                 content: "<video controls style='width: 100%; height: 100%;'><source src='" + fileUrl + "' type='" + contentType + "'></video>"
@@ -213,7 +212,6 @@ sap.ui.define([
             });
             // Apre il dialog
             oDialog.open();
-            sap.ui.core.busyindicator.hide();
         },
         onExit: function () {
 			PluginViewController.prototype.onExit.apply(this, arguments);

@@ -77,10 +77,11 @@ sap.ui.define([
             if(workInstructionObj.type==="URL"){
                 window.open(workInstructionObj.url, "_blank");
             } else if(workInstructionObj.type==="TEXT"){
-                that.showDialogHTML(workInstructionObj.text, workInstructionObj.fileName);
+                that.showDialogHTML(workInstructionObj.text, workInstructionObj.description);
             } else if(workInstructionObj.type==="HEADER_TEXT"){
-                that.showDialogString(workInstructionObj.text, workInstructionObj.fileName);
+                that.showDialogString(workInstructionObj.text, workInstructionObj.description);
             } else if(workInstructionObj.type==="FILE"){
+                sap.ui.core.busyindicator.show(0);
                 that.loadWorkInstructionFile(workInstructionObj);
             }
         },
@@ -118,7 +119,6 @@ sap.ui.define([
                     } else if (response.contentType.includes("video")) {
                         // Mostra un video su dialog
                         that.showDialogVideo(fileUrl, fileName, response.contentType);
-                        sap.ui.core.busyindicator.hide();
                     } else {
                         //Provo il Download
                         var a = document.createElement("a");
@@ -131,9 +131,11 @@ sap.ui.define([
                 } else {
                     that.showErrorMessageBox("No Content File");
                 }
+                sap.ui.core.busyindicator.hide();
             };
             // Callback di errore
             var errorCallback = function(error) {
+                sap.ui.core.busyindicator.hide();
                 console.log("Chiamata POST fallita:", error);
             };
             CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
