@@ -18,6 +18,7 @@ sap.ui.define([
             that.loadHeaderData();
             that.loadMarkingData();
             that.onGetShift();
+            that.onRetrievePersonnelNumber();
             that.openDialog();
             that.clearData();
         },
