@@ -8,12 +8,12 @@
     width="100%"
     height="100%"
 >
-    <Dialog id="markingDialog" title="{i18n>marking.popup.title}" class="markingPopupDialog" showHeader="true" contentHeight="400px"  contentWidth="800px"> 
+    <Dialog id="markingDialog" title="Marking" class="markingPopupDialog" showHeader="true" contentHeight="400px"  contentWidth="800px" verticalScrolling="false" horizontalScrolling="false"> 
         <content>
             <!-- Container principale -->
-            <VBox width="90%" height="90%" renderType="Bare" class="mainContainer" alignContent="Center" justifyContent="Center">
+            <VBox width="100%" height="100%" renderType="Bare" class="mainContainer" alignContent="Center" justifyContent="Center">
                 <!-- Header -->
-                <HBox width="100%" height="20%" renderType="Bare" class="markingHeaderContainer">
+                <HBox width="90%" height="20%" renderType="Bare" class="markingHeaderContainer">
                     <HBox class="space" renderType="Bare" alignItems="Center">
                         <Label text="WBS Element" class="markingHeaderLabel markingLabel"/>
                         <Label text="{/wbe}" class="markingLabel"/>
@@ -29,7 +29,7 @@
                 </HBox>
 
                 <!-- Operazione e Numero Conferma -->
-                <VBox width="50%" height="30%" class="markingOperationContainer" renderType="Bare">
+                <VBox width="90%" height="30%" class="markingOperationContainer" renderType="Bare">
                     <HBox width="100%" class="inputRow" renderType="Bare">
                         <Label text="Operation" class="markingLabel"/>
                         <Label text="{/operation}"/>
@@ -44,7 +44,7 @@
                     </HBox>
                 </VBox>
 
-                <HBox width="100%" height="40%" renderType="Bare">
+                <HBox width="90%" height="40%" renderType="Bare">
                     <!-- Input principale -->
                     <VBox width="50%" class="markingInputLabel" renderType="Bare">
                         <HBox class="markingInputRow" renderType="Bare" alignItems="Center">
@@ -102,7 +102,7 @@
                     </VBox>
                 </HBox>
                 
-                <HBox width="100%" height="10%"  class="markingButtonContainer" renderType="Bare" alignItems="Center">
+                <HBox width="90%" height="10%"  class="markingButtonContainer" renderType="Bare" alignItems="Center">
                     <Button text="Cancel" type="Emphasized" press="onClosePopup" />
                     <Button text="Confirm" type="Emphasized" press="onConfirm" />
                 </HBox> 
