@@ -11,7 +11,7 @@
     <Dialog id="markingDialog" title="Marking" class="markingPopupDialog" showHeader="true" contentHeight="400px"  contentWidth="800px" verticalScrolling="false" horizontalScrolling="false"> 
         <content>
             <!-- Container principale -->
-            <VBox width="100%" height="100%" renderType="Bare" alignContent="Center" justifyContent="Center">
+            <VBox width="100%" height="100%" renderType="Bare" alignItems="Center">
                 <!-- Header -->
                 <HBox width="90%" height="20%" renderType="Bare">
                     <HBox renderType="Bare" alignItems="Center" width="33%">
