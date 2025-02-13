@@ -25,7 +25,7 @@
 .kpmgTreeTable .sapUiTableCell .sapMText,
 .kpmgGDTable .sapUiTableCell .sapMLabel,
 .kpmgGDTable .sapUiTableCell .sapMText {
-  font-size: 105%;
+  font-size: 104%;
   user-select: text;
 }
 /* sapUiIcon classe sap di tutte le icone - setto la grandezza di tutte le icone nelle tabelle '*/
@@ -76,9 +76,23 @@
     align-items: center;
 }
 .headerBox{
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
 }
+.headerContainerMainPod{
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 0.5%;
+}
+
+
+.headerBox .sapMLabel:not(.sapMLabelWrapped) .sapMLabelTextWrapper {
+    display: inline-block;
+    vertical-align: top;
+    max-width: none !important;
+}
+
+
 /* FASCIA BOTTONI START E COMPLETE */
 .headerOperations{
     width: 100%;
@@ -155,14 +169,12 @@
 .collapseExpandIcon .sapMBtnIcon.sapMBtnIconLeft{
     font-size: xx-large;
 }
-.collapseExpandIcon .sapMBtnInner.sapMBtnHoverable :hover {
-    background-color: inherit !important;
-    border-color: inherit !important;
-    color: inherit !important;
+.collapseExpandIcon .sapMBtnHoverable:not(.sapMBtnDisabled):hover {
+    background-color: transparent !important;
+    border: none !important;
     box-shadow: none !important;
-    opacity: 1 !important;
-    filter: none !important;
 }
+
 .collapseExpandIcon .sapMBtnIcon.sapMBtnIconLeft{
     background-color: inherit !important;
     border-color: inherit !important;
@@ -191,6 +203,10 @@
 }
 .clearButton {
     width: 46%;
+}
+
+.kpmgGDIconTabBar .sapMITBFilter .sapMITBText .sapMITHTextContent{
+    overflow: visible !important;
 }
 
 

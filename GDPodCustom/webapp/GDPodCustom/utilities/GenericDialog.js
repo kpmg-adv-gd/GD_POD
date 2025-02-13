@@ -24,7 +24,7 @@ sap.ui.define([
             // if(!!!!this._infoModel){
             //     this._dialog.setModel(this._infoModel,"infoModel");
             // }
-            this._dialog.setModel(this._model); 
+            this._dialog.setModel(this._model);
             return this._dialog;
         },
         openDialog: function () {

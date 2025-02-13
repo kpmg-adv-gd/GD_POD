@@ -3,33 +3,33 @@
         <content>
             <VBox width="100%" height="100%" renderType="Bare">
                 <!--Fascia Header - Info SFC selezionato -->
-                <HBox width="100%" height="8%" class="headerContainer" renderType="Bare" >
+                <HBox width="100%" height="8%" class="headerContainerMainPod" renderType="Bare" >
                     <HBox width="1.5%" height="100%" class="headerBox" renderType="Bare">
                         <Button icon="sap-icon://nav-back" type="Transparent" press="onNavBack" tooltip="{i18n>mainPOD.tooltip.back}" class="kpmgGDMediumlLabelInfo" />
                     </HBox>
-                    <HBox width="16.4%" height="100%" class="headerBox" renderType="Bare">
-                        <Label text="{i18n>mainPOD.label.wbs}:" width="20%" textAlign="End" vAlign="Middle" class="kpmgGDMediumlLabelInfo" />
-                        <Label text="{PODSfcModel>/WBE}" width="80%" textAlign="Left" vAlign="Middle" class="kpmgGDMediumlLabel paddingLeft" />
+                    <HBox width="auto" height="100%" class="headerBox" renderType="Bare">
+                        <Label text="{i18n>mainPOD.label.wbs}:"  textAlign="End" vAlign="Middle" class="kpmgGDMediumlLabelInfo" />
+                        <Label text="{PODSfcModel>/WBE}"  textAlign="Left" vAlign="Middle" class="kpmgGDMediumlLabel paddingLeft" />
                     </HBox>
-                    <HBox width="16.4%" height="100%" class="headerBox" renderType="Bare">
-                        <Label text="{i18n>mainPOD.label.workcenter}:" width="60%" textAlign="End" vAlign="Middle" class="kpmgGDMediumlLabelInfo" />
-                        <Label text="{PODSfcModel>/WORKCENTER}" width="40%" textAlign="Left" vAlign="Middle" class="kpmgGDMediumlLabel paddingLeft" />
+                    <HBox width="auto" height="100%" class="headerBox" renderType="Bare">
+                        <Label text="{i18n>mainPOD.label.workcenter}:" textAlign="End" vAlign="Middle" class="kpmgGDMediumlLabelInfo" />
+                        <Label text="{PODSfcModel>/WORKCENTER}" textAlign="Left" vAlign="Middle" class="kpmgGDMediumlLabel paddingLeft" />
                     </HBox>
-                    <HBox width="16.4%" height="100%" class="headerBox" renderType="Bare">
-                        <Label text="{i18n>mainPOD.label.sfc}:" width="20%" textAlign="End" vAlign="Middle" class="kpmgGDMediumlLabelInfo" />
-                        <Label text="{PODSfcModel>/sfc}" width="80%" textAlign="Left" vAlign="Middle" class="kpmgGDMediumlLabel paddingLeft" />
+                    <HBox width="auto" height="100%" class="headerBox" renderType="Bare">
+                        <Label text="{i18n>mainPOD.label.sfc}:"  textAlign="End" vAlign="Middle" class="kpmgGDMediumlLabelInfo" />
+                        <Label text="{PODSfcModel>/sfc}" textAlign="Left" vAlign="Middle" class="kpmgGDMediumlLabel paddingLeft" />
                     </HBox>
-                    <HBox width="16.4%" height="100%" class="headerBox" renderType="Bare">
-                        <Label text="{i18n>mainPOD.label.order}:" width="25%" textAlign="End" vAlign="Middle" class="kpmgGDMediumlLabelInfo" />
-                        <Label text="{PODSfcModel>/order}" width="75%" textAlign="Left" vAlign="Middle" class="kpmgGDMediumlLabel paddingLeft" />
+                    <HBox width="auto" height="100%" class="headerBox" renderType="Bare">
+                        <Label text="{i18n>mainPOD.label.order}:" textAlign="End" vAlign="Middle" class="kpmgGDMediumlLabelInfo" />
+                        <Label text="{PODSfcModel>/order}" textAlign="Left" vAlign="Middle" class="kpmgGDMediumlLabel paddingLeft" />
                     </HBox>
-                    <HBox width="16.4%" height="100%" class="headerBox" renderType="Bare">
-                        <Label text="{i18n>mainPOD.label.material}:" width="40%" textAlign="End" vAlign="Middle" class="kpmgGDMediumlLabelInfo" />
-                        <Label text="{PODSfcModel>/material/material}" width="60%" textAlign="Left" vAlign="Middle" class="kpmgGDMediumlLabel paddingLeft" />
+                    <HBox width="auto" height="100%" class="headerBox" renderType="Bare">
+                        <Label text="{i18n>mainPOD.label.material}:" textAlign="End" vAlign="Middle" class="kpmgGDMediumlLabelInfo" />
+                        <Label text="{PODSfcModel>/material/material}" textAlign="Left" vAlign="Middle" class="kpmgGDMediumlLabel paddingLeft" />
                     </HBox>
-                    <HBox width="16.4%" height="100%" class="headerBox" renderType="Bare">
-                        <Label text="{i18n>mainPOD.label.parentMaterial}:" width="50%" textAlign="End" vAlign="Middle" class="kpmgGDMediumlLabelInfo" />
-                        <Label text="{PODSfcModel>/MATERIALEPADRE}" width="50%" textAlign="Left" vAlign="Middle" class="kpmgGDMediumlLabel paddingLeft" />
+                    <HBox width="auto" height="100%" class="headerBox" renderType="Bare">
+                        <Label text="{i18n>mainPOD.label.parentMaterial}:" textAlign="End" vAlign="Middle" class="kpmgGDMediumlLabelInfo" />
+                        <Label text="{PODSfcModel>/MATERIALEPADRE}" textAlign="Left" vAlign="Middle" class="kpmgGDMediumlLabel paddingLeft" />
                     </HBox>
                 </HBox>
                 <HBox width="100%" height="92%" renderType="Bare" >
@@ -70,11 +70,11 @@
                                                 <Text wrapping="false" text="{PODOperationModel>description}"  />
                                             </t:template>
                                         </t:Column>
-                                        <t:Column sortProperty="QUANTITY" width="10%"  hAlign="Center">
+                                        <t:Column sortProperty="QUANTITY/quantityInWork" width="10%"  hAlign="Center">
                                             <Label text="{i18n>mainPOD.table.status}"  />
                                             <t:template>
                                                 <!-- in path bindo i dati da passare alla funzione del formatter -->
-                                                <core:Icon src="{path: 'PODOperationModel>QUANTITY',formatter: '.getStatusIcon'}"  color="{path: 'PODOperationModel>QUANTITY', formatter: '.getStatusColor' }" class="statusIcon" />
+                                                <core:Icon src="{path: 'PODOperationModel>',formatter: '.getStatusIcon'}"  color="{path: 'PODOperationModel>', formatter: '.getStatusColor' }" class="statusIcon" />
                                             </t:template>
                                         </t:Column>
                                         <t:Column width="10%" hAlign="Center">
