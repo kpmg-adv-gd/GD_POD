@@ -3,7 +3,7 @@ sap.ui.define([
 	"sap/ui/model/json/JSONModel",
     "./BaseController",
     "../utilities/CommonCallManager",
-    "./popup/MarkinPopup"
+    "./popup/MarkingPopup"
 ], function (jQuery, JSONModel, BaseController, CommonCallManager, MarkingPopup) {
     "use strict";
 
@@ -304,7 +304,7 @@ sap.ui.define([
             let pathMarkOperation = sap.ui.getCore().byId(idMarkButton).getParent().getBindingContext("PODOperationModel").getPath();
             let markOperation = that.getView().getModel("PODOperationModel").getProperty(pathMarkOperation);
 
-            that.MarkinPopup.open(that.getView(), that, markOperation);
+            that.MarkingPopup.open(that.getView(), that, markOperation);
 
         },
         onCollapse: function(){
