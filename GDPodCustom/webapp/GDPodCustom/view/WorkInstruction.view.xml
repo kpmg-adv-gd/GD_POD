@@ -1,0 +1,31 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:t="sap.ui.table" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:html="http://www.w3.org/1999/xhtml" controllerName="kpmg.custom.pod.GDPodCustom.GDPodCustom.controller.WorkInstruction" width="100%" height="100%">   
+    <Page title="{i18n>workInstruction.title}" class="kpmgGDPage" showHeader="false" enableScrolling="false">
+        <VBox width="100%" height="100%" renderType="Bare">
+            <t:Table id="workInstructionTable" rowSelectionChange="rowSelectionChange"  class="kpmgGDTable" alternateRowColors="true" rows="{WorkInstructionModel>/workInstructions}" selectionMode="Single" selectionBehavior="RowOnly" visibleRowCountMode="Auto" rowHeight="45px" >
+            <!-- extension PER AGGIUNGERE TITOLO TABELLA -->
+            <t:extension>
+                <Toolbar>
+                    <Title text="{i18n>workInstruction.table.title}" level="H1" />
+                </Toolbar>
+            </t:extension>
+            <t:layoutData>
+                <FlexItemData growFactor="1" baseSize="0%"/>
+            </t:layoutData>
+                <t:columns> 
+                    <t:Column width="40%">
+                        <Label text="{i18n>workInstruction.table.workInstruction-version}"  />
+                        <t:template>
+                            <Text wrapping="false" text="{WorkInstructionModel>workInstruction} / {WorkInstructionModel>version}"  />
+                        </t:template>
+                    </t:Column>
+                    <t:Column width="60%">
+                        <Label text="{i18n>workInstruction.table.workInstructionDescription}"  />
+                        <t:template>
+                            <Text wrapping="false" text="{WorkInstructionModel>description}"  />
+                        </t:template>
+                    </t:Column>  
+                </t:columns>
+            </t:Table>
+        </VBox>
+    </Page>
+</mvc:View>

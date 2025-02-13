@@ -1,0 +1,14 @@
+{
+  "welcomeFile": "/GDPodCustom/index.html",
+  "authenticationMethod": "none",
+  "logout": {
+    "logoutEndpoint": "/do/logout"
+  },
+  "routes": [
+    {
+      "source": "^/GDPodCustom/(.*)$",
+      "target": "$1",
+      "localDir": "webapp"
+    }
+  ]
+}

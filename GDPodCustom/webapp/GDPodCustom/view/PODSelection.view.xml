@@ -1,0 +1,154 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:t="sap.ui.table" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:html="http://www.w3.org/1101010/xhtml" controllerName="kpmg.custom.pod.GDPodCustom.GDPodCustom.controller.PODSelection" width="100%" height="100%">   
+    <Page title="{i18n>podSelection.title}" class="kpmgGDPage" showHeader="false" enableScrolling="false">
+        <content>
+            <VBox width="100%" height="100%" renderType="Bare">
+                <!--Filtri prima riga-->
+                <HBox width="100%" height="12%" class="headerContainer" renderType="Bare">
+                    <VBox width="12.5%" height="100%" renderType="Bare" class="filterBox" >
+                        <Label text="{i18n>podSelection.label.workcenter}:" width="100%" textAlign="Left" vAlign="Middle" class="kpmgGDSmallLabel requiredLabel paddingLeft" />
+                        <ComboBox id="workcenterComboBoxId" width="100%" class="GDComboBoxField" items="{FilterModel>/WorkCenters}" showSecondaryValues="true" required="true">
+                            <core:ListItem key="{FilterModel>WORKCENTER}" text="{FilterModel>WORKCENTER}" additionalText="{FilterModel>DESCRIPTION}" />
+                        </ComboBox>                                   
+                    </VBox>
+                    <VBox width="12.5%" height="100%" renderType="Bare" class="filterBox" >
+                        <Label text="{i18n>podSelection.label.sfc}:" width="100%" textAlign="Left" vAlign="Middle" class="kpmgGDSmallLabel paddingLeft" />
+                        <Input id="sfcInputId" placeholder="Enter SFC" showSuggestion="true" showValueHelp="false" suggestionItems="{FilterModel>/SFCs}"  class="GDInputField">
+                            <suggestionItems>
+                                <core:Item text="{FilterModel>SFC}" />
+                            </suggestionItems>
+                        </Input>     
+                    </VBox>
+                    <VBox width="12.5%" height="100%" renderType="Bare" class="filterBox" >
+                        <Label text="{i18n>podSelection.label.project}:" width="100%" textAlign="Left" vAlign="Middle" class="kpmgGDSmallLabel paddingLeft" />
+                        <Input id="projectInputId" placeholder="Enter Project" showSuggestion="true" showValueHelp="false" suggestionItems="{FilterModel>/Project}"  class="GDInputField">
+                            <suggestionItems>
+                                <core:Item text="{FilterModel>DATA_FIELD_VALUE}" />
+                            </suggestionItems>
+                        </Input>                
+                    </VBox>
+                    <VBox width="12.5%" height="100%" renderType="Bare" class="filterBox" >
+                        <Label text="{i18n>podSelection.label.wbs}:" width="100%" textAlign="Left" vAlign="Middle" class="kpmgGDSmallLabel paddingLeft" />
+                        <Input id="wbsInputId" placeholder="Enter WBS Element" showSuggestion="true" showValueHelp="false" suggestionItems="{FilterModel>/WBS}"  class="GDInputField">
+                            <suggestionItems>
+                                <core:Item text="{FilterModel>DATA_FIELD_VALUE}" />
+                            </suggestionItems>
+                        </Input>    
+                    </VBox>
+                    <VBox width="12.5%" height="100%" renderType="Bare" class="filterBox" >
+                        <Label text="{i18n>podSelection.label.machineSection}:" width="100%" textAlign="Left" vAlign="Middle" class="kpmgGDSmallLabel paddingLeft" />
+                        <Input id="machineSectionInputId" placeholder="Enter Machine Section" showSuggestion="true" showValueHelp="false" suggestionItems="{FilterModel>/MachineSection}"  class="GDInputField">
+                            <suggestionItems>
+                                <core:Item text="{FilterModel>DATA_FIELD_VALUE}" />
+                            </suggestionItems>
+                        </Input>   
+                    </VBox>
+                    <VBox width="12.5%" height="100%" renderType="Bare" class="filterBox">
+                        <Label text="{i18n>podSelection.label.parentMaterial}:" width="100%" textAlign="Left" vAlign="Middle" class="kpmgGDSmallLabel paddingLeft" />
+                        <Input id="parentMaterialInputId" placeholder="Enter Parent Material" showSuggestion="true" showValueHelp="false" suggestionItems="{FilterModel>/ParentMaterial}"  class="GDInputField">
+                            <suggestionItems>
+                                <core:Item text="{FilterModel>DATA_FIELD_VALUE}" />
+                            </suggestionItems>
+                        </Input>  
+                    </VBox>
+                    <VBox width="12.5%" height="100%" renderType="Bare" class="filterBox" >
+                        <Label text="{i18n>podSelection.label.material}:" width="100%" textAlign="Left" vAlign="Middle" class="kpmgGDSmallLabel paddingLeft" />
+                        <Input id="materialInputId" placeholder="Enter Material" showSuggestion="true" showValueHelp="false" suggestionItems="{FilterModel>/Materials}"  class="GDInputField">
+                            <suggestionItems>
+                                <core:Item text="{FilterModel>Material}" />
+                            </suggestionItems>
+                        </Input>  
+                    </VBox>
+                    <VBox width="12.5%" height="100%" renderType="Bare" class="lastFilterBox" >
+                        <Label text="" width="100%" textAlign="Left" vAlign="Middle" class="kpmgGDSmallLabel paddingLeft" />
+                        <HBox width="100%" renderType="Bare" class="buttonsFilterBox" >
+                            <Button text="{i18n>podSelection.button.search}" icon="sap-icon://search" type="Emphasized" class="searchButton" press="onGoPress" />
+                            <Button text="{i18n>podSelection.button.clearFilter}" icon="sap-icon://clear-all" type="Default" class="clearButton" press="onClearPress" />
+                        </HBox>
+                    </VBox>
+                </HBox> 
+                <VBox width="100%" height="88%" renderType="Bare">
+                <!--Tabella - Viene reinderizzata correttamente solo se è contenuta in un VBox (non HBox) e possiede come aggregation layoutData con growFactor=1!!! -->
+                    <t:Table id="resultTable" rowSelectionChange="rowSelectionChange"  class="kpmgGDTable" rows="{PODSelectionModel>/SFCs}" selectionMode="Single" selectionBehavior="RowOnly" visibleRowCountMode="Auto" rowHeight="45px" >
+                    <t:layoutData>
+                        <FlexItemData growFactor="1" baseSize="0%"/>
+                    </t:layoutData>
+                        <t:columns> 
+                            <t:Column sortProperty="COMMESSA" filterProperty="COMMESSA" width="10%">
+                                <Label text="{i18n>podSelection.table.project}"  />
+                                <t:template>
+                                    <Text wrapping="false" text="{PODSelectionModel>COMMESSA}"  />
+                                </t:template>
+                            </t:Column>
+                            <t:Column sortProperty="WBE" filterProperty="WBE" width="10%">
+                                <Label text="{i18n>podSelection.table.WBE}"  />
+                                <t:template>
+                                    <Text wrapping="false" text="{PODSelectionModel>WBE}"  />
+                                </t:template>
+                            </t:Column>
+                            <t:Column sortProperty="SEZIONEMACCHINA" filterProperty="SEZIONEMACCHINA" width="10%">
+                                <Label text="{i18n>podSelection.table.MachineSection}"  />
+                                <t:template>
+                                    <Text wrapping="false" text="{PODSelectionModel>SEZIONEMACCHINA}"  />
+                                </t:template>
+                            </t:Column>
+                            <t:Column sortProperty="sfc" filterProperty="sfc" width="10%">
+                                <Label wrapping="false" text="{i18n>podSelection.table.sfc}"  />
+                                <t:template>
+                                    <Text wrapping="false" text="{PODSelectionModel>sfc}"  />
+                                </t:template>
+                            </t:Column>
+                            <t:Column sortProperty="order" filterProperty="order" width="10%">
+                                <Label wrapping="false" text="{i18n>podSelection.table.order}"  />
+                                <t:template>
+                                    <Text wrapping="false" text="{PODSelectionModel>order}"  />
+                                </t:template>
+                            </t:Column>
+                            <t:Column sortProperty="material/material" filterProperty="material/material" width="10%">
+                                <Label text="{i18n>podSelection.table.material}"  />
+                                <t:template>
+                                    <Text wrapping="false" text="{PODSelectionModel>material/material}"  />
+                                </t:template>
+                            </t:Column>
+                            <t:Column sortProperty="MATERIALEPADRE" filterProperty="MATERIALEPADRE" width="10%">
+                                <Label text="{i18n>podSelection.table.parentMaterial}"  />
+                                <t:template>
+                                    <Text wrapping="false" text="{PODSelectionModel>MATERIALEPADRE}"  />
+                                </t:template>
+                            </t:Column>
+                            <t:Column sortProperty="status/code" width="10%"  hAlign="Center">
+                                <Label text="{i18n>podSelection.table.status}"  />
+                                <t:template>
+                                    <core:Icon src="{path: 'PODSelectionModel>status/code',formatter: '.getStatusIcon'}" color="{path: 'PODSelectionModel>status/code', formatter: '.getStatusColor' }" class="statusIcon" />
+                                </t:template>
+                            </t:Column>
+                            <t:Column sortProperty="ORDER_TYPE" filterProperty="ORDER_TYPE" width="10%">
+                                <Label text="{i18n>podSelection.table.orderType}"  />
+                                <t:template>
+                                    <Text wrapping="false" text="{PODSelectionModel>ORDER_TYPE}"  />
+                                </t:template>
+                            </t:Column>  
+                            <!-- <t:Column sortProperty="DATADIINIZIOSCHEDULATA" filterProperty="DATADIINIZIOSCHEDULATA" width="10%">
+                                <Label text="{i18n>podSelection.table.scheduledStartDate}"  />
+                                <t:template>
+                                    <Text wrapping="false" text="{PODSelectionModel>DATADIINIZIOSCHEDULATA}"  />
+                                </t:template>
+                            </t:Column>
+                            <t:Column sortProperty="DATADIFINESCHEDULATA" filterProperty="DATADIFINESCHEDULATA" width="10%">
+                                <Label text="{i18n>podSelection.table.scheduledEndDate}"  />
+                                <t:template>
+                                    <Text wrapping="false" text="{PODSelectionModel>DATADIFINESCHEDULATA}"  />
+                                </t:template>
+                            </t:Column>    -->
+                            <t:Column sortProperty="MANCANTI" width="10%" hAlign="Center">
+                                <Label text="{i18n>podSelection.table.missingComponents}"  />
+                                <t:template>
+                                    <core:Icon src="sap-icon://alert" color="#E5BE01" visible="{= (${PODSelectionModel>MANCANTI} === 'Si') ? true:false}" class="statusIcon" />
+                                </t:template>
+                            </t:Column>                               
+                        </t:columns>
+                    </t:Table>
+                </VBox>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

@@ -1,0 +1,115 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:t="sap.ui.table" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:html="http://www.w3.org/1999/xhtml" controllerName="kpmg.custom.pod.GDPodCustom.GDPodCustom.controller.MainPOD" width="100%" height="100%">   
+    <Page title="{i18n>mainPOD.title}" class="kpmgGDPage" showHeader="false" enableScrolling="false">
+        <content>
+            <VBox width="100%" height="100%" renderType="Bare">
+                <!--Fascia Header - Info SFC selezionato -->
+                <HBox width="100%" height="8%" class="headerContainer" renderType="Bare" >
+                    <HBox width="1.5%" height="100%" class="headerBox" renderType="Bare">
+                        <Button icon="sap-icon://nav-back" type="Transparent" press="onNavBack" tooltip="{i18n>mainPOD.tooltip.back}" class="kpmgGDMediumlLabelInfo" />
+                    </HBox>
+                    <HBox width="16.4%" height="100%" class="headerBox" renderType="Bare">
+                        <Label text="{i18n>mainPOD.label.wbs}:" width="20%" textAlign="End" vAlign="Middle" class="kpmgGDMediumlLabelInfo" />
+                        <Label text="{PODSfcModel>/WBE}" width="80%" textAlign="Left" vAlign="Middle" class="kpmgGDMediumlLabel paddingLeft" />
+                    </HBox>
+                    <HBox width="16.4%" height="100%" class="headerBox" renderType="Bare">
+                        <Label text="{i18n>mainPOD.label.workcenter}:" width="60%" textAlign="End" vAlign="Middle" class="kpmgGDMediumlLabelInfo" />
+                        <Label text="{PODSfcModel>/WORKCENTER}" width="40%" textAlign="Left" vAlign="Middle" class="kpmgGDMediumlLabel paddingLeft" />
+                    </HBox>
+                    <HBox width="16.4%" height="100%" class="headerBox" renderType="Bare">
+                        <Label text="{i18n>mainPOD.label.sfc}:" width="20%" textAlign="End" vAlign="Middle" class="kpmgGDMediumlLabelInfo" />
+                        <Label text="{PODSfcModel>/sfc}" width="80%" textAlign="Left" vAlign="Middle" class="kpmgGDMediumlLabel paddingLeft" />
+                    </HBox>
+                    <HBox width="16.4%" height="100%" class="headerBox" renderType="Bare">
+                        <Label text="{i18n>mainPOD.label.order}:" width="25%" textAlign="End" vAlign="Middle" class="kpmgGDMediumlLabelInfo" />
+                        <Label text="{PODSfcModel>/order}" width="75%" textAlign="Left" vAlign="Middle" class="kpmgGDMediumlLabel paddingLeft" />
+                    </HBox>
+                    <HBox width="16.4%" height="100%" class="headerBox" renderType="Bare">
+                        <Label text="{i18n>mainPOD.label.material}:" width="40%" textAlign="End" vAlign="Middle" class="kpmgGDMediumlLabelInfo" />
+                        <Label text="{PODSfcModel>/material/material}" width="60%" textAlign="Left" vAlign="Middle" class="kpmgGDMediumlLabel paddingLeft" />
+                    </HBox>
+                    <HBox width="16.4%" height="100%" class="headerBox" renderType="Bare">
+                        <Label text="{i18n>mainPOD.label.parentMaterial}:" width="50%" textAlign="End" vAlign="Middle" class="kpmgGDMediumlLabelInfo" />
+                        <Label text="{PODSfcModel>/MATERIALEPADRE}" width="50%" textAlign="Left" vAlign="Middle" class="kpmgGDMediumlLabel paddingLeft" />
+                    </HBox>
+                </HBox>
+                <HBox width="100%" height="92%" renderType="Bare" >
+                    <l:Splitter id="splitter">
+                        <!-- Contenitore principale - START COMPLETE E TABELLA OPERAZIONI -->
+                        <VBox id="primaryContainerSplitter" height="100%" renderType="Bare">
+                            <layoutData>                         
+                                <l:SplitterLayoutData size="auto" />
+                            </layoutData>
+                            <!-- FASCIA BOTTONI OPERAZIONI -->
+                            <HBox width="100%" height="95px" renderType="Bare" class="headerOperations">
+                                <HBox width="90%" height="100%" renderType="Bare" class="leftButtonsPODOperation">
+                                    <Button icon="sap-icon://begin" type="Emphasized" class="startOpButton" text="Start" tooltip="{i18n>mainPOD.tooltip.startoperation}" press="onStartOperationPress" />
+                                    <Button icon="sap-icon://complete" type="Emphasized" class="completeOpButton" text="Complete" tooltip="{i18n>mainPOD.tooltip.completeoperation}" press="onCompleteOperationPress" />
+                                </HBox>
+                                <!-- ICONE COLLAPSE/EXPAND SECONDO CONTAINER -->
+                                <HBox width="10%" height="100%" renderType="Bare" class="rightIconsBox">
+                                    <Button id="collapseButtonId" icon="sap-icon://open-command-field" type="Transparent" press="onCollapse" tooltip="{i18n>mainPOD.tooltip.collapse}" class="collapseExpandIcon" />
+                                    <Button id="expandButtonId" icon="sap-icon://close-command-field" type="Transparent" press="onExpand" visible="false" tooltip="{i18n>mainPOD.tooltip.expand}" class="collapseExpandIcon" />
+                                </HBox>
+                            </HBox>                          
+                            <!-- TABELLA OPERAZIONI -->
+                            <VBox width="100%" height="100%" renderType="Bare">
+                                <t:Table id="podOperationTable" rowSelectionChange="rowSelectionChange"  class="kpmgGDTable mediumPaddingTable" rows="{PODOperationModel>/operations}" selectionMode="Single" selectionBehavior="RowOnly" visibleRowCountMode="Auto" rowHeight="45px" >
+                                <t:layoutData>
+                                    <FlexItemData growFactor="1" baseSize="0%"/>
+                                </t:layoutData>
+                                    <t:columns> 
+                                        <t:Column sortProperty="operationActivity" filterProperty="operationActivity" width="40%">
+                                            <Label text="{i18n>mainPOD.table.operationActivity}"  />
+                                            <t:template>
+                                                <Text wrapping="false" text="{PODOperationModel>routingOperation/operationActivity/operationActivity}"  />
+                                            </t:template>
+                                        </t:Column>
+                                        <t:Column sortProperty="description" filterProperty="description" width="40%">
+                                            <Label text="{i18n>mainPOD.table.operationDescription}"  />
+                                            <t:template>
+                                                <Text wrapping="false" text="{PODOperationModel>description}"  />
+                                            </t:template>
+                                        </t:Column>
+                                        <t:Column sortProperty="status" width="10%"  hAlign="Center">
+                                            <Label text="{i18n>mainPOD.table.status}"  />
+                                            <t:template>
+                                                <!-- in path bindo i dati da passare alla funzione del formatter -->
+                                                <core:Icon src="{path: 'PODOperationModel>QUANTITY',formatter: '.getStatusIcon'}"  color="{path: 'PODOperationModel>QUANTITY', formatter: '.getStatusColor' }" class="statusIcon" />
+                                            </t:template>
+                                        </t:Column>
+                                        <t:Column width="10%" hAlign="Center">
+                                            <Label text="{i18n>mainPOD.table.marking}"  />
+                                            <t:template>
+                                                <HBox width="100%" justifyContent="Center">
+                                                    <Button text="Mark" width="100%" press="onMarkPress" />
+                                                </HBox>
+                                            </t:template>
+                                        </t:Column>                               
+                                    </t:columns>
+                                </t:Table>
+                            </VBox>
+                        </VBox>
+                        <!-- Contenitore secondario - Tab work instructions, order bom, ecc.. -->
+                        <VBox id="secondaryContainerSplitter" height="100%" renderType="Bare">
+                            <layoutData>
+                                <l:SplitterLayoutData size="40%" /> 
+                            </layoutData>
+                            <HBox width="100%" height="100%" renderType="Bare"> 
+                                <IconTabBar id="mainIconTabBar" class="kpmgGDIconTabBar sapUiResponsivePadding--header sapUiResponsivePadding--content" stretchContentHeight="true" expandable="false" select="handleIconTabBarSelect" applyContentPadding="true" selectedKey="ORDER_BOM">
+                                    <items>
+                                        <IconTabFilter visible="true" icon="sap-icon://menu2" text="{i18n>mainPOD.tab.orderBOM}" key="ORDER_BOM">
+                                            <mvc:XMLView viewName="kpmg.custom.pod.GDPodCustom.GDPodCustom.view.OrderBOM" />
+                                        </IconTabFilter>
+                                        <IconTabFilter visible="true" icon="sap-icon://bullet-text" text="{i18n>mainPOD.tab.workInstruction}" key="WORK_INSTRUCTION">
+                                            <mvc:XMLView viewName="kpmg.custom.pod.GDPodCustom.GDPodCustom.view.WorkInstruction" />
+                                        </IconTabFilter>
+                                    </items>
+                                </IconTabBar>      
+                            </HBox>                                        
+                        </VBox>
+                    </l:Splitter>
+                </HBox>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

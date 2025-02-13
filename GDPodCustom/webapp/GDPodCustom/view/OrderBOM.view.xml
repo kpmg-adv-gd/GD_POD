@@ -1,0 +1,35 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:t="sap.ui.table" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:html="http://www.w3.org/1999/xhtml" controllerName="kpmg.custom.pod.GDPodCustom.GDPodCustom.controller.OrderBOM" width="100%" height="100%">   
+    <Page title="{i18n>orderBOM.title}" class="kpmgGDPage" showHeader="false" enableScrolling="false">
+        <content>
+            <VBox width="100%" height="100%" renderType="Bare" class="mainContainer">
+                <t:TreeTable id="treeTable" class="kpmgTreeTable" rows="{BomModel>/MaterialList}"  selectionMode="None" enableColumnReordering="true" enableGrouping="true" visibleRowCountMode="Auto" visibleRowCount="10" rowHeight="45px">
+                    <t:layoutData>
+                        <FlexItemData growFactor="1" baseSize="0%"/>
+                    </t:layoutData>
+                    <t:columns>
+                        <t:Column width="60%">
+                            <Label text="{i18n>orderBOM.treeTable.material}"/>
+                            <t:template>
+                                <Text text="{BomModel>Material}"/>
+                            </t:template>
+                        </t:Column>
+                        
+                        <t:Column width="20%">
+                            <Label text="{i18n>orderBOM.treeTable.quantity}"/>
+                            <t:template>
+                                <Text text="{BomModel>Quantity}"/>
+                            </t:template>
+                        </t:Column>
+                        
+                        <t:Column width="20%">
+                            <Label text="{i18n>orderBOM.treeTable.missingParts}"/>
+                            <t:template>
+                                <Text text="{BomModel>MissingParts}"/>
+                            </t:template>
+                        </t:Column>
+                    </t:columns>
+                </t:TreeTable>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

@@ -1,0 +1,15 @@
+{
+	"components": [
+		{
+			"id": "GDPodCustom",
+			"type": "VIEW_PLUGIN",
+			"allowMultipleInstances": false,
+			"name": "kpmg.custom.pod.GDPodCustom.GDPodCustom",
+			"propertyEditor": "kpmg.custom.pod.GDPodCustom.GDPodCustom.builder.PropertyEditor",
+			"i18n": "kpmg.custom.pod.GDPodCustom.GDPodCustom.i18n.i18n",
+            "productionProcessEnabled": true,
+           "productionProcessTitle": "GDPodCustom",
+			"supportedPodTypes": ["WORK_CENTER","OPERATION","ORDER","OTHER"]
+		}   
+	]
+}
