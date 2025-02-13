@@ -15,7 +15,8 @@ sap.ui.define([
                 that.markOperation = markOperation;
                 
                 that._initDialog("kpmg.custom.pod.GDPodCustom.GDPodCustom.view.popup.MarkingPopup", oView, that.MarkingPopupModel);
-                that.loadHeaderData();        
+                that.loadHeaderData(); 
+                that.loadMarkingData();       
                 that.openDialog();
             },
 
@@ -37,7 +38,6 @@ sap.ui.define([
             loadMarkingData: function(){
                 var that = this;
                 var infoModel = that.MainPODcontroller.getInfoModel();
-                that.toggleBusyIndicator();
     
                 let BaseProxyURL = infoModel.getProperty("/BaseProxyURL");
                 let pathGetMarkingDataApi = "/db/getMarkingData";
@@ -55,13 +55,46 @@ sap.ui.define([
     
                 // Callback di successo
                 var successCallback = function(response) {
-                    that.getView().getModel("BomModel").setProperty("/MaterialList",[response]);
-                    that.toggleBusyIndicator();
+                    if (response.length > 0){
+                        that.MarkingPopupModel.setProperty("/personnelNumber", response[0].confirmation_number || "");
+                        that.MarkingPopupModel.setProperty("/confirmNumber", response[0].confirmation_number || "");
+                        that.MarkingPopupModel.setProperty("/plannedLabor", response[0].planned_labor || "");
+                        that.MarkingPopupModel.setProperty("/markedLabor", response[0].marked_labor || "");
+                        that.MarkingPopupModel.setProperty("/remainingLabor", response[0].remaining_labor || "");
+                        that.MarkingPopupModel.setProperty("/varianceLabor", response[0].variance_labor || "");
+                    }
                 };
                 // Callback di errore
                 var errorCallback = function(error) {
-                    that.toggleBusyIndicator();
-                    console.log("Chiamata POST fallita:", error);
+                    console.log("Chiamata POST fallita: ", error);
+                };
+                CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
+            },
+
+            onRetrievePersonnelNumber: function(){
+                var that = this;
+                var infoModel = that.MainPODcontroller.getInfoModel();
+    
+                let BaseProxyURL = infoModel.getProperty("/BaseProxyURL");
+                let pathPersonnelNumberApi = "/api/getPersonnelNumber";
+                let url = BaseProxyURL+pathPersonnelNumberApi; 
+    
+                let plant = infoModel.getProperty("/plant") || "";
+                let userId = infoModel.getProperty("/user_id") || "";
+    
+                let params = {
+                    plant: plant,
+                    userId: userId
+                };
+    
+                // Callback di successo
+                var successCallback = function(response) {
+                    that.MarkingPopupModel.setProperty("/personnelNumber", response || "");
+                };
+
+                // Callback di errore
+                var errorCallback = function(error) {
+                    console.log("Chiamata POST fallita: ", error);
                 };
                 CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
             },
@@ -99,12 +132,6 @@ sap.ui.define([
                 }
             
                 return true;
-            },
-
-            toggleBusyIndicator: function () {
-                var that = this;
-                var busyState = that.treeTable.getBusy();
-                that.treeTable.setBusy(!busyState);
             },
 
             onClosePopup: function () {
