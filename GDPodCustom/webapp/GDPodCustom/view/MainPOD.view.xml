@@ -74,7 +74,7 @@
                                             <Label text="{i18n>mainPOD.table.status}"  />
                                             <t:template>
                                                 <!-- in path bindo i dati da passare alla funzione del formatter -->
-                                                <core:Icon src="{path: 'PODOperationModel>QUANTITY',formatter: '.getStatusIcon'}"  color="{path: 'PODOperationModel>QUANTITY', formatter: '.getStatusColor' }" class="statusIcon" />
+                                                <core:Icon src="{path: 'PODOperationModel>',formatter: '.getStatusIcon'}"  color="{path: 'PODOperationModel>', formatter: '.getStatusColor' }" class="statusIcon" />
                                             </t:template>
                                         </t:Column>
                                         <t:Column width="10%" hAlign="Center">

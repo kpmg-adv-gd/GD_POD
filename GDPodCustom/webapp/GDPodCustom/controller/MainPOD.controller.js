@@ -258,9 +258,10 @@ sap.ui.define([
             var oControllerOrderBomTab = oViewOrderBomTab.getController();
             oControllerOrderBomTab.onNavigateTo();
         },
-        getStatusIcon: function(quantity){
+        getStatusIcon: function(sfcObj){
             var that=this;
-            var sfcStatusCode = that.getView().getModel("PODSfcModel").getProperty("/status/code");
+            var sfcStatusCode=sfcObj?.sfcStatus || "";
+            var quantity = sfcObj?.QUANTITY || null;
             if(!!quantity){
                 if(quantity.quantityInQueue===1){
                     if(sfcStatusCode==="401"){
@@ -278,9 +279,10 @@ sap.ui.define([
             }
             return "";
         },
-        getStatusColor: function(quantity){
+        getStatusColor: function(sfcObj){
             var that=this;
-            var sfcStatusCode = that.getView().getModel("PODSfcModel").getProperty("/status/code");
+            var sfcStatusCode=sfcObj?.sfcStatus || "";
+            var quantity = sfcObj?.QUANTITY || null;
             if(!!quantity){
                 if(quantity.quantityInQueue===1){
                     if(sfcStatusCode==="401"){
