@@ -53,27 +53,56 @@ sap.ui.define([
                     that.getView().getModel("PODSelectionModel").setProperty("/SFCs",undefined);
                     return
                 }
-                let params={
-                    "plant": that.getInfoModel().getProperty("/plant"),
-                    "workcenter": workcenter,
-                    "sfc": that.getView().byId("sfcInputId").getValue(),
-                    "project": that.getView().byId("projectInputId").getValue(),
-                    "wbs": that.getView().byId("wbsInputId").getValue(),
-                    "machineSection": that.getView().byId("machineSectionInputId").getValue(),
-                    "parentMaterial": that.getView().byId("parentMaterialInputId").getValue(),
-                    "material": that.getView().byId("materialInputId").getValue()
-                }
-                that.getPodSelectionTableData(params);
+
+                that.getIfUserCertificatedForWorkcenter(workcenter);
             } else{
                 that.firstTimeEnterPodSelection=false;
                 that.getView().getModel("PODSelectionModel").setProperty("/SFCs",undefined);
             }
         },
-        getPodSelectionTableData: function(params){
+        getIfUserCertificatedForWorkcenter: function(workcenter){
+            var that=this;
+            let BaseProxyURL = that.getInfoModel().getProperty("/BaseProxyURL");
+            let pathAPIUserCertificatedWorkcenter = "/api/checkUserWorkCenterCertification";
+            let url = BaseProxyURL+pathAPIUserCertificatedWorkcenter
+            
+            let params={
+                plant: that.getInfoModel().getProperty("/plant"),
+                userId: that.getInfoModel().getProperty("/user_id"),
+                workCenter: workcenter
+            };
+
+            // Callback di successo
+            var successCallback = function(response) {
+                if(response){
+                    that.getPodSelectionTableData();
+                } else {
+                    that.showErrorMessageBox(that.getI18n("podSelection.errorMessage.noCertificationWorkcenter"));
+                }
+            };
+            // Callback di errore
+            var errorCallback = function(error) {
+                console.log("Chiamata POST fallita:", error);
+            };
+            CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
+
+        },
+        getPodSelectionTableData: function(){
             var that=this;
             let BaseProxyURL = that.getInfoModel().getProperty("/BaseProxyURL");
             let pathAPISelectionPodTable = "/api/sfc/v1/worklist/sfcs";
             let url = BaseProxyURL+pathAPISelectionPodTable;
+
+            let params={
+                "plant": that.getInfoModel().getProperty("/plant"),
+                "workcenter": that.getView().byId("workcenterComboBoxId").getSelectedKey(),
+                "sfc": that.getView().byId("sfcInputId").getValue(),
+                "project": that.getView().byId("projectInputId").getValue(),
+                "wbs": that.getView().byId("wbsInputId").getValue(),
+                "machineSection": that.getView().byId("machineSectionInputId").getValue(),
+                "parentMaterial": that.getView().byId("parentMaterialInputId").getValue(),
+                "material": that.getView().byId("materialInputId").getValue()
+            }
 
             // Callback di successo
             var successCallback = function(response) {
