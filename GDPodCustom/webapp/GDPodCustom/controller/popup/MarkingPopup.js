@@ -58,10 +58,10 @@ sap.ui.define([
                     if (response.length > 0){
                         that.MarkingPopupModel.setProperty("/personnelNumber", response[0].confirmation_number || "");
                         that.MarkingPopupModel.setProperty("/confirmNumber", response[0].confirmation_number || "");
-                        that.MarkingPopupModel.setProperty("/plannedLabor", response[0].planned_labor || "");
-                        that.MarkingPopupModel.setProperty("/markedLabor", response[0].marked_labor || "");
-                        that.MarkingPopupModel.setProperty("/remainingLabor", response[0].remaining_labor || "");
-                        that.MarkingPopupModel.setProperty("/varianceLabor", response[0].variance_labor || "");
+                        that.MarkingPopupModel.setProperty("/plannedLabor", response[0].planned_labor || "0");
+                        that.MarkingPopupModel.setProperty("/markedLabor", response[0].marked_labor || "0");
+                        that.MarkingPopupModel.setProperty("/remainingLabor", response[0].remaining_labor || "0");
+                        that.MarkingPopupModel.setProperty("/varianceLabor", response[0].variance_labor || "0");
                     }
                 };
                 // Callback di errore
@@ -101,13 +101,9 @@ sap.ui.define([
 
             validate: function () {
                 var that = this;
-                var oMarkingDate = that.byId("markingDatePicker");
-                var oStartTime = that.byId("startTimePicker");
-                var oFinishTime = that.byId("finishTimePicker");
-    
-                var sMarkingDate = oMarkingDate.getValue();
-                var sStartTime = oStartTime.getValue();
-                var sFinishTime = oFinishTime.getValue();
+                var sMarkingDate = that.getView().byId("markingDatePicker").getValue();
+                var sStartTime = that.getView().byId("startTimePicker").getValue();
+                var sFinishTime = that.getView().byId("finishTimePicker").getValue();
     
                 if (!sMarkingDate || !sStartTime || !sFinishTime) {
                     return false; 
@@ -132,6 +128,16 @@ sap.ui.define([
                 }
             
                 return true;
+            },
+
+            onConfirm: function() {
+                var that = this;
+            
+                if (that.validate()) {
+                    that.MainPODcontroller.showToast(that.MainPODcontroller.getI18n("marking.success.message"))
+                } else {
+                    that.MainPODcontroller.showErrorMessageBox(that.MainPODcontroller.getI18n("marking.error.message"));
+                }
             },
 
             onClosePopup: function () {
