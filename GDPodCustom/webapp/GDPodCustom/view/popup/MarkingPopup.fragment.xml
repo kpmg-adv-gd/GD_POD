@@ -64,14 +64,14 @@
                             value="{/dateValue}" />
                         <TimePicker 
                             id="startTimePicker" 
-                            valueFormat="HH:mm:ss"
-                            displayFormat="HH:mm:ss"
+                            valueFormat="HH:mm"
+                            displayFormat="HH:mm"
                             width="15rem"  
                             value="{/dateValue}" />
                         <TimePicker 
                             id="finishTimePicker" 
-                            valueFormat="HH:mm:ss"
-                            displayFormat="HH:mm:ss"
+                            valueFormat="HH:mm"
+                            displayFormat="HH:mm"
                             width="15rem" 
                             value="{/dateValue}" />
                         <HBox width="15rem" >
