@@ -73,7 +73,7 @@
                         <FlexItemData growFactor="1" baseSize="0%"/>
                     </t:layoutData>
                         <t:columns> 
-                            <t:Column sortProperty="COMMESSA" filterProperty="COMMESSA" width="10%">
+                            <t:Column sortProperty="COMMESSA" filterProperty="COMMESSA" width="8%">
                                 <Label text="{i18n>podSelection.table.project}"  />
                                 <t:template>
                                     <Text wrapping="false" text="{PODSelectionModel>COMMESSA}"  />
@@ -85,19 +85,19 @@
                                     <Text wrapping="false" text="{PODSelectionModel>WBE}"  />
                                 </t:template>
                             </t:Column>
-                            <t:Column sortProperty="SEZIONEMACCHINA" filterProperty="SEZIONEMACCHINA" width="6%">
+                            <t:Column sortProperty="SEZIONEMACCHINA" filterProperty="SEZIONEMACCHINA" width="4%" hAlign="Center" >
                                 <Label text="{i18n>podSelection.table.MachineSection}"  />
                                 <t:template>
                                     <Text wrapping="false" text="{PODSelectionModel>SEZIONEMACCHINA}"  />
                                 </t:template>
                             </t:Column>
-                            <t:Column sortProperty="sfc" filterProperty="sfc" width="17%">
+                            <t:Column sortProperty="sfc" filterProperty="sfc" width="18%">
                                 <Label wrapping="false" text="{i18n>podSelection.table.sfc}"  />
                                 <t:template>
                                     <Text wrapping="false" text="{PODSelectionModel>sfc}"  />
                                 </t:template>
                             </t:Column>
-                            <t:Column sortProperty="order" filterProperty="order" width="10%">
+                            <t:Column sortProperty="order" filterProperty="order" width="12%">
                                 <Label wrapping="false" text="{i18n>podSelection.table.order}"  />
                                 <t:template>
                                     <Text wrapping="false" text="{PODSelectionModel>order}"  />
@@ -115,13 +115,13 @@
                                     <Text wrapping="false" text="{PODSelectionModel>MATERIALEPADRE}"  />
                                 </t:template>
                             </t:Column>
-                            <t:Column sortProperty="status/code" width="5%"  hAlign="Center">
+                            <t:Column sortProperty="status/code" width="5%"  hAlign="Center" >
                                 <Label text="{i18n>podSelection.table.status}"  />
                                 <t:template>
                                     <core:Icon src="{path: 'PODSelectionModel>status/code',formatter: '.getStatusIcon'}" color="{path: 'PODSelectionModel>status/code', formatter: '.getStatusColor' }" class="statusIcon" />
                                 </t:template>
                             </t:Column>
-                            <t:Column sortProperty="ORDER_TYPE" filterProperty="ORDER_TYPE" width="5%">
+                            <t:Column sortProperty="ORDER_TYPE" filterProperty="ORDER_TYPE" width="6%" hAlign="Center" >
                                 <Label text="{i18n>podSelection.table.orderType}"  />
                                 <t:template>
                                     <Text wrapping="false" text="{PODSelectionModel>ORDER_TYPE}"  />
