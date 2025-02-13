@@ -1,113 +1,112 @@
-<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:html="http://www.w3.org/1999/xhtml" controllerName="kpmg.custom.pod.GDPodCustom.GDPodCustom.controller.popup.MarkingPopup" width="100%" height="100%">
-    <Dialog id="markingDialog" title="{i18n>marking.popup.title}" class="markingPopupDialog" showHeader="false"> 
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    controllerName="kpmg.custom.pod.GDPodCustom.GDPodCustom.controller.popup.MarkingPopup"
+    width="100%"
+    height="100%"
+>
+    <Dialog id="markingDialog" title="{i18n>marking.popup.title}" class="markingPopupDialog" showHeader="true" contentHeight="400px"  contentWidth="800px"> 
         <content>
             <!-- Container principale -->
-            <VBox width="100%" height="100%" renderType="Bare" class="mainContainer">
+            <VBox width="90%" height="90%" renderType="Bare" class="mainContainer">
                 <!-- Header -->
-                <HBox width="100%" height="20%" class="markingHeaderContainer">
-                    <HBox class="space">
-                        <Label text="WBS Element" class="markingHeaderLabel markingLabel"></Label>
-                        <Label text="{/wbe}" class="markingLabel"></Label>
+                <HBox width="100%" height="20%" renderType="Bare" class="markingHeaderContainer">
+                    <HBox class="space" renderType="Bare" alignItems="Center">
+                        <Label text="WBS Element" class="markingHeaderLabel markingLabel"/>
+                        <Label text="{/wbe}" class="markingLabel"/>
                     </HBox>
-                    <HBox class="space">
-                        <Label text="SFC" class="markingHeaderLabel markingLabel"></Label>
-                        <Label text="{/sfc}" class="markingLabel"></Label>
+                    <HBox class="space" renderType="Bare" alignItems="Center">
+                        <Label text="SFC" class="markingHeaderLabel markingLabel"/>
+                        <Label text="{/sfc}" class="markingLabel"/>
                     </HBox>
-                    <HBox class="space">
-                        <Label text="Order" class="markingHeaderLabel markingLabel"></Label>
-                        <Label text="{/order}" class="markingLabel"></Label>
+                    <HBox class="space" renderType="Bare" alignItems="Center">
+                        <Label text="Order" class="markingHeaderLabel markingLabel"/>
+                        <Label text="{/order}" class="markingLabel"/>
                     </HBox>
                 </HBox>
 
-                <HBox>
-                    <!-- Operazione e Numero Conferma -->
-                    <VBox width="50%" height="30%" class="markingOperationContainer">
-                        <HBox width="100%" height="50%" class="inputRow">
-                            <Label text="Operation" class="markingLabel"></Label>
-                            <Label text="{/operation}"></Label>
-                        </HBox>
-                        <HBox width="100%" height="50%" class="inputRow">
-                            <Label text="Confirmation Number" class="markingLabel"></Label>
-                            <Label text="{/confirmNumber}"></Label>
-                        </HBox>
-                        <HBox width="100%" height="50%" class="inputRow">
-                            <Label text="Personnel Number" class="markingLabel"></Label>
-                            <Label text="{/personnelNumber}"></Label>
-                        </HBox>
-                    </VBox>
-                    <VBox width="50%" height="30%" ></VBox>
-                </HBox>
+                <!-- Operazione e Numero Conferma -->
+                <VBox width="50%" height="30%" class="markingOperationContainer" renderType="Bare">
+                    <HBox width="100%" class="inputRow" renderType="Bare">
+                        <Label text="Operation" class="markingLabel"/>
+                        <Label text="{/operation}"/>
+                    </HBox>
+                    <HBox width="100%" class="inputRow" renderType="Bare">
+                        <Label text="Confirmation Number" class="markingLabel"/>
+                        <Label text="{/confirmNumber}"/>
+                    </HBox>
+                    <HBox width="100%" class="inputRow" renderType="Bare">
+                        <Label text="Personnel Number" class="markingLabel"/>
+                        <Label text="{/personnelNumber}"/>
+                    </HBox>
+                </VBox>
 
-                <HBox width="100%" height="50%" renderType="Bare">
+                <HBox width="100%" height="40%" renderType="Bare">
                     <!-- Input principale -->
-                    <VBox width="25%" class="markingInputLabel">
-                        <HBox class="markingInputRow">
-                            <Label text="Marking Date" class="markingLabel"></Label>
+                    <VBox width="50%" class="markingInputLabel" renderType="Bare">
+                        <HBox class="markingInputRow" renderType="Bare" alignItems="Center">
+                            <Label text="Marking Date" class="markingLabel"/>
+                            <DateTimePicker 
+                                id="markingDatePicker" 
+                                valueFormat="dd/MM/yyyy"
+                                displayFormat="dd/MM/yyyy"
+                                width="15rem" 
+                                value="{/dateValue}"/>
                         </HBox>
-                        <HBox class="markingInputRow">
-                            <Label text="Start Time" class="markingLabel"></Label>
+                        <HBox class="markingInputRow" renderType="Bare" alignItems="Center">
+                            <Label text="Start Time" class="markingLabel"/>
+                            <TimePicker 
+                                id="startTimePicker" 
+                                valueFormat="HH:mm:ss"
+                                displayFormat="HH:mm:ss"
+                                width="15rem"  
+                                value="{/dateValue}"/>
                         </HBox>
-                        <HBox class="markingInputRow">
-                            <Label text="Finish Time" class="markingLabel"></Label>
+                        <HBox class="markingInputRow" renderType="Bare" alignItems="Center">
+                            <Label text="Finish Time" class="markingLabel"/>
+                            <TimePicker 
+                                id="finishTimePicker" 
+                                valueFormat="HH:mm:ss"
+                                displayFormat="HH:mm:ss"
+                                width="15rem" 
+                                value="{/dateValue}"/>
                         </HBox>
-                        <HBox class="markingInputRow">
-                            <Label text="Variance" class="markingLabel"></Label>
-                        </HBox>
-                    </VBox>
-
-                    <VBox width="25%" class="markingInputContainer">
-                        <DateTimePicker 
-                            id="markingDatePicker" 
-                            valueFormat="dd/MM/yyyy"
-                            displayFormat="dd/MM/yyyy"
-                            width="15rem" 
-                            value="{/dateValue}" />
-                        <TimePicker 
-                            id="startTimePicker" 
-                            valueFormat="HH:mm:ss"
-                            displayFormat="HH:mm:ss"
-                            width="15rem"  
-                            value="{/dateValue}" />
-                        <TimePicker 
-                            id="finishTimePicker" 
-                            valueFormat="HH:mm:ss"
-                            displayFormat="HH:mm:ss"
-                            width="15rem" 
-                            value="{/dateValue}" />
-                        <HBox width="15rem" >
+                        <HBox class="markingInputRow" renderType="Bare" alignItems="Center">
+                            <Label text="Variance" class="markingLabel"/>
                             <Label id="selectedVarianceText" class="markingReasonDesc" />
                             <Button id="varianceButton" press="onVarianceButtonPressed" icon="sap-icon://arrow-down" />
                         </HBox>
                     </VBox>
 
                     <!-- Ore previste/consuntivate/rimanenti -->
-                    <VBox width="50%" class="markingHoursContainer">
+                    <VBox width="50%" class="markingHoursContainer" renderType="Bare">
                         <HBox class="markingHoursRow">
-                            <Label text="Planned Labor" class="markingLabel"></Label>
-                            <Label text="{/plannedLabor}"></Label>
+                            <Label text="Planned Labor" class="markingLabel"/>
+                            <Label text="{/plannedLabor}"/>
                         </HBox>
                         <HBox class="markingHoursRow">
-                            <Label text="Marked Labor" class="markingLabel"></Label>
-                            <Label text="{/markedLabor}"></Label>
+                            <Label text="Marked Labor" class="markingLabel"/>
+                            <Label text="{/markedLabor}"/>
                         </HBox>
                         <HBox class="markingHoursRow">
-                            <Label text="Remaining Labor" class="markingLabel"></Label>
-                            <Label text="{/remainingLabor}"></Label>
+                            <Label text="Remaining Labor" class="markingLabel"/>
+                            <Label text="{/remainingLabor}"/>
                         </HBox>
                         <HBox class="markingHoursRow">
-                            <Label text="Variance Labor" class="markingLabel"></Label>
-                            <Label text="{/varianceLabor}"></Label>
-                        </HBox>
-                        
-                        <!-- Bottoni -->
-                        <HBox class="markingButtonContainer">
-                            <Button text="Cancel" type="Emphasized" press="onClosePopup" />
-                            <Button text="Confirm" type="Emphasized" press="onConfirm" />
+                            <Label text="Variance Labor" class="markingLabel"/>
+                            <Label text="{/varianceLabor}"/>
                         </HBox>
                     </VBox>
-                </HBox>    
+                </HBox>
+                
+                <HBox width="100%" height="10%"  class="markingButtonContainer" renderType="Bare" alignItems="Center">
+                    <Button text="Cancel" type="Emphasized" press="onClosePopup" />
+                    <Button text="Confirm" type="Emphasized" press="onConfirm" />
+                </HBox> 
             </VBox>
         </content>
     </Dialog>
 </core:FragmentDefinition>
-
