@@ -101,13 +101,9 @@ sap.ui.define([
 
             validate: function () {
                 var that = this;
-                var oMarkingDate = that.byId("markingDatePicker");
-                var oStartTime = that.byId("startTimePicker");
-                var oFinishTime = that.byId("finishTimePicker");
-    
-                var sMarkingDate = oMarkingDate.getValue();
-                var sStartTime = oStartTime.getValue();
-                var sFinishTime = oFinishTime.getValue();
+                var sMarkingDate = that.getView().byId("markingDatePicker").getValue();
+                var sStartTime = that.getView().byId("startTimePicker").getValue();
+                var sFinishTime = that.getView().byId("finishTimePicker").getValue();
     
                 if (!sMarkingDate || !sStartTime || !sFinishTime) {
                     return false; 
