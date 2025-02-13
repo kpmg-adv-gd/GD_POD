@@ -58,19 +58,19 @@
                                     <FlexItemData growFactor="1" baseSize="0%"/>
                                 </t:layoutData>
                                     <t:columns> 
-                                        <t:Column sortProperty="operationActivity" filterProperty="operationActivity" width="40%">
+                                        <t:Column filterProperty="routingOperation/operationActivity/operationActivity" width="40%">
                                             <Label text="{i18n>mainPOD.table.operationActivity}"  />
                                             <t:template>
                                                 <Text wrapping="false" text="{PODOperationModel>routingOperation/operationActivity/operationActivity}"  />
                                             </t:template>
                                         </t:Column>
-                                        <t:Column sortProperty="description" filterProperty="description" width="40%">
+                                        <t:Column filterProperty="description" width="40%">
                                             <Label text="{i18n>mainPOD.table.operationDescription}"  />
                                             <t:template>
                                                 <Text wrapping="false" text="{PODOperationModel>description}"  />
                                             </t:template>
                                         </t:Column>
-                                        <t:Column sortProperty="status" width="10%"  hAlign="Center">
+                                        <t:Column sortProperty="QUANTITY" width="10%"  hAlign="Center">
                                             <Label text="{i18n>mainPOD.table.status}"  />
                                             <t:template>
                                                 <!-- in path bindo i dati da passare alla funzione del formatter -->
