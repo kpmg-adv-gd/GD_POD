@@ -2,12 +2,6 @@
     <Page title="{i18n>workInstruction.title}" class="kpmgGDPage" showHeader="false" enableScrolling="false">
         <VBox width="100%" height="100%" renderType="Bare">
             <t:Table id="workInstructionTable" rowSelectionChange="rowSelectionChange"  class="kpmgGDTable" alternateRowColors="true" rows="{WorkInstructionModel>/workInstructions}" selectionMode="Single" selectionBehavior="RowOnly" visibleRowCountMode="Auto" rowHeight="45px" >
-            <!-- extension PER AGGIUNGERE TITOLO TABELLA -->
-            <t:extension>
-                <Toolbar>
-                    <Title text="{i18n>workInstruction.table.title}" level="H1" />
-                </Toolbar>
-            </t:extension>
             <t:layoutData>
                 <FlexItemData growFactor="1" baseSize="0%"/>
             </t:layoutData>
