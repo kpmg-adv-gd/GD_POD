@@ -6,16 +6,16 @@
                 <!-- Header -->
                 <HBox width="100%" height="20%" class="markingHeaderContainer">
                     <HBox class="space">
-                        <Label text="{i18n>marking.header.label.WBS}" class="markingHeaderLabel markingLabel"></Label>
-                        <Label text="{pluginModel>/wbe}" class="markingLabel"></Label>
+                        <Label text="WBS Element" class="markingHeaderLabel markingLabel"></Label>
+                        <Label text="{MarkingPopupModel>/wbe}" class="markingLabel"></Label>
                     </HBox>
                     <HBox class="space">
-                        <Label text="{i18n>marking.header.label.SFC}" class="markingHeaderLabel markingLabel"></Label>
-                        <Label text="{pluginModel>/sfc}" class="markingLabel"></Label>
+                        <Label text="SFC" class="markingHeaderLabel markingLabel"></Label>
+                        <Label text="{MarkingPopupModel>/sfc}" class="markingLabel"></Label>
                     </HBox>
                     <HBox class="space">
-                        <Label text="{i18n>marking.header.label.order}" class="markingHeaderLabel markingLabel"></Label>
-                        <Label text="{pluginModel>/order}" class="markingLabel"></Label>
+                        <Label text="Order" class="markingHeaderLabel markingLabel"></Label>
+                        <Label text="{MarkingPopupModel>/order}" class="markingLabel"></Label>
                     </HBox>
                 </HBox>
 
@@ -23,16 +23,16 @@
                     <!-- Operazione e Numero Conferma -->
                     <VBox width="50%" height="30%" class="markingOperationContainer">
                         <HBox width="100%" height="50%" class="inputRow">
-                            <Label text="{i18n>marking.body.label.operation}" class="markingLabel"></Label>
-                            <Label text="{pluginModel>/operation}"></Label>
+                            <Label text="Operation" class="markingLabel"></Label>
+                            <Label text="{MarkingPopupModel>/operation}"></Label>
                         </HBox>
                         <HBox width="100%" height="50%" class="inputRow">
-                            <Label text="{i18n>marking.body.label.confirmationNumber}" class="markingLabel"></Label>
-                            <Label text="{pluginModel>/confirmNumber}"></Label>
+                            <Label text="Confirmation Number" class="markingLabel"></Label>
+                            <Label text="{MarkingPopupModel>/confirmNumber}"></Label>
                         </HBox>
                         <HBox width="100%" height="50%" class="inputRow">
-                            <Label text="{i18n>marking.body.label.personnelNumber}" class="markingLabel"></Label>
-                            <Label text="{pluginModel>/personnelNumber}"></Label>
+                            <Label text="Personnel Number" class="markingLabel"></Label>
+                            <Label text="{MarkingPopupModel>/personnelNumber}"></Label>
                         </HBox>
                     </VBox>
                     <VBox width="50%" height="30%" ></VBox>
@@ -42,16 +42,16 @@
                     <!-- Input principale -->
                     <VBox width="25%" class="markingInputLabel">
                         <HBox class="markingInputRow">
-                            <Label text="{i18n>marking.body.label.date}" class="markingLabel"></Label>
+                            <Label text="Marking Date" class="markingLabel"></Label>
                         </HBox>
                         <HBox class="markingInputRow">
-                            <Label text="{i18n>marking.body.label.start}" class="markingLabel"></Label>
+                            <Label text="Start Time" class="markingLabel"></Label>
                         </HBox>
                         <HBox class="markingInputRow">
-                            <Label text="{i18n>marking.body.label.end}" class="markingLabel"></Label>
+                            <Label text="Finish Time" class="markingLabel"></Label>
                         </HBox>
                         <HBox class="markingInputRow">
-                            <Label text="{i18n>marking.body.label.variance}" class="markingLabel"></Label>
+                            <Label text="Variance" class="markingLabel"></Label>
                         </HBox>
                     </VBox>
 
@@ -83,26 +83,26 @@
                     <!-- Ore previste/consuntivate/rimanenti -->
                     <VBox width="50%" class="markingHoursContainer">
                         <HBox class="markingHoursRow">
-                            <Label text="{i18n>marking.body.label.plannedLabor}" class="markingLabel"></Label>
-                            <Label text="{pluginModel>/plannedLabor}"></Label>
+                            <Label text="Planned Labor" class="markingLabel"></Label>
+                            <Label text="{MarkingPopupModel>/plannedLabor}"></Label>
                         </HBox>
                         <HBox class="markingHoursRow">
-                            <Label text="{i18n>marking.body.label.markedLabor}" class="markingLabel"></Label>
-                            <Label text="{pluginModel>/markedLabor}"></Label>
+                            <Label text="Marked Labor" class="markingLabel"></Label>
+                            <Label text="{MarkingPopupModel>/markedLabor}"></Label>
                         </HBox>
                         <HBox class="markingHoursRow">
-                            <Label text="{i18n>marking.body.label.remainingLabor}" class="markingLabel"></Label>
-                            <Label text="{pluginModel>/remainingLabor}"></Label>
+                            <Label text="Remaining Labor" class="markingLabel"></Label>
+                            <Label text="{MarkingPopupModel>/remainingLabor}"></Label>
                         </HBox>
                         <HBox class="markingHoursRow">
-                            <Label text="{i18n>marking.body.label.varianceLabor}" class="markingLabel"></Label>
-                            <Label text="{pluginModel>/varianceLabor}"></Label>
+                            <Label text="Variance Labor" class="markingLabel"></Label>
+                            <Label text="{MarkingPopupModel>/varianceLabor}"></Label>
                         </HBox>
                         
                         <!-- Bottoni -->
                         <HBox class="markingButtonContainer">
-                            <Button text="{i18n>marking.button.cancel}" type="Emphasized" press="onCloseDialog" />
-                            <Button text="{i18n>marking.button.confirm}" type="Emphasized" press="onConfirm" />
+                            <Button text="Cancel" type="Emphasized" press="onCloseDialog" />
+                            <Button text="Confirm" type="Emphasized" press="onConfirm" />
                         </HBox>
                     </VBox>
                 </HBox>    

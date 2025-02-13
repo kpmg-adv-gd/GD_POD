@@ -17,6 +17,21 @@ sap.ui.define([
                 that._initDialog("kpmg.custom.pod.GDPodCustom.GDPodCustom.view.popup.MarkingPopup", oView, that.MarkingPopupModel);        
                 that.openDialog();
             },
+
+            loadHeaderData: function () {
+                var that = this;
+                var infoModel = that.getInfoModel();
+    
+                const wbe = infoModel.getProperty("/selectedSFC/WBE") || "";
+                const sfc = infoModel.getProperty("/selectedSFC/sfc") || "";
+                const order = infoModel.getProperty("/selectedSFC/order") || "";
+                const operation = that.markOperation.routingOperation.operationActivity.operationActivity || "";
+    
+                that.MarkingPopupModel.setProperty("/wbe", wbe);
+                that.MarkingPopupModel.setProperty("/sfc", sfc);
+                that.MarkingPopupModel.setProperty("/order", order);
+                that.MarkingPopupModel.setProperty("/operation", operation);
+            }
         })
     }
 )
