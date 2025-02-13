@@ -75,13 +75,16 @@
     justify-content: end;
     align-items: center;
 }
-
-.headerMainPod {
-    justify-content: space-evenly;
+.headerBox{
+    justify-content: space-around;
+    align-items: center;
+}
+.headerContainerMainPod{
+    justify-content: space-between;
     align-items: center;
     padding-right: 0.5%;
-    background-color: white;
 }
+
 
 .headerBox .sapMLabel:not(.sapMLabelWrapped) .sapMLabelTextWrapper {
     display: inline-block;
