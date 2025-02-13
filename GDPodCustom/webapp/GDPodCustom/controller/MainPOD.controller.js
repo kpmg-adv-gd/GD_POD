@@ -165,7 +165,7 @@ sap.ui.define([
 
             
             let plant = that.getInfoModel().getProperty("/plant");
-            let operation = selectedOp?.routingOperation?.operationActivity?.operationActivity ?? "";
+            let operation = markOperation?.routingOperation?.operationActivity?.operationActivity ?? "";
             let userId = that.getInfoModel().getProperty("/user_id");
 
             let params = {
