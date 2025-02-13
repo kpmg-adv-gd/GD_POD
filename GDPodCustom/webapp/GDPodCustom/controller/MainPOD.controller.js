@@ -88,7 +88,7 @@ sap.ui.define([
 
             
             let plant = that.getInfoModel().getProperty("/plant");
-            let operation = selectedOp.routingOperation.operationActivity.operationActivity;
+            let operation = selectedOp?.routingOperation?.operationActivity?.operationActivity ?? "";
             let userId = that.getInfoModel().getProperty("/user_id");
 
             let params = {
@@ -120,7 +120,7 @@ sap.ui.define([
 
             
             let plant = that.getInfoModel().getProperty("/plant");
-            let operation = selectedOp.routingOperation.operationActivity.operationActivity;
+            let operation = selectedOp?.routingOperation?.operationActivity?.operationActivity ?? "";
             let userId = that.getInfoModel().getProperty("/user_id");
 
             let params = {
@@ -152,6 +152,45 @@ sap.ui.define([
             };
             // Callback di errore
             var errorCallback = function(error) {
+                console.log("Chiamata POST fallita:", error);
+            };
+            CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
+        },
+        checkCertificationMarker: function(markOperation){
+            var that=this;
+
+            let BaseProxyURL = that.getInfoModel().getProperty("/BaseProxyURL");
+            let pathAPICheckCertification = "/api/certification/v1/certifications/check";
+            let url = BaseProxyURL+pathAPICheckCertification;
+
+            
+            let plant = that.getInfoModel().getProperty("/plant");
+            let operation = selectedOp?.routingOperation?.operationActivity?.operationActivity ?? "";
+            let userId = that.getInfoModel().getProperty("/user_id");
+
+            let params = {
+                plant: plant,
+                operation: operation,
+                userId: userId
+            }
+
+            // Callback di successo
+            var successCallback = function(response) {
+                if (response?.isCertificationForbidden !== undefined && response?.isCertificationForbidden) {
+                    that.showErrorMessageBox(response?.errorMessage);
+                } else {
+                    let markOperation=that.getView().getModel("PODOperationModel").getProperty("/selectedOpMark");
+                    if(markOperation.QUANTITY.quantityDone == 1 || markOperation.QUANTITY.quantityInWork == 1 ){
+                        that.MarkingPopup.open(that.getView(), that, markOperation);
+                    } else {
+                        that.showErrorMessageBox(that.getI18n("mainPOD.errorMessage.operationNoMarking"));
+                    }
+                }
+                that.getView().getModel("PODOperationModel").setProperty("/selectedOpMark",undefined);
+            };
+            // Callback di errore
+            var errorCallback = function(error) {
+                that.getView().getModel("PODOperationModel").setProperty("/selectedOpMark",undefined);
                 console.log("Chiamata POST fallita:", error);
             };
             CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
@@ -305,8 +344,8 @@ sap.ui.define([
             let idMarkButton = oEvent.getParameter("id");
             let pathMarkOperation = sap.ui.getCore().byId(idMarkButton).getParent().getBindingContext("PODOperationModel").getPath();
             let markOperation = that.getView().getModel("PODOperationModel").getProperty(pathMarkOperation);
-
-            that.MarkingPopup.open(that.getView(), that, markOperation);
+            that.getView().getModel("PODOperationModel").setProperty("/selectedOpMark",markOperation);
+            that.checkCertificationMarker(markOperation);
 
         },
         onCollapse: function(){
