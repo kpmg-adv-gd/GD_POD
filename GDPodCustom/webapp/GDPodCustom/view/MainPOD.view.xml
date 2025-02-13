@@ -70,7 +70,7 @@
                                                 <Text wrapping="false" text="{PODOperationModel>description}"  />
                                             </t:template>
                                         </t:Column>
-                                        <t:Column sortProperty="QUANTITY" width="10%"  hAlign="Center">
+                                        <t:Column sortProperty="QUANTITY/quantityInWork" width="10%"  hAlign="Center">
                                             <Label text="{i18n>mainPOD.table.status}"  />
                                             <t:template>
                                                 <!-- in path bindo i dati da passare alla funzione del formatter -->

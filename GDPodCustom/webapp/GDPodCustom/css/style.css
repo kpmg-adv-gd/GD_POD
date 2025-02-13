@@ -25,7 +25,7 @@
 .kpmgTreeTable .sapUiTableCell .sapMText,
 .kpmgGDTable .sapUiTableCell .sapMLabel,
 .kpmgGDTable .sapUiTableCell .sapMText {
-  font-size: 105%;
+  font-size: 104%;
   user-select: text;
 }
 /* sapUiIcon classe sap di tutte le icone - setto la grandezza di tutte le icone nelle tabelle '*/

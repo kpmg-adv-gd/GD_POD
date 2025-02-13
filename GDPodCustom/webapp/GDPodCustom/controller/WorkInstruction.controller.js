@@ -60,6 +60,7 @@ sap.ui.define([
             };
             // Callback di errore
             var errorCallback = function(error) {
+                that.getView().getModel("WorkInstructionModel").setProperty("/workInstructions",undefined);
                 console.log("Chiamata POST fallita:", error);
             };
             CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
