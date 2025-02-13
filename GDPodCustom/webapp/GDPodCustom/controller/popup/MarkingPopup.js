@@ -134,7 +134,8 @@ sap.ui.define([
                 var that = this;
             
                 if (that.validate()) {
-                    that.MainPODcontroller.showToast(that.MainPODcontroller.getI18n("marking.success.message"))
+                    that.MainPODcontroller.showToast(that.MainPODcontroller.getI18n("marking.success.message"));
+                    that.onClosePopup();
                 } else {
                     that.MainPODcontroller.showErrorMessageBox(that.MainPODcontroller.getI18n("marking.error.message"));
                 }
