@@ -1,37 +1,37 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:html="http://www.w3.org/1999/xhtml" controllerName="kpmg.custom.pod.GDPodCustom.GDPodCustom.controller.popup.MarkingPopup" width="100%" height="100%">
-    <Dialog id="markingPopupDialog" title="{i18n>pod.title}" class="markingPopupDialog" showHeader="false"> 
+    <Dialog id="markingDialog" title="{i18n>marking.popup.title}" class="markingPopupDialog" showHeader="false"> 
         <content>
             <!-- Container principale -->
             <VBox width="100%" height="100%" renderType="Bare" class="mainContainer">
                 <!-- Header -->
-                <HBox width="100%" height="20%" class="headerContainer">
+                <HBox width="100%" height="20%" class="markingHeaderContainer">
                     <HBox class="space">
-                        <Label text="{i18n>pod.header.label.WBE}" class="headerLabel label"></Label>
-                        <Label text="{pluginModel>/wbe}" class="label"></Label>
+                        <Label text="{i18n>marking.header.label.WBS}" class="markingHeaderLabel markingLabel"></Label>
+                        <Label text="{pluginModel>/wbe}" class="markingLabel"></Label>
                     </HBox>
                     <HBox class="space">
-                        <Label text="{i18n>pod.header.label.SFC}" class="headerLabel label"></Label>
-                        <Label text="{pluginModel>/sfc}" class="label"></Label>
+                        <Label text="{i18n>marking.header.label.SFC}" class="markingHeaderLabel markingLabel"></Label>
+                        <Label text="{pluginModel>/sfc}" class="markingLabel"></Label>
                     </HBox>
                     <HBox class="space">
-                        <Label text="{i18n>pod.header.label.order}" class="headerLabel label"></Label>
-                        <Label text="{pluginModel>/order}" class="label"></Label>
+                        <Label text="{i18n>marking.header.label.order}" class="markingHeaderLabel markingLabel"></Label>
+                        <Label text="{pluginModel>/order}" class="markingLabel"></Label>
                     </HBox>
                 </HBox>
 
                 <HBox>
                     <!-- Operazione e Numero Conferma -->
-                    <VBox width="50%" height="30%" class="operationContainer">
+                    <VBox width="50%" height="30%" class="markingOperationContainer">
                         <HBox width="100%" height="50%" class="inputRow">
-                            <Label text="{i18n>pod.label.operation}" class="label"></Label>
+                            <Label text="{i18n>marking.body.label.operation}" class="markingLabel"></Label>
                             <Label text="{pluginModel>/operation}"></Label>
                         </HBox>
                         <HBox width="100%" height="50%" class="inputRow">
-                            <Label text="{i18n>pod.label.confirmNumber}" class="label"></Label>
+                            <Label text="{i18n>marking.body.label.confirmationNumber}" class="markingLabel"></Label>
                             <Label text="{pluginModel>/confirmNumber}"></Label>
                         </HBox>
                         <HBox width="100%" height="50%" class="inputRow">
-                            <Label text="{i18n>pod.label.personnelNumber}" class="label"></Label>
+                            <Label text="{i18n>marking.body.label.personnelNumber}" class="markingLabel"></Label>
                             <Label text="{pluginModel>/personnelNumber}"></Label>
                         </HBox>
                     </VBox>
@@ -40,69 +40,69 @@
 
                 <HBox width="100%" height="50%" renderType="Bare">
                     <!-- Input principale -->
-                    <VBox width="25%" class="inputLabel">
-                        <HBox class="inputRow">
-                            <Label text="{i18n>pod.body.label.date}" class="label"></Label>
+                    <VBox width="25%" class="markingInputLabel">
+                        <HBox class="markingInputRow">
+                            <Label text="{i18n>marking.body.label.date}" class="markingLabel"></Label>
                         </HBox>
-                        <HBox class="inputRow">
-                            <Label text="{i18n>pod.body.label.start}" class="label"></Label>
+                        <HBox class="markingInputRow">
+                            <Label text="{i18n>marking.body.label.start}" class="markingLabel"></Label>
                         </HBox>
-                        <HBox class="inputRow">
-                            <Label text="{i18n>pod.body.label.end}" class="label"></Label>
+                        <HBox class="markingInputRow">
+                            <Label text="{i18n>marking.body.label.end}" class="markingLabel"></Label>
                         </HBox>
-                        <HBox class="inputRow">
-                            <Label text="{i18n>pod.body.label.variance}" class="label"></Label>
+                        <HBox class="markingInputRow">
+                            <Label text="{i18n>marking.body.label.variance}" class="markingLabel"></Label>
                         </HBox>
                     </VBox>
 
-                    <VBox width="25%" class="inputContainer">
+                    <VBox width="25%" class="markingInputContainer">
                         <DateTimePicker 
-                            id="markingDate" 
+                            id="markingDatePicker" 
                             valueFormat="dd/MM/yyyy"
                             displayFormat="dd/MM/yyyy"
                             width="15rem" 
                             value="{/dateValue}" />
                         <TimePicker 
-                            id="startTime" 
+                            id="startTimePicker" 
                             valueFormat="HH:mm:ss"
                             displayFormat="HH:mm:ss"
                             width="15rem"  
                             value="{/dateValue}" />
                         <TimePicker 
-                            id="finishTime" 
+                            id="finishTimePicker" 
                             valueFormat="HH:mm:ss"
                             displayFormat="HH:mm:ss"
                             width="15rem" 
                             value="{/dateValue}" />
                         <HBox width="15rem" >
-                            <Label id="selectedDescriptionText" class="reasonDesc" />
-                            <Button id="varianza" press="onVarianceButtonPressed" icon="sap-icon://arrow-down" />
+                            <Label id="selectedVarianceText" class="markingReasonDesc" />
+                            <Button id="varianceButton" press="onVarianceButtonPressed" icon="sap-icon://arrow-down" />
                         </HBox>
                     </VBox>
 
                     <!-- Ore previste/consuntivate/rimanenti -->
-                    <VBox width="50%" class="hoursContainer">
-                        <HBox class="hoursRow">
-                            <Label text="{i18n>pod.body.label.plannedLabor}" class="label"></Label>
+                    <VBox width="50%" class="markingHoursContainer">
+                        <HBox class="markingHoursRow">
+                            <Label text="{i18n>marking.body.label.plannedLabor}" class="markingLabel"></Label>
                             <Label text="{pluginModel>/plannedLabor}"></Label>
                         </HBox>
-                        <HBox class="hoursRow">
-                            <Label text="{i18n>pod.body.label.markedLabor}" class="label"></Label>
+                        <HBox class="markingHoursRow">
+                            <Label text="{i18n>marking.body.label.markedLabor}" class="markingLabel"></Label>
                             <Label text="{pluginModel>/markedLabor}"></Label>
                         </HBox>
-                        <HBox class="hoursRow">
-                            <Label text="{i18n>pod.body.label.remainingLabor}" class="label"></Label>
+                        <HBox class="markingHoursRow">
+                            <Label text="{i18n>marking.body.label.remainingLabor}" class="markingLabel"></Label>
                             <Label text="{pluginModel>/remainingLabor}"></Label>
                         </HBox>
-                        <HBox class="hoursRow">
-                            <Label text="{i18n>pod.body.label.varianceLabor}" class="label"></Label>
+                        <HBox class="markingHoursRow">
+                            <Label text="{i18n>marking.body.label.varianceLabor}" class="markingLabel"></Label>
                             <Label text="{pluginModel>/varianceLabor}"></Label>
                         </HBox>
                         
                         <!-- Bottoni -->
-                        <HBox class="buttonContainer">
-                            <Button text="{i18n>pod.button.cancel}" type="Emphasized" press="onCloseDialog" />
-                            <Button text="{i18n>pod.button.confirm}" type="Emphasized" press="onConfirm" />
+                        <HBox class="markingButtonContainer">
+                            <Button text="{i18n>marking.button.cancel}" type="Emphasized" press="onCloseDialog" />
+                            <Button text="{i18n>marking.button.confirm}" type="Emphasized" press="onConfirm" />
                         </HBox>
                     </VBox>
                 </HBox>    
