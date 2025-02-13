@@ -8,22 +8,22 @@
     width="100%"
     height="100%"
 >
-    <Dialog id="markingDialog" title="Marking" class="markingPopupDialog" showHeader="true" contentHeight="400px"  contentWidth="800px" verticalScrolling="false" horizontalScrolling="false"> 
+    <Dialog id="markingDialog" title="Marking" class="markingPopupDialog" showHeader="true" contentHeight="450px"  contentWidth="900px" verticalScrolling="false" horizontalScrolling="false"> 
         <content>
             <!-- Container principale -->
-            <VBox width="100%" height="100%" renderType="Bare" alignContent="Center" justifyContent="Center">
+            <VBox width="100%" height="100%" renderType="Bare" alignItems="Center">
                 <!-- Header -->
-                <HBox width="90%" height="20%" renderType="Bare">
-                    <HBox renderType="Bare" alignItems="Center">
+                <HBox width="90%" height="20%" renderType="Bare" justifyContent="SpaceBetween">
+                    <HBox renderType="Bare" alignItems="Center" width="33%">
                         <Label text="WBS Element" class="markingHeaderLabel markingLabel sapUiSmallMarginEnd"/>
                         <Label text="{/wbe}" class="markingLabel"/>
                     </HBox>
-                    <HBox renderType="Bare" alignItems="Center">
+                    <HBox renderType="Bare" alignItems="Center" width="33%">
                         <Label text="SFC" class="markingHeaderLabel markingLabel sapUiSmallMarginEnd"/>
                         <Label text="{/sfc}" class="markingLabel"/>
                     </HBox>
-                    <HBox renderType="Bare" alignItems="Center">
-                        <Label text="Order" class="markingHeaderLabel markingLabel sapUiSmallMarginEnds"/>
+                    <HBox renderType="Bare" alignItems="Center" width="33%">
+                        <Label text="Order" class="markingHeaderLabel markingLabel sapUiSmallMarginEnd"/>
                         <Label text="{/order}" class="markingLabel"/>
                     </HBox>
                 </HBox>
