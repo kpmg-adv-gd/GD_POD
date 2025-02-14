@@ -14,6 +14,7 @@ sap.ui.define([
 		},
         onAfterRendering: function(){
             var that=this;
+            //Usando il Navigation entro nel onAfterRendering solo la prima volta - in questo caso non carico la tabella e non facico check sui filtri
             that.firstTimeEnterPodSelection=true;
         },
         onNavigateTo: function() {
@@ -140,6 +141,8 @@ sap.ui.define([
                 var selectedObject = oTable.getContextByIndex(selectedIndex).getObject();
                 that.getInfoModel().setProperty("/selectedSFC",selectedObject);
                 that.navToMainPODView();
+            } else {
+                that.getInfoModel().setProperty("/selectedSFC",undefined);
             }
         },
         //formatter per collonna status (ICONA) front-end

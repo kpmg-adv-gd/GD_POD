@@ -177,7 +177,7 @@ sap.ui.define([
             // Callback di successo
             var successCallback = function(response) {
                 if (response?.isCertificationForbidden !== undefined && response?.isCertificationForbidden) {
-                    that.showErrorMessageBox(response?.errorMessage);
+                    that.showErrorMessageBox(response?.errorMessage || "Certification Error");
                 } else {
                     let markOperation=that.getView().getModel("PODOperationModel").getProperty("/selectedOpMark");
                     if(markOperation.QUANTITY.quantityDone == 1 || markOperation.QUANTITY.quantityInWork == 1 ){
@@ -341,7 +341,7 @@ sap.ui.define([
         },
         onMarkPress: function(oEvent){
             var that=this;
-            let idMarkButton = oEvent.getParameter("id");
+            let idMarkButton = oEvent.getParameter("id") || "";
             let pathMarkOperation = sap.ui.getCore().byId(idMarkButton).getParent().getBindingContext("PODOperationModel").getPath();
             let markOperation = that.getView().getModel("PODOperationModel").getProperty(pathMarkOperation);
             that.getView().getModel("PODOperationModel").setProperty("/selectedOpMark",markOperation);
