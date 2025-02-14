@@ -53,6 +53,17 @@ sap.ui.define([
             };
             CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
         },
+        onExpandAll: function() {
+            var that=this;
+			var oTreeTable = this.byId("treeTable");
+			oTreeTable.expandToLevel(1);
+			oTreeTable.expandToLevel(2);
+		},
+        onCollapseAll: function() {
+            var that=this;
+			var oTreeTable = this.byId("treeTable");
+			oTreeTable.collapseAll();
+		},
         toggleBusyIndicator: function () {
             var that = this;
             var busyState = that.treeTable.getBusy();

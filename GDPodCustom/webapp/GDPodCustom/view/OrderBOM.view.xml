@@ -6,6 +6,14 @@
                     <t:layoutData>
                         <FlexItemData growFactor="1" baseSize="0%"/>
                     </t:layoutData>
+                    <t:extension>
+                    <m:OverflowToolbar style="Clear">
+                        <m:Title text="Clothing"/>
+                        <m:ToolbarSpacer/>
+                        <m:Button text="Collapse All" press="onCollapseAll"/>
+                        <m:Button text="Expand All" press="onExpandAll"/>
+                    </m:OverflowToolbar>
+                    </t:extension>
                     <t:columns>
                         <t:Column width="60%">
                             <Label text="{i18n>orderBOM.treeTable.material}"/>
@@ -13,7 +21,6 @@
                                 <Text text="{BomModel>Material}"/>
                             </t:template>
                         </t:Column>
-                        
                         <t:Column width="20%">
                             <Label text="{i18n>orderBOM.treeTable.quantity}"/>
                             <t:template>
