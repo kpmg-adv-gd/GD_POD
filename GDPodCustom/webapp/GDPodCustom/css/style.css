@@ -261,10 +261,10 @@
 }
 
 /* MARKING POPUP */
-.markingPopupDialog {
+/* .markingPopupDialog {
     height: 400px;
     width: 800px;
-}
+} */
 
 .markingLabel {
     font-weight: bold;
@@ -299,10 +299,10 @@
     margin-right: 4rem;
 }
 
-.markingInputLabel {
+/* .markingInputLabel {
     gap: 0.3rem;
     margin-top: 0.3rem;
-}
+} */
 
 .markingInputRow {
     display: flex;
@@ -342,4 +342,8 @@
     margin-right: 0.3rem;
     width: 12.7rem;
     height: 1.6rem;
+}
+
+.markingLabelWidth7Rem {
+    width: 7rem;
 }
