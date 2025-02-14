@@ -162,7 +162,7 @@
     justify-content: start;
 }
 .collapseExpandIcon{
-    height: 100% !important;
+    height: 30% !important;
     padding: 0 !important;
 }
 /* GRANDEZZA ICONE EXPAND/COLLPASE CONTAINER */
@@ -175,14 +175,6 @@
     box-shadow: none !important;
 }
 
-.collapseExpandIcon .sapMBtnIcon.sapMBtnIconLeft{
-    background-color: inherit !important;
-    border-color: inherit !important;
-    color: inherit !important;
-    box-shadow: none !important;
-    opacity: 1 !important;
-    filter: none !important;
-}
 
 .rightIconsBox{
     width: 10%;
