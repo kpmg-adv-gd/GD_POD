@@ -201,13 +201,6 @@
     overflow: visible !important;
 }
 
-
-
-
-
-
-
-
 /* LABEL */
 
 .kpmgGDSmallLabel {
@@ -260,48 +253,20 @@
     height: 100%;
 }
 
-/* MARKING POPUP */
-.markingPopupDialog {
-    height: 400px;
-    width: 800px;
-}
-
 .markingLabel {
     font-weight: bold;
 }
 
-/* Allineamento Header */
-/* .markingHeaderContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    gap: 3rem;
-    margin-bottom: 1rem;
-} */
 
 .markingHeaderLabel {
     font-size: 1rem;
     color: #ca0b30;
 }
 
-/* Operazione e Numero Conferma */
-/* .markingOperationContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-} */
-
 /* Input e Label */
 .markingInputContainer {
     margin-left: 1rem;
     margin-right: 4rem;
-}
-
-.markingInputLabel {
-    gap: 0.3rem;
-    margin-top: 0.3rem;
 }
 
 .markingInputRow {
@@ -326,14 +291,6 @@
     align-items: center;
 }
 
-/* Bottoni */
-/* .markingButtonContainer {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-    margin-top: 0.5rem;
-} */
-
 .markingReasonDesc {
     border: solid 1px grey;
     background-color: white;
@@ -342,4 +299,12 @@
     margin-right: 0.3rem;
     width: 12.7rem;
     height: 1.6rem;
+}
+
+.markingLabelWidth7Rem {
+    width: 7rem;
+}
+
+.markingLabelWidth10Rem {
+    width: 10rem;
 }
