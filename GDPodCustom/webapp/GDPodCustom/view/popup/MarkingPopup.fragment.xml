@@ -11,9 +11,9 @@
     <Dialog id="markingDialog" title="Marking" showHeader="true" contentHeight="450px"  contentWidth="900px" verticalScrolling="false" horizontalScrolling="false"> 
         <content>
             <!-- Container principale -->
-            <VBox width="100%" height="100%" renderType="Bare" alignItems="Center">
+            <VBox width="100%" height="100%" renderType="Bare" alignItems="Center" justifyContent="SpaceBetween">
                 <!-- Header -->
-                <HBox width="90%" height="20%" renderType="Bare" justifyContent="SpaceBetween">
+                <HBox width="90%" height="15%" renderType="Bare" justifyContent="SpaceBetween">
                     <HBox renderType="Bare" alignItems="Center" width="33%">
                         <Label text="WBS Element" class="markingHeaderLabel markingLabel sapUiSmallMarginEnd"/>
                         <Label text="{/wbe}" class="markingLabel"/>
@@ -29,24 +29,24 @@
                 </HBox>
 
                 <!-- Operazione e Numero Conferma -->
-                <VBox width="90%" height="30%" renderType="Bare">
-                    <HBox width="100%" renderType="Bare">
-                        <Label text="Operation" class="markingLabel markingLabelWidth7Rem sapUiSmallMarginEnd"/>
+                <VBox width="90%" height="15%" renderType="Bare" justifyContent="SpaceBetween">
+                    <HBox width="100%" renderType="Bare" alignItems="Center">
+                        <Label text="Operation" class="markingLabel markingLabelWidth10Rem sapUiSmallMarginEnd"/>
                         <Label text="{/operation}"/>
                     </HBox>
-                    <HBox width="100%" renderType="Bare">
-                        <Label text="Confirmation Number" class="markingLabel markingLabelWidth7Rem sapUiSmallMarginEnd"/>
+                    <HBox width="100%" renderType="Bare" alignItems="Center">
+                        <Label text="Confirmation Number" class="markingLabel markingLabelWidth10Rem sapUiSmallMarginEnd"/>
                         <Label text="{/confirmNumber}"/>
                     </HBox>
-                    <HBox width="100%" renderType="Bare">
-                        <Label text="Personnel Number" class="markingLabel markingLabelWidth7Rem sapUiSmallMarginEnd"/>
+                    <HBox width="100%" renderType="Bare" alignItems="Center">
+                        <Label text="Personnel Number" class="markingLabel markingLabelWidth10Rem sapUiSmallMarginEnd"/>
                         <Label text="{/personnelNumber}"/>
                     </HBox>
                 </VBox>
 
-                <HBox width="90%" height="40%" renderType="Bare">
+                <HBox width="90%" height="35%" renderType="Bare" justifyContent="SpaceBetween">
                     <!-- Input principale -->
-                    <VBox width="50%" class="markingInputLabel" renderType="Bare">
+                    <VBox width="50%"  renderType="Bare">
                         <HBox renderType="Bare" alignItems="Center">
                             <Label text="Marking Date" class="markingLabel markingLabelWidth7Rem"/>
                             <DateTimePicker 
@@ -72,14 +72,14 @@
                                 width="15rem"/>
                         </HBox>
                         <HBox renderType="Bare" alignItems="Center">
-                            <Label text="Variance" class="markingLabel"/>
-                            <Label id="selectedVarianceText" class="markingReasonDesc" />
+                            <Label text="Variance" class="markingLabel markingLabelWidth7Rem"/>
+                            <Label id="selectedVarianceText" class="markingReasonDesc"/>
                             <Button id="varianceButton" press="onVarianceButtonPressed" icon="sap-icon://arrow-down" />
                         </HBox>
                     </VBox>
 
                     <!-- Ore previste/consuntivate/rimanenti -->
-                    <VBox width="50%" class="markingHoursContainer" renderType="Bare">
+                    <VBox width="30%" class="markingHoursContainer" renderType="Bare">
                         <HBox class="markingHoursRow">
                             <Label text="Planned Labor" class="markingLabel"/>
                             <Label text="{/plannedLabor}"/>
@@ -100,7 +100,7 @@
                 </HBox>
                 
                 <HBox width="90%" height="10%"  renderType="Bare" alignItems="Center" justifyContent="End">
-                    <Button text="Cancel" type="Emphasized" press="onClosePopup" />
+                    <Button text="Cancel" type="Emphasized" press="onClosePopup" class="sapUiSmallMarginEnd" />
                     <Button text="Confirm" type="Emphasized" press="onConfirm" />
                 </HBox> 
             </VBox>
