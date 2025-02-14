@@ -308,3 +308,7 @@
 .markingLabelWidth10Rem {
     width: 10rem;
 }
+
+.boldClass{
+    font-weight: bold;
+}
