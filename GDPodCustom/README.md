@@ -74,6 +74,8 @@ Questo progetto è stato progettato per essere:
 
 ## 💡 Prossimi sviluppi
 🚀 **Integrare il supporto per API Key nella CommonCallManager** → Migliorare la sicurezza nella comunicazione tra front-end e back-end, garantendo che solo richieste autorizzate possano essere elaborate.
+<br>
+
 ⚙️ **Migliorare la `callProxy` della CommonCallManager** → Estendere i parametri passati per:  
 - **Gestire l'apparizione del MessageBox di errore** → Attualmente viene sempre mostrato in caso di errore.  
 - **Aggiungere e gestire il BusyLoading** → Evitare blocchi dell’interfaccia durante l'attesa della risposta.  
