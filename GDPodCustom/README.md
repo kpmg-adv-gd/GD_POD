@@ -1,7 +1,7 @@
 # 🚀 POD di GD - SAPUI5
 
 Benvenuto nel **POD di GD**, un'applicazione SAPUI5 progettata per gestire la navigazione tra viste con un'architettura scalabile e modulare.  
-Il progetto utilizza un **navigator** per il routing interno e centralizza funzioni comuni in un **BaseController**, garantendo una gestione efficiente della logica di navigazione e delle chiamate AJAX.  
+Il progetto utilizza un **navigator** per il routing interno, una **CommonCallManager** per gestire facilmente e ugulamente chiamate ajax e centralizza funzioni comuni in un **BaseController**, garantendo una gestione efficiente della logica di navigazione.
 
 ## 📌 Struttura dell'Applicazione
 
@@ -50,3 +50,30 @@ Questa funzione accetta i seguenti parametri:
 
 ```js
 callProxy(type, url, params, isAsync, successCallback, errorCallback, oContext)
+
+| Chiave             | Descrizione |
+|--------------------|------------|
+| **type**   | Tipo di chiamata: può essere "GET" o "POST". |
+| **url**        | Per callProxy, è sempre costruito come BaseProxyUrl + path dell API (MDO, PostgresDB, ecc.) |
+| **params**         | Oggetto JSON contenente i parametri da inviare nel body della richiesta. |
+| **isAsync **   | Booleano per gestire chiamata sincrona/asincrona |
+| **successCallback/errorCallback** | Funzioni di callback di successo/errore della chiamata |
+| **oContext** |  Il contesto da cui viene chiamata la funzione, utile per accedere corretamente alle callback passate |
+
+---
+
+## 🎯 Conclusione
+Questo progetto è stato progettato per essere:
+
+✅ **Scalabile** → Facilmente estendibile con nuove viste  
+✅ **Modulare** → Navigazione e chiamate centralizzate  
+✅ **Manutenibile** → Struttura chiara e codice riutilizzabile  
+
+---
+
+## 💡 Prossimi sviluppi
+⚙️ **Migliorare la `callProxy` della CommonCallManager** → Estendere i parametri passati per:  
+- **Gestire l'apparizione del MessageBox di errore** → Attualmente viene sempre mostrato in caso di errore.  
+- **Aggiungere e gestire il BusyLoading** → Evitare blocchi dell’interfaccia durante l'attesa della risposta.  
+🚀 **Integrare il supporto per API Key nella CommonCallManager** → Migliorare la sicurezza nella comunicazione tra front-end e back-end, garantendo che solo richieste autorizzate possano essere elaborate.
+
