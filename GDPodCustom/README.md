@@ -1,7 +1,6 @@
 # 🚀 POD di GD - SAPUI5
 
-Benvenuto nel **POD di GD**, un'applicazione SAPUI5 progettata per gestire la navigazione tra viste con un'architettura scalabile e modulare.  
-Il progetto utilizza un **navigator** per il routing interno, una **CommonCallManager** per gestire facilmente e ugulamente chiamate ajax e centralizza funzioni comuni in un **BaseController**, garantendo una gestione efficiente della logica di navigazione.
+Benvenuto nel **POD di GD**, una componente SAPUI5 integrata in un sistema MES (Manufacturing Execution System). Questo modulo è progettato per gestire la navigazione tra viste in modo scalabile e modulare. Utilizza un **navigator** per il routing interno, una **CommonCallManager** per semplificare e standardizzare le chiamate AJAX, e centralizza le funzioni comuni in un **BaseController**, assicurando una gestione ottimale della logica di navigazione e delle interazioni con il sistema.
 
 ## 📌 Struttura dell'Applicazione
 
