@@ -50,6 +50,7 @@ Questa funzione accetta i seguenti parametri:
 
 ```js
 callProxy(type, url, params, isAsync, successCallback, errorCallback, oContext)
+```
 
 | Chiave             | Descrizione |
 |--------------------|------------|
