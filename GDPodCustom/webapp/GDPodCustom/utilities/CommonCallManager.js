@@ -5,7 +5,8 @@ sap.ui.define([
     "use strict";
     
     var CommonCallManager = {
-        callProxy: function(type, url, params, isAsync, successCallback, errorCallback, oContext) {
+        callProxy: function(type, url, params, isAsync, successCallback, errorCallback, oContext, preventErrorMessageBox, showBusyLoading) {
+            //let appKey=oContext.getInfoModel().getProperty("/appKey");
             // Controllo validità del tipo di richiesta
             if (type !== "GET" && type !== "POST") {
                 // Richiama la callback di errore il tipo di chiamata non è supportato
@@ -18,10 +19,15 @@ sap.ui.define([
                 return; // Termina l'esecuzione
             }
 
+            if(showBusyLoading){
+                sap.ui.core.BusyIndicator.show(0);
+            }
+
             // Configura gli header
             var oHeaders = {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
                 "Accept": "application/json"
+                // 'x-app-key': appKey
             };
 
             // Configura la chiamata AJAX
@@ -35,6 +41,7 @@ sap.ui.define([
                         //.call permette di specificare il contesto con cui essere eseguita
                         successCallback.call(oContext || this, response);
                     }
+                    sap.ui.core.BusyIndicator.hide();
                 },
                 error: function(error) {
                     // Recupera il messaggio di errore
@@ -42,18 +49,22 @@ sap.ui.define([
                     if (errorCallback) {
                         errorCallback.call(oContext || this, error?.responseJSON?.error);
                     }
-                    // Mostra il messaggio di errore come MessageBox
-                    MessageBox.error(errorMessage, {
-                        title: "Error",
-                        onClose: function() {
-                        }
-                    });
+                    if(!preventErrorMessageBox){
+                        // Mostra il messaggio di errore come MessageBox
+                        MessageBox.error(errorMessage, { 
+                            title: "Error",
+                            onClose: function() {
+                            }
+                        });
+                    }
+                    sap.ui.core.BusyIndicator.hide();
                 }
             };
 
             if (type === "POST" && params) {
                 settings.data = JSON.stringify(params); // Aggiungi i parametri per POST
             }
+
 
             // Esegui la chiamata
             jQuery.ajax(settings);

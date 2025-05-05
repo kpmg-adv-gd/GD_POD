@@ -8,6 +8,8 @@ sap.ui.define([
     "use strict";
 
     return PluginViewController.extend("kpmg.custom.pod.GDPodCustom.GDPodCustom.controller.BaseController", {
+        PodSelectionView: "kpmg.custom.pod.GDPodCustom.GDPodCustom.view.PODSelection",
+        MainPODView: "kpmg.custom.pod.GDPodCustom.GDPodCustom.view.MainPOD",
         onInit: function(){
             PluginViewController.prototype.onInit.apply(this, arguments);
             this.setInfoModel();
@@ -17,50 +19,31 @@ sap.ui.define([
             this.getInfoModel().setProperty("/oNavContainer",oNavContainer);
         },
         navToPODSelectionView: function(){
+            this.navToTargetView(this.PodSelectionView);
+        },
+        navToMainPODView: function () {
+            this.navToTargetView(this.MainPODView);
+        },
+        navToTargetView: function(targetView){
             let oNavContainer = this.getInfoModel().getProperty("/oNavContainer");
             // Controlla se la MainPODView è già presente nel NavContainer
-            let oPODSelectionView = oNavContainer.getPages().find(function (oPage) {
-                return oPage.getViewName() === "kpmg.custom.pod.GDPodCustom.GDPodCustom.view.PODSelection";
+            let oTargetView = oNavContainer.getPages().find(function (oPage) {
+                return oPage.getViewName() === targetView;
             });
-            if (oPODSelectionView) {
+            if (oTargetView) {
                 // Se la vista è già caricata, naviga verso di essa
-                this.onNavigate(oNavContainer,oPODSelectionView);
+                this.onNavigate(oNavContainer,oTargetView);
             } else {
                 // Carica e naviga verso la SelectionView
                 XMLView.create({
-                    viewName: "kpmg.custom.pod.GDPodCustom.GDPodCustom.view.PODSelection"
-                }).then(function(oPODSelectionView) {
+                    viewName: targetView
+                }).then(function(oTargetView) {
                     // Aggiungi la SelectionView al NavContainer
-                    oNavContainer.addPage(oPODSelectionView);
+                    oNavContainer.addPage(oTargetView);
                     // Naviga verso la SelectionView
-                    this.onNavigate(oNavContainer,oPODSelectionView);
+                    this.onNavigate(oNavContainer,oTargetView);
                 }.bind(this));
             }
-
-        },
-        navToMainPODView: function () {
-            let oNavContainer = this.getInfoModel().getProperty("/oNavContainer");
-        
-            // Controlla se la MainPODView è già presente nel NavContainer
-            let oMainPODView = oNavContainer.getPages().find(function (oPage) {
-                return oPage.getViewName() === "kpmg.custom.pod.GDPodCustom.GDPodCustom.view.MainPOD";
-            });
-        
-            if (oMainPODView) {
-                // Se la vista è già caricata, naviga verso di essa
-                this.onNavigate(oNavContainer,oMainPODView);
-            } else {
-                // Se non è caricata, creala e aggiungila
-                XMLView.create({
-                    viewName: "kpmg.custom.pod.GDPodCustom.GDPodCustom.view.MainPOD"
-                }).then(function (oMainPODView) {
-                    // Aggiungi la MainPODView al NavContainer
-                    oNavContainer.addPage(oMainPODView);
-                    // Naviga verso la MainPODView
-                    this.onNavigate(oNavContainer,oMainPODView);
-                }.bind(this));
-            }
-            //chiama la callBack 
         },
         onNavigate: function (oNavContainer,oTargetView) {
             oNavContainer.to(oTargetView);
@@ -81,6 +64,8 @@ sap.ui.define([
             this.getInfoModel().setProperty("/BaseProxyURL",this.getConfiguration().BaseProxyURL);
             this.getInfoModel().setProperty("/plant",this.getConfiguration().Plant);
             this.getInfoModel().setProperty("/user_id",this.getUserId());
+            this.getInfoModel().setProperty("/appKey",this.getConfiguration().appKey);
+            this.getInfoModel().setProperty("/MarkingWorkCentersListEnabled",this.getConfiguration().MarkingWorkCentersListEnabled);
         },
         // Funzione per mostrare un messaggio di toast
         showToast: function(sMessage) {

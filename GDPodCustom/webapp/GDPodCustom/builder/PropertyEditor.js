@@ -21,6 +21,8 @@ sap.ui.define([
 						
 			this.addInputField(oPropertyFormContainer, "BaseProxyURL", oData);
 			this.addInputField(oPropertyFormContainer, "Plant", oData);
+			this.addInputField(oPropertyFormContainer, "appKey", oData);
+			this.addInputField(oPropertyFormContainer, "MarkingWorkCentersListEnabled", oData);
 
             oFormContainer = oPropertyFormContainer;
 		},
@@ -28,7 +30,9 @@ sap.ui.define([
 		getDefaultPropertyData: function(){
 			return {
 				"BaseProxyURL": "https://proxy_server_gd_dm.cfapps.eu20-001.hana.ondemand.com",
-				"Plant": "GD03"
+				"Plant": "GD03",
+				"appKey": "f39d82a2f36f5ac8f8322a3d7c409d02a6f0e7d4b2181d09d243d70fe232c8cd",
+				"MarkingWorkCentersListEnabled": "GD03"
 			};
 		}
 

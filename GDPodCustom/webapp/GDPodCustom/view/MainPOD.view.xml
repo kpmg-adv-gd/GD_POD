@@ -53,21 +53,45 @@
                             </HBox>                          
                             <!-- TABELLA OPERAZIONI -->
                             <VBox width="100%" height="100%" renderType="Bare">
-                                <t:Table id="podOperationTable" rowSelectionChange="rowSelectionChange"  class="kpmgGDTable mediumPaddingTable" rows="{PODOperationModel>/operations}" selectionMode="Single" selectionBehavior="RowOnly" visibleRowCountMode="Auto" rowHeight="45px" >
+                                <t:Table id="podOperationTable" busy="{PODOperationModel>/BusyLoadingOpTable}" rowSelectionChange="rowSelectionChange"  class="kpmgGDTable mediumPaddingTable" rows="{PODOperationModel>/operations}" selectionMode="Single" selectionBehavior="RowOnly" visibleRowCountMode="Auto" rowHeight="45px" >
                                 <t:layoutData>
                                     <FlexItemData growFactor="1" baseSize="0%"/>
                                 </t:layoutData>
-                                    <t:columns> 
-                                        <t:Column filterProperty="routingOperation/operationActivity/operationActivity" width="40%">
+                                <t:rowSettingsTemplate>
+                                    <t:RowSettings highlight="{= ${PODOperationModel>workCenter/workCenter} !== ${PODSfcModel>/WORKCENTER} ? 'Error' : 'None' }"/>   
+                                </t:rowSettingsTemplate>
+                                    <t:columns>
+                                        <t:Column filterProperty="routingOperation/operationActivity/operationActivity" width="35%">
                                             <Label text="{i18n>mainPOD.table.operationActivity}"  />
                                             <t:template>
-                                                <Text wrapping="false" text="{PODOperationModel>routingOperation/operationActivity/operationActivity}"  />
+                                            <HBox>
+                                                <customData>
+                                                    <core:CustomData key="opacityExternalOp" value="{= ${PODOperationModel>workCenter/workCenter} !== ${PODSfcModel>/WORKCENTER} ? 'Mismatch' : 'Match' }"  writeToDom="true"/>
+                                                </customData>
+                                                <Text wrapping="false" text="{PODOperationModel>routingOperation/operationActivity/operationActivity}" />
+                                            </HBox>
                                             </t:template>
                                         </t:Column>
-                                        <t:Column filterProperty="description" width="40%">
+                                        <t:Column filterProperty="description" width="35%">
                                             <Label text="{i18n>mainPOD.table.operationDescription}"  />
                                             <t:template>
+                                            <HBox>
+                                                <customData>
+                                                    <core:CustomData key="opacityExternalOp" value="{= ${PODOperationModel>workCenter/workCenter} !== ${PODSfcModel>/WORKCENTER} ? 'Mismatch' : 'Match' }"  writeToDom="true"/>
+                                                </customData>
                                                 <Text wrapping="false" text="{PODOperationModel>description}"  />
+                                                </HBox>
+                                            </t:template>     
+                                        </t:Column>
+                                       <t:Column filterProperty="workCenter/workCenter" width="10%" hAlign="Center">
+                                            <Label text="{i18n>mainPOD.table.workcenter}"  />
+                                            <t:template>
+                                                <HBox renderType="Bare" justifyContent="Center">
+                                                    <customData>
+                                                        <core:CustomData key="opacityExternalOp" value="{= ${PODOperationModel>workCenter/workCenter} !== ${PODSfcModel>/WORKCENTER} ? 'Mismatch' : 'Match' }"  writeToDom="true"/>
+                                                    </customData>
+                                                    <Text wrapping="false" text="{PODOperationModel>workCenter/workCenter}"  />
+                                                </HBox>
                                             </t:template>
                                         </t:Column>
                                         <t:Column sortProperty="QUANTITY/quantityInWork" width="10%"  hAlign="Center">
@@ -81,6 +105,9 @@
                                             <Label text="{i18n>mainPOD.table.marking}"  />
                                             <t:template>
                                                 <HBox width="100%" justifyContent="Center">
+                                                    <customData>
+                                                        <core:CustomData key="opacityExternalOp" value="{= ${PODOperationModel>workCenter/workCenter} !== ${PODSfcModel>/WORKCENTER} ? 'Mismatch' : 'Match' }"  writeToDom="true"/>
+                                                    </customData>
                                                     <Button text="Mark" width="100%" press="onMarkPress" />
                                                 </HBox>
                                             </t:template>

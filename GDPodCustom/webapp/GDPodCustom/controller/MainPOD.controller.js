@@ -40,6 +40,8 @@ sap.ui.define([
             let workcenter = that.getView().getModel("PODSfcModel").getProperty("/WORKCENTER");
             let selectedSfcRouting = that.getView().getModel("PODSfcModel").getProperty("/routing");
             let plant = that.getInfoModel().getProperty("/plant");
+            let orderType = that.getView().getModel("PODSfcModel").getProperty("/ORDER_TYPE")
+            that.getView().getModel("PODOperationModel").setProperty("/BusyLoadingOpTable",true);
 
             let params = {
                 plant: plant,
@@ -48,14 +50,17 @@ sap.ui.define([
                 routing: selectedSfcRouting.routing,
                 type: selectedSfcRouting.type,
                 version: selectedSfcRouting.version,
+                orderType: orderType
             }
 
             // Callback di successo
             var successCallback = function(response) {
                 that.getView().getModel("PODOperationModel").setProperty("/operations",response.result);
+                that.getView().getModel("PODOperationModel").setProperty("/BusyLoadingOpTable",false);
             };
             // Callback di errore
             var errorCallback = function(error) {
+                that.getView().getModel("PODOperationModel").setProperty("/BusyLoadingOpTable",false);
                 console.log("Chiamata POST fallita:", error);
             };
             CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
@@ -177,13 +182,15 @@ sap.ui.define([
             // Callback di successo
             var successCallback = function(response) {
                 if (response?.isCertificationForbidden !== undefined && response?.isCertificationForbidden) {
-                    that.showErrorMessageBox(response?.errorMessage || "Certification Error");
+                    that.MarkingPopup.open(that.getView(), that, markOperation, false);
+                    that.showToast(response?.errorMessage || "Certification Error");
                 } else {
                     let markOperation=that.getView().getModel("PODOperationModel").getProperty("/selectedOpMark");
                     if(markOperation.QUANTITY.quantityDone == 1 || markOperation.QUANTITY.quantityInWork == 1 ){
-                        that.MarkingPopup.open(that.getView(), that, markOperation);
+                        that.MarkingPopup.open(that.getView(), that, markOperation, true);
                     } else {
-                        that.showErrorMessageBox(that.getI18n("mainPOD.errorMessage.operationNoMarking"));
+                        that.MarkingPopup.open(that.getView(), that, markOperation, false);
+                        that.showToast(that.getI18n("mainPOD.errorMessage.operationNoMarking"));
                     }
                 }
                 that.getView().getModel("PODOperationModel").setProperty("/selectedOpMark",undefined);
@@ -239,14 +246,20 @@ sap.ui.define([
             let url = BaseProxyURL+pathAPICompleteOperation;
 
             let plant = that.getInfoModel().getProperty("/plant");
+            let project = that.getInfoModel().getProperty("/selectedSFC/COMMESSA");
             let selectedOperation = that.getInfoModel().getProperty("/selectedOperation");
             let operation = selectedOperation.routingOperation.operationActivity.operationActivity;
             let resource = selectedOperation.RESOURCE;
+            let order = that.getInfoModel().getProperty("/selectedSFC/order");
+            let orderMaterial = that.getInfoModel().getProperty("/selectedSFC/material/material");
             let sfc = that.getView().getModel("PODSfcModel").getProperty("/sfc");
             
 
             let params = {
                 plant: plant,
+                project: project,
+                order: order,
+                orderMaterial: orderMaterial,
                 operation: operation,
                 resource: resource,
                 sfc: sfc
@@ -274,7 +287,13 @@ sap.ui.define([
             var selectedIndexOperation = oTable.getSelectedIndex();
             //Tutte le volte in cui ho selezionato (e non deselezionato)
             if( selectedIndexOperation !== -1 ){
+                var workcenter=that.getView().getModel("PODSfcModel").getProperty("/WORKCENTER");
                 var selectedObject = oTable.getContextByIndex(selectedIndexOperation).getObject();
+                if(selectedObject.workCenter.workCenter!==workcenter){
+                    oTable.setSelectedIndex(-1);
+                    that.getInfoModel().setProperty("/selectedOperation",undefined);
+                    return;
+                }
                 that.getInfoModel().setProperty("/selectedOperation",selectedObject);
             } else {
                 that.getInfoModel().setProperty("/selectedOperation",undefined);
@@ -345,8 +364,25 @@ sap.ui.define([
             let pathMarkOperation = sap.ui.getCore().byId(idMarkButton).getParent().getBindingContext("PODOperationModel").getPath();
             let markOperation = that.getView().getModel("PODOperationModel").getProperty(pathMarkOperation);
             that.getView().getModel("PODOperationModel").setProperty("/selectedOpMark",markOperation);
-            that.checkCertificationMarker(markOperation);
+            that.getMarkingEnabled(markOperation);
+            
 
+        },
+        getMarkingEnabled: function(markOperation){
+            var that=this;
+            var actualWC = that.getInfoModel().getProperty("/selectedSFC/WORKCENTER");
+            var activeWCsString = that.getInfoModel().getProperty("/MarkingWorkCentersListEnabled");
+            var activeWCsArray = activeWCsString.split(";");
+            if(!activeWCsArray.includes(actualWC)){
+                that.MarkingPopup.open(that.getView(), that, markOperation, false);
+            } else{
+                if(actualWC !== markOperation.workCenter.workCenter){
+                    that.MarkingPopup.open(that.getView(), that, markOperation, false);
+                    that.showToast(that.getI18n("mainPOD.errorMessage.noWorkCenter.markingPopup"));
+                } else{
+                    that.checkCertificationMarker(markOperation);
+                }
+            }
         },
         onCollapse: function(){
             var that=this;

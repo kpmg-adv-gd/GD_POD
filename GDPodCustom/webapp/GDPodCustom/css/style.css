@@ -253,10 +253,6 @@
     height: 100%;
 }
 
-.markingLabel {
-    font-weight: bold;
-}
-
 
 .markingHeaderLabel {
     font-size: 1rem;
@@ -301,14 +297,47 @@
     height: 1.6rem;
 }
 
-.markingLabelWidth7Rem {
-    width: 7rem;
+
+.markingSmallLabel,
+.markingMediumLabel {
+    font-weight: bold;
 }
 
-.markingLabelWidth10Rem {
-    width: 10rem;
+.markingMediumLabelValue.sapMLabel,
+.markingMediumLabel.sapMLabel{
+    font-size: 1.1rem;
+}
+.inputWidth2Percentage{
+    width: 2% !important;
+}
+.markingSmallLabelValue.sapMLabel,
+.markingSmallLabel.sapMLabel{
+    font-size: 1rem;
+}
+.markingSmallLabelWidth9Rem {
+    width: 9rem;
+}
+
+.markingSmallLabelWidth13Rem {
+    width: 13rem;
+}
+
+.markingMediumLabelWidth9Rem {
+    width: 9rem;
+}
+
+.markingMediumLabelWidth13Rem {
+    width: 13rem;
+}
+
+.markingMediumLabelWidth2Rem{
+    width: 2rem;
 }
 
 .boldClass{
     font-weight: bold;
+}
+
+[data-opacityExternalOp=Mismatch] {
+    opacity: 0.5 !important;
 }

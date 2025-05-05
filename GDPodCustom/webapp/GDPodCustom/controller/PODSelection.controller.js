@@ -34,6 +34,7 @@ sap.ui.define([
             // Callback di successo
             var successCallback = function(response) {
                 var oFilterModel = new JSONModel(response);
+                oFilterModel.setSizeLimit(10000);
                 this.getView().setModel(oFilterModel,"FilterModel");
             };
 
@@ -93,6 +94,7 @@ sap.ui.define([
             let BaseProxyURL = that.getInfoModel().getProperty("/BaseProxyURL");
             let pathAPISelectionPodTable = "/api/sfc/v1/worklist/sfcs";
             let url = BaseProxyURL+pathAPISelectionPodTable;
+            that.getView().getModel("PODSelectionModel").setProperty("/BusyLoadingOpTable",true);
 
             let params={
                 "plant": that.getInfoModel().getProperty("/plant"),
@@ -108,9 +110,11 @@ sap.ui.define([
             // Callback di successo
             var successCallback = function(response) {
                 that.getView().getModel("PODSelectionModel").setProperty("/SFCs",response.result);
+                that.getView().getModel("PODSelectionModel").setProperty("/BusyLoadingOpTable",false);
             };
             // Callback di errore
             var errorCallback = function(error) {
+                that.getView().getModel("PODSelectionModel").setProperty("/BusyLoadingOpTable",false);
                 console.log("Chiamata POST fallita:", error);
             };
             CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);

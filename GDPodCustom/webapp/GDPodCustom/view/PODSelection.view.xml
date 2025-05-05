@@ -54,7 +54,7 @@
                         <Label text="{i18n>podSelection.label.material}:" width="100%" textAlign="Left" vAlign="Middle" class="kpmgGDSmallLabel paddingLeft" />
                         <Input id="materialInputId" placeholder="Enter Material" showSuggestion="true" showValueHelp="false" suggestionItems="{FilterModel>/Materials}"  class="GDInputField">
                             <suggestionItems>
-                                <core:Item text="{FilterModel>Material}" />
+                                <core:Item text="{FilterModel>MATERIAL}" />
                             </suggestionItems>
                         </Input>  
                     </VBox>
@@ -68,7 +68,7 @@
                 </HBox> 
                 <VBox width="100%" height="88%" renderType="Bare">
                 <!--Tabella - Viene reinderizzata correttamente solo se è contenuta in un VBox (non HBox) e possiede come aggregation layoutData con growFactor=1!!! -->
-                    <t:Table id="resultTable" rowSelectionChange="rowSelectionChange"  class="kpmgGDTable" rows="{PODSelectionModel>/SFCs}" selectionMode="Single" selectionBehavior="RowOnly" visibleRowCountMode="Auto" rowHeight="45px" >
+                    <t:Table id="resultTable" busy="{PODSelectionModel>/BusyLoadingOpTable}"  rowSelectionChange="rowSelectionChange"  class="kpmgGDTable" rows="{PODSelectionModel>/SFCs}" selectionMode="Single" selectionBehavior="RowOnly" visibleRowCountMode="Auto" rowHeight="45px" >
                     <t:layoutData>
                         <FlexItemData growFactor="1" baseSize="0%"/>
                     </t:layoutData>
@@ -124,7 +124,7 @@
                             <t:Column sortProperty="ORDER_TYPE" filterProperty="ORDER_TYPE" width="6%" hAlign="Center" >
                                 <Label text="{i18n>podSelection.table.orderType}"  />
                                 <t:template>
-                                    <Text wrapping="false" text="{PODSelectionModel>ORDER_TYPE}"  />
+                                    <Text wrapping="false" text="{PODSelectionModel>ORDER_TYPE}" tooltip="{PODSelectionModel>ORDER_TYPE_DESC}"/>
                                 </t:template>
                             </t:Column>  
                             <!-- <t:Column sortProperty="DATADIINIZIOSCHEDULATA" filterProperty="DATADIINIZIOSCHEDULATA" width="10%">
