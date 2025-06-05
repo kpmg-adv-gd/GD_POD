@@ -341,3 +341,11 @@
 [data-opacityExternalOp=Mismatch] {
     opacity: 0.5 !important;
 }
+
+.smallMarginTop{
+    margin-top: 1.5%;
+}
+
+.toolbarTable{
+    background-color: antiquewhite;
+}

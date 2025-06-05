@@ -17,7 +17,7 @@ sap.ui.define([
             var that=this;
             that.loadBomModel();
         },
-        //chiamata quando entriamo nel MainPOD
+        //Chiamata quando entriamo nel MainPOD dal MainPOD
         onNavigateTo: function(){
             var that=this;
             that.loadBomModel();

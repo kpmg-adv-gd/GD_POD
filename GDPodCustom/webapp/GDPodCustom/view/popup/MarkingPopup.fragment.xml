@@ -72,9 +72,14 @@
                             <Button id="varianceButton" enabled="{/isMarkingEnabled}" press="onVarianceButtonPressed" icon="sap-icon://arrow-down" />
                         </HBox>
                         <HBox renderType="Bare" alignItems="Center">
-                            <Label text="Update" class="markingMediumLabel markingMediumLabelWidth9Rem"/>
+                            <Label text="Eng.Changes " class="markingMediumLabel markingMediumLabelWidth9Rem"/>
                             <Label id="selectedUpdateText" class="markingReasonDesc"/>
                             <Button id="updateButton" enabled="{/isMarkingEnabled}" press="onUpdateButtonPressed" icon="sap-icon://arrow-down" />
+                        </HBox>
+                        <HBox renderType="Bare" alignItems="Center">
+                            <Label text="Defects" class="markingMediumLabel markingMediumLabelWidth9Rem"/>
+                            <Label id="selectedDefectText" class="markingReasonDesc"/>
+                            <Button id="defectButton" press="onDefectButtonPressed" icon="sap-icon://arrow-down" />
                         </HBox>
                     </VBox>
 

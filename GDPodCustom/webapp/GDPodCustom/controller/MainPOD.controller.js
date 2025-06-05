@@ -139,8 +139,17 @@ sap.ui.define([
                 if (response?.isCertificationForbidden !== undefined && response?.isCertificationForbidden) {
                     that.showErrorMessageBox(response?.errorMessage);
                 } else {
+                    //Mostro messaggi di warning diverso se il mio workcenter è interno o esterno
+                    var actualWC = that.getInfoModel().getProperty("/selectedSFC/WORKCENTER");
+                    var activeWCsString = that.getInfoModel().getProperty("/MarkingWorkCentersListEnabled");
+                    var activeWCsArray = activeWCsString.split(";");
+                    var warningMessage = that.getI18n("mainPOD.warningMessage.completeOperationInternal");
+                    if(!activeWCsArray.includes(actualWC)){
+                        warningMessage = that.getI18n("mainPOD.warningMessage.completeOperationExternal");
+                    }
+
                     sap.m.MessageBox.show(
-                        that.getI18n("mainPOD.warningMessage.completeOperation"),  // Messaggio da visualizzare
+                        warningMessage,  // Messaggio da visualizzare
                         sap.m.MessageBox.Icon.WARNING,      // Tipo di icona: warning
                         "Warning",                       // Titolo della MessageBox
                         [sap.m.MessageBox.Action.OK,sap.m.MessageBox.Action.CANCEL],
@@ -253,8 +262,18 @@ sap.ui.define([
             let order = that.getInfoModel().getProperty("/selectedSFC/order");
             let orderMaterial = that.getInfoModel().getProperty("/selectedSFC/material/material");
             let sfc = that.getView().getModel("PODSfcModel").getProperty("/sfc");
-            
+            let workCenter = that.getInfoModel().getProperty("/selectedSFC/WORKCENTER");
 
+            let checkModificheLastOperation = false;
+            let checkMancantiLastOperation = false;
+            let valueModifica = that.getInfoModel().getProperty("/selectedSFC/ECO_TYPE");
+            //Controllo se l'operazione che sto completando è l'ultima operazione dell'sfc da completare
+            let operations = that.getView().getModel("PODOperationModel").getProperty("/operations");
+            if(!operations.some(obj => obj?.routingOperation?.operationActivity?.operationActivity !== operation && obj?.QUANTITY?.quantityDone !== 1 )){
+                checkMancantiLastOperation=true;
+                if(!!valueModifica) checkModificheLastOperation = true;
+            }
+            
             let params = {
                 plant: plant,
                 project: project,
@@ -262,7 +281,10 @@ sap.ui.define([
                 orderMaterial: orderMaterial,
                 operation: operation,
                 resource: resource,
-                sfc: sfc
+                sfc: sfc,
+                checkModificheLastOperation: checkModificheLastOperation,
+                valueModifica: valueModifica,
+                checkMancantiLastOperation: checkMancantiLastOperation
             }
 
             // Callback di successo
@@ -279,7 +301,7 @@ sap.ui.define([
             var errorCallback = function(error) {
                 console.log("Chiamata POST fallita:", error);
             };
-            CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
+            CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that, false,true);
         },
         rowSelectionChange: function(oEvent){
             var that=this;

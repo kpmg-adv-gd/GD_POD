@@ -108,7 +108,7 @@
                                                     <customData>
                                                         <core:CustomData key="opacityExternalOp" value="{= ${PODOperationModel>workCenter/workCenter} !== ${PODSfcModel>/WORKCENTER} ? 'Mismatch' : 'Match' }"  writeToDom="true"/>
                                                     </customData>
-                                                    <Button text="Mark" width="100%" press="onMarkPress" />
+                                                    <Button text="{i18n>mainPOD.table.button.mark}" width="100%" press="onMarkPress" />
                                                 </HBox>
                                             </t:template>
                                         </t:Column>                               
@@ -129,6 +129,9 @@
                                         </IconTabFilter>
                                         <IconTabFilter visible="true" icon="sap-icon://bullet-text" text="{i18n>mainPOD.tab.workInstruction}" key="WORK_INSTRUCTION">
                                             <mvc:XMLView viewName="kpmg.custom.pod.GDPodCustom.GDPodCustom.view.WorkInstruction" />
+                                        </IconTabFilter>
+                                        <IconTabFilter visible="{= !!${PODSfcModel>/ECO_TYPE} }" icon="sap-icon://journey-change" text="{i18n>mainPOD.tab.modifiche}" key="MODIFICHE">
+                                            <mvc:XMLView viewName="kpmg.custom.pod.GDPodCustom.GDPodCustom.view.Modifiche" />
                                         </IconTabFilter>
                                     </items>
                                 </IconTabBar>      

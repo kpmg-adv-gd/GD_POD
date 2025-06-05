@@ -15,20 +15,25 @@
                     </OverflowToolbar>
                     </t:extension>
                     <t:columns>
-                        <t:Column width="60%">
+                        <t:Column width="50%">
                             <Label text="{i18n>orderBOM.treeTable.material}"/>
                             <t:template>
                                 <Text text="{BomModel>Material}"/>
                             </t:template>
                         </t:Column>
-                        <t:Column width="20%">
+                        <t:Column width="15%">
                             <Label text="{i18n>orderBOM.treeTable.quantity}"/>
                             <t:template>
                                 <Text text="{BomModel>Quantity}"/>
                             </t:template>
                         </t:Column>
-                        
                         <t:Column width="20%">
+                            <Label text="{i18n>orderBOM.treeTable.fluxType}"/>
+                            <t:template>
+                                <Text text="{BomModel>FluxType}"/>
+                            </t:template>
+                        </t:Column>     
+                        <t:Column width="15%">
                             <Label text="{i18n>orderBOM.treeTable.missingParts}"/>
                             <t:template>
                                 <Text text="{BomModel>MissingParts}"/>

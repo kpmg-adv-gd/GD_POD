@@ -25,8 +25,11 @@ sap.ui.define([
 
         clearData: function () {
             var that = this;
+            that.getView().byId("hhInputId").setValue("");
+            that.getView().byId("mmInputId").setValue("");
             that.getView().byId("markingDatePicker").setValue("");
             that.getView().byId("selectedVarianceText").setText("");
+            that.getView().byId("selectedUpdateText").setText("");
             that._selectedCause = null;
             that._selectedDescription = null;
         },
@@ -49,6 +52,7 @@ sap.ui.define([
             that.MarkingPopupModel.setProperty("/order", order);
             that.MarkingPopupModel.setProperty("/operation", operation);
             that.MarkingPopupModel.setProperty("/operationDescription", operationDescription);
+
         },
 
         loadMarkingData: function () {
@@ -78,13 +82,13 @@ sap.ui.define([
                     const remainingLabor = response[0]?.remaining_labor ?? 0;
                     const varianceLabor = response[0]?.variance_labor ?? 0;
 
-                    that.MarkingPopupModel.setProperty("/plannedLabor", (Math.round(plannedLabor * 10) / 10).toFixed(1)); //Arrotondo alla prima cifra decimale
+                    that.MarkingPopupModel.setProperty("/plannedLabor", Math.round(plannedLabor));
                     that.MarkingPopupModel.setProperty("/uom_planned_labor", response[0].uom_planned_labor || "hcn");
-                    that.MarkingPopupModel.setProperty("/markedLabor", (Math.round(markedLabor * 10) / 10).toFixed(1));
+                    that.MarkingPopupModel.setProperty("/markedLabor", Math.round(markedLabor));
                     that.MarkingPopupModel.setProperty("/uom_marked_labor", response[0].uom_marked_labor || "hcn");
-                    that.MarkingPopupModel.setProperty("/remainingLabor", (Math.round(remainingLabor * 10) / 10).toFixed(1));
+                    that.MarkingPopupModel.setProperty("/remainingLabor", Math.round(remainingLabor));
                     that.MarkingPopupModel.setProperty("/uom_remaining_labor", response[0].uom_remaining_labor || "hcn");
-                    that.MarkingPopupModel.setProperty("/varianceLabor", (Math.round(varianceLabor * 10) / 10).toFixed(1));
+                    that.MarkingPopupModel.setProperty("/varianceLabor", Math.round(varianceLabor));
                     that.MarkingPopupModel.setProperty("/uom_variance", response[0].uom_variance || "hcn");
                 }
             };
@@ -269,6 +273,8 @@ sap.ui.define([
                     mode: "SingleSelectMaster",
                     columns: [
                         new sap.m.Column({ header: new sap.m.Label({ text: "Progressive Eco" }) }),
+                        new sap.m.Column({ header: new sap.m.Label({ text: "Process Id" }) }),
+                        new sap.m.Column({ header: new sap.m.Label({ text: "Flux Type" }) }),
                         new sap.m.Column({ header: new sap.m.Label({ text: "Type Modification" }) })
                     ],
                     items: {
@@ -276,6 +282,8 @@ sap.ui.define([
                         template: new sap.m.ColumnListItem({
                             cells: [
                                 new sap.m.Text({ text: "{updateModel>prog_eco}" }),
+                                new sap.m.Text({ text: "{updateModel>process_id}" }),
+                                new sap.m.Text({ text: "{updateModel>flux_type}" }),
                                 new sap.m.Text({ text: "{updateModel>type}" })
                             ]
                         })
@@ -284,6 +292,8 @@ sap.ui.define([
                         var oSelectedItem = oEvent.getParameter("listItem");
                         var oContext = oSelectedItem.getBindingContext("updateModel");
                         that._selectedProgEco = oContext.getProperty("prog_eco");
+                        that._selectedProcessId = oContext.getProperty("process_id");
+                        that._selectedFluxType = oContext.getProperty("flux_type");
                         that._selectedTypeModification = oContext.getProperty("type");
                         that._oConfirmUpdateButton.setEnabled(true);
                     }
@@ -349,6 +359,8 @@ sap.ui.define([
 
             that._oConfirmUpdateButton.setEnabled(false);
             that._selectedProgEco = null;
+            that._selectedProcessId = null;
+            that._selectedFluxType = null;
             that._selectedTypeModification = null;
             that.onGetUpdateTable();
             that._oUpdatePopover.openBy(oEvent.getSource());
@@ -357,13 +369,19 @@ sap.ui.define([
         onConfirmUpdateSelection: function () {
             var that = this;
 
-            if (that._selectedProgEco && that._selectedTypeModification) {
+            if (!!that._selectedProgEco ) {
                 that.getView().byId("selectedUpdateText").setText(that._selectedProgEco);
+                that._oUpdatePopover.close();
+            } else if (!!that._selectedProcessId ){
+                that.getView().byId("selectedUpdateText").setText(that._selectedProcessId);
                 that._oUpdatePopover.close();
             } else {
                 sap.m.MessageToast.show("No Modification selected.");
             }
 
+        },
+        onDefectButtonPressed: function(){
+            var that=this;
         },
         onGetUpdateTable: function(){
             var that=this;
@@ -371,6 +389,7 @@ sap.ui.define([
 
             var infoModel = that.MainPODcontroller.getInfoModel();
             var sfc = infoModel.getProperty("/selectedSFC/sfc");
+            var order = infoModel.getProperty("/selectedSFC/order");
             var plant = infoModel.getProperty("/plant");
             let BaseProxyURL = infoModel.getProperty("/BaseProxyURL");
             let pathModificationApi = "/db/getModificationsBySfc";
@@ -378,7 +397,7 @@ sap.ui.define([
 
             let params = {
                 plant:plant,
-                sfc:sfc
+                order:order
             };
 
             // Callback di successo
@@ -434,10 +453,10 @@ sap.ui.define([
             if(!mm) mm=0;
 
             if (reason_for_variance == "") {
-                marked_labor = Math.round((hh + (mm/60) ) * 100).toFixed(1);
+                marked_labor = Math.round( (hh + (mm/60)) * 100);
                 variance_labor = 0;
             } else {
-                variance_labor = Math.round((hh + (mm/60) ) * 100).toFixed(1);
+                variance_labor = Math.round( (hh + (mm/60)) * 100);
                 marked_labor = 0;
             }
 
@@ -527,9 +546,14 @@ sap.ui.define([
             comparingDate.setHours(0,0,0,0);
             if(markingDate<comparingDate) return false;
 
-            var confirmation_number = that.MarkingPopupModel.getProperty("/confirmNumber");
-            var personnelNumber = that.MarkingPopupModel.getProperty("/personnelNumber");
+            let confirmation_number = that.MarkingPopupModel.getProperty("/confirmNumber");
+            let personnelNumber = that.MarkingPopupModel.getProperty("/personnelNumber");
             if(!confirmation_number || !personnelNumber) return false;
+
+            let reason_for_variance = that._selectedCause || "";
+            let modification = that.getView().byId("selectedUpdateText").getText() || "";
+            if(!reason_for_variance && !!modification) return false;
+
             
             return true;
         },
