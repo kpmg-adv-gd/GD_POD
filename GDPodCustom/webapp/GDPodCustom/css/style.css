@@ -109,21 +109,29 @@
     width: 8rem;
     margin-left: 0.5rem;
 }
+.nonConformancesButton{
+    height: 100%;
+    width: 8rem;
+    margin-left: 0.5rem;
+}
 .sapMBtn.sapMBtnBase.startOpButton,
-.sapMBtn.sapMBtnBase.completeOpButton {
+.sapMBtn.sapMBtnBase.completeOpButton,
+.sapMBtn.sapMBtnBase.nonConformancesButton {
     height: 100% !important;
 }
 
 /* Allineo la scritta adentro al bottone al centro vicino all'icona */
 .startOpButton .sapMBtnContent,
-.completeOpButton .sapMBtnContent {
+.completeOpButton .sapMBtnContent,
+.nonConformancesButton .sapMBtnContent {
     padding-top: 0.65rem;
     padding-left: 0.5rem;
     font-size: larger;
 }
 
 .completeOpButton .sapUiIcon.sapMBtnIcon,
-.startOpButton .sapUiIcon.sapMBtnIcon{
+.startOpButton .sapUiIcon.sapMBtnIcon,
+.nonConformancesButton .sapUiIcon.sapMBtnIcon {
     padding-top: 0.65rem;
     font-size: x-large;
 }
@@ -151,6 +159,19 @@
 }
 .completeOpButton .sapMBtnInner.sapMBtnEmphasized:hover{
     background-color: rgb(0, 51, 153,0.7) !important;
+    border-color: white !important;
+    color: #fff !important;
+    text-shadow: 0 0 .125rem transparent;
+}
+.nonConformancesButton .sapMBtnInner.sapMBtnEmphasized {
+    height: 3rem;
+    background-color: rgb(231, 25, 25) !important;
+    border-color: rgb(0, 14, 41) !important;
+    color: #fff !important;
+    text-shadow: 0 0 .125rem transparent;
+}
+.nonConformancesButton .sapMBtnInner.sapMBtnEmphasized:hover{
+    background-color: rgb(231, 25, 25) !important;
     border-color: white !important;
     color: #fff !important;
     text-shadow: 0 0 .125rem transparent;

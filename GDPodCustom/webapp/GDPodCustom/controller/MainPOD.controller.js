@@ -3,14 +3,16 @@ sap.ui.define([
 	"sap/ui/model/json/JSONModel",
     "./BaseController",
     "../utilities/CommonCallManager",
-    "./popup/MarkingPopup"
-], function (jQuery, JSONModel, BaseController, CommonCallManager, MarkingPopup) {
+    "./popup/MarkingPopup",
+    "./popup/OpenDefectPopup"
+], function (jQuery, JSONModel, BaseController, CommonCallManager, MarkingPopup, OpenDefectPopup) {
     "use strict";
 
     return BaseController.extend("kpmg.custom.pod.GDPodCustom.GDPodCustom.controller.MainPOD", {
         oPODSfcModel: new JSONModel(),
         oPODOperationModel: new JSONModel(),
         MarkingPopup: new MarkingPopup(),
+        OpenDefectPopup: new OpenDefectPopup(),
         onInit: function () {
             this.getView().setModel(this.oPODSfcModel, "PODSfcModel");
             this.getView().setModel(this.oPODOperationModel, "PODOperationModel");
@@ -83,6 +85,16 @@ sap.ui.define([
             } else{
                 that.checkCertificationComplete(selectedOp);
             }
+        },
+        onNonConformancesPress: function (oEvent) {
+            var that=this;
+            let selectedOp = that.getInfoModel().getProperty("/selectedOperation");
+            if( !selectedOp ){
+                that.showErrorMessageBox(that.getI18n("mainPOD.errorMessage.noSelectedRowDefect"));
+                return;
+            }
+            that.OpenDefectPopup.open(that.getView(), that, selectedOp);
+            
         },
         checkCertificationStart: function(selectedOp){
             var that=this;
