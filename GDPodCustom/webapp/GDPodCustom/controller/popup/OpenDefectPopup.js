@@ -16,9 +16,9 @@ sap.ui.define([
 
             that._initDialog("kpmg.custom.pod.GDPodCustom.GDPodCustom.view.popup.OpenDefectPopup", oView, that.OpenDefectModel);
             
-            that.loadHeaderData();
             that.clearData();
-            //that.getOrder(); - chiedi a Vale
+            that.loadHeaderData();
+            //that.getOrder(); 
             that.getCodeGroups();
             that.getPriority();
             that.getCoding();
@@ -31,8 +31,11 @@ sap.ui.define([
         clearData: function () {
             var that = this;
             that.OpenDefectModel.setProperty("/defect", {
+                material: "",
+                prodOrder: "",
+                assembly: "",
+                numDefect: 1,
                 title: "",
-                numDefect: 0,
                 description: "",
                 codeGroup: "",
                 defectType: "",
@@ -41,6 +44,12 @@ sap.ui.define([
                 time: 0,
                 blocking: false,
                 createQN: false,
+                notificationType: "",
+                coding: "",
+                replaceInAssembly: 0,
+                defectNote: "",
+                responsible: "",
+                time: "",
             });
         },
         loadHeaderData: function () {
@@ -55,7 +64,7 @@ sap.ui.define([
             that.OpenDefectModel.setProperty("/wbe", wbe);
             that.OpenDefectModel.setProperty("/sfc", sfc);
             that.OpenDefectModel.setProperty("/wc", wc);
-            that.OpenDefectModel.setProperty("/material", material);
+            that.OpenDefectModel.setProperty("/defect/material", material);
 
         },
 
@@ -66,6 +75,7 @@ sap.ui.define([
             var routing = infoModel.getProperty("/selectedSFC/routing/routing");
             var type = infoModel.getProperty("/selectedSFC/routing/type");
             var plant = infoModel.getProperty("/plant");
+            var stepId = that.selectedOp.stepId;
             
             let BaseProxyURL = infoModel.getProperty("/BaseProxyURL");
             let pathGetMarkingDataApi = "/api/routing/v1/routings/routingSteps";
@@ -74,7 +84,36 @@ sap.ui.define([
             let params = {
                 plant: plant,
                 routing: routing,
-                type: type
+                type: type,
+                stepId: stepId
+            };
+
+            // Callback di successo
+            var successCallback = function (response) {
+                if (response.length > 0) {
+                    that.getCustomOrder();
+                }
+            };
+            // Callback di errore
+            var errorCallback = function (error) {
+                console.log("Chiamata POST fallita: ", error);
+            };
+            CommonCallManager.callProxy("GET", url, params, true, successCallback, errorCallback, that);
+
+        },
+        getCustomOrder: function (order) {
+            var that = this;
+            var infoModel = that.MainPODcontroller.getInfoModel();
+
+            var plant = infoModel.getProperty("/plant");
+            
+            let BaseProxyURL = infoModel.getProperty("/BaseProxyURL");
+            let pathGetMarkingDataApi = "/api/order/v1/orders";
+            let url = BaseProxyURL + pathGetMarkingDataApi;
+
+            let params = {
+                plant: plant,
+                order: order
             };
 
             // Callback di successo
@@ -87,7 +126,7 @@ sap.ui.define([
             var errorCallback = function (error) {
                 console.log("Chiamata POST fallita: ", error);
             };
-            CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
+            CommonCallManager.callProxy("GET", url, params, true, successCallback, errorCallback, that);
 
         },
         getCodeGroups: function () {
@@ -106,7 +145,7 @@ sap.ui.define([
             // Callback di successo
             var successCallback = function (response) {
                 if (response.groupResponse) {
-                    this.OpenDefectModel.setProperty("/codeGroups", response.groupResponse);
+                    this.OpenDefectModel.setProperty("/codeGroups", [...[{group: "", description: ""}], ...response.groupResponse]);
                 }
             };
             // Callback di errore
@@ -132,7 +171,8 @@ sap.ui.define([
             var successCallback = function (response) {
                 if (response.codeResponse) {
                     var filter = response.codeResponse.filter(item => item.status == "ENABLED" && item.groups.filter(mc => mc.group == group).length > 0);
-                    this.OpenDefectModel.setProperty("/defectTypes", filter);
+                    this.OpenDefectModel.setProperty("/defectTypes", [...[{code: "", description: ""}], ...filter]);
+
                 }
             };
             // Callback di errore
@@ -153,7 +193,7 @@ sap.ui.define([
 
             // Callback di successo
             var successCallback = function (response) {
-                that.OpenDefectModel.setProperty("/priorities", response);
+                this.OpenDefectModel.setProperty("/priorities", [...[{priority: "", description: ""}], ...response]);
             };
             // Callback di errore
             var errorCallback = function (error) {
@@ -174,7 +214,7 @@ sap.ui.define([
 
             // Callback di successo
             var successCallback = function (response) {
-                that.OpenDefectModel.setProperty("/variances", response.filter(item => item.plant == plant));
+                this.OpenDefectModel.setProperty("/variances", [...[{cause: "", description: ""}], ...response.filter(item => item.plant == plant)]);
             };
 
             // Callback di errore
@@ -195,7 +235,7 @@ sap.ui.define([
 
             // Callback di successo
             var successCallback = function (response) {
-                that.OpenDefectModel.setProperty("/codings", response);
+                this.OpenDefectModel.setProperty("/codings", [...[{coding: "", coding_description: ""}], ...response]);
             };
 
             // Callback di errore
@@ -216,7 +256,7 @@ sap.ui.define([
 
             // Callback di successo
             var successCallback = function (response) {
-                that.OpenDefectModel.setProperty("/responsibles", response);
+                this.OpenDefectModel.setProperty("/responsibles", [...[{id: ""}], ...response]);
             };
 
             // Callback di errore
@@ -237,7 +277,7 @@ sap.ui.define([
 
             // Callback di successo
             var successCallback = function (response) {
-                that.OpenDefectModel.setProperty("/notificationTypies", response);
+                this.OpenDefectModel.setProperty("/notificationTypies", [...[{notification_type: "", description: ""}], ...response]);
             };
 
             // Callback di errore
@@ -255,19 +295,34 @@ sap.ui.define([
             if (that.validate()) {
                 that.openDefect();
             } else {
-                that.MainPODcontroller.showErrorMessageBox(that.MainPODcontroller.getI18n("openDefect.error.message"));
+                that.MainPODcontroller.showErrorMessageBox(that.MainPODcontroller.getI18n("defect.error.message"));
             }
         },
 
-        uploadDocument: function (oEvent, response) {
+        uploadDocument: function(oEvent) {
             var that = this;
-            var sResponse = oEvent.getParameter("response");
-            var fileInfo = oEvent.oSource.oFileUpload.files[0];
-            that.OpenDefectModel.setProperty("/defect/attachment", {
-                "BASE_64": sResponse,
-                "FILE_NAME": fileInfo.name,
-                "FILE_TYPE": fileInfo.type
-            });
+            const aFiles = oEvent.getParameter("files");
+        
+            if (aFiles && aFiles.length > 0) {
+                const oFile = aFiles[0]; // Prendiamo solo il primo file
+                const reader = new FileReader();
+        
+                reader.onload = function(e) {
+                    const base64String = e.target.result.split(",")[1]; // Rimuove il prefix "data:*/*;base64,"
+    
+                    that.OpenDefectModel.setProperty("/defect/attachment", {
+                        "BASE_64": base64String,
+                        "FILE_NAME": oFile.name,
+                        "FILE_TYPE": oFile.type
+                    });
+                };
+        
+                reader.onerror = function(err) {
+                    console.error("Errore nella lettura del file:", err);
+                };
+        
+                reader.readAsDataURL(oFile); 
+            }
         },
 
         validate: function () {
@@ -276,30 +331,32 @@ sap.ui.define([
 
             // Check sui campo obbligatori
             if (defect.numDefect == "" || defect.title == "" || defect.codeGroup == "" || defect.defectType == "" || defect.priority == "" 
-                || defect.variance == "" || defect.notificationType == "") {
+                || defect.variance == "") {
                     return false;
                 }
-            if (defect.createQN && (defect.coding == "" || defect.replaceInAssembly == "" || defect.responsible == "")) {
+            if (defect.createQN && (defect.coding == "" || (defect.replaceInAssembly != 0 && defect.replaceInAssembly != 1) || defect.responsible == "")) {
                 return false;
             }
 
             // Check su Costraint della Priority
             try {
-                var priority = JSON.parse(defect.priority);
-                for (let chiave in priority) {
-                    if (defect[chiave] != priority[chiave]) return false;
+                var priorityScript = JSON.parse(that.OpenDefectModel.getProperty("/priorities").filter(item => item.priority == defect.priority)[0].costraints);
+                for (let chiave in priorityScript) {
+                    if (defect[chiave] != priorityScript[chiave]) return false;
                 }
             } catch (e) {
                 console.log("errore nel parsing json Priority");
             }
             // Check su Costraint della Notification Type
-            try {
-                var notificationType = JSON.parse(defect.notificationType);
-                for (let chiave in notificationType) {
-                    if (defect[chiave] != notificationType[chiave]) return false;
+            if (defect.createQN) {
+                try {
+                    var notificationTypeScript = JSON.parse(that.OpenDefectModel.getProperty("/notificationTypies").filter(item => item.notification_type == defect.notificationType)[0].costraints);
+                    for (let chiave in notificationTypeScript) {
+                        if (defect[chiave] != notificationTypeScript[chiave]) return false;
+                    }
+                } catch (e) {
+                    console.log("errore nel parsing json Notification Type");
                 }
-            } catch (e) {
-                console.log("errore nel parsing json Notification Type");
             }
 
             return true;
@@ -314,7 +371,7 @@ sap.ui.define([
             var plant = infoModel.getProperty("/plant");
             var sfc = infoModel.getProperty("/selectedSFC/sfc") || "";
             var wc = infoModel.getProperty("/selectedSFC/WORKCENTER") || "";
-            var stepId = infoModel.getProperty("/selectedSFC/steps/0/stepId")
+            var stepId = that.selectedOp.stepId;
 
             let BaseProxyURL = infoModel.getProperty("/BaseProxyURL");
             let pathModificationApi = "/api/nonconformance/v1/log";
@@ -325,7 +382,7 @@ sap.ui.define([
                 plant: plant,
                 sfc: sfc,
                 workcenter: wc,
-                quantity: defect.quantity,
+                quantity: defect.numDefect,
                 routingStepId: stepId,
                 startSfcRequired: false,
                 allowNotAssembledComponents: false
@@ -352,7 +409,50 @@ sap.ui.define([
         },
         saveZDefects: function (idDefect) {
             var that = this;
-            
+            var infoModel = that.MainPODcontroller.getInfoModel();
+            var defect = that.OpenDefectModel.getProperty("/defect");
+            var sfc = infoModel.getProperty("/selectedSFC/sfc") || "";
+
+            let params = {
+                idDefect: idDefect,
+                material: defect.material,
+                mesOrder: "todo domani",
+                assembly: defect.assembly,
+                title: defect.title,
+                description : defect.description,
+                priority : defect.priority,
+                variance: defect.variance,
+                blocking : defect.blocking,
+                createQN : defect.createQN,
+                sfc: sfc,
+            }
+            if (defect.createQN) {
+                params.notificationType = defect.notificationType;
+                params.coding = defect.coding;
+                params.replaceInAssembly = defect.replaceInAssembly == 0;
+                params.defectNote = defect.defectNote;
+                params.responsible = defect.responsible;
+                params.time = defect.time != "" ? defect.time : null;
+            }
+
+            let BaseProxyURL = infoModel.getProperty("/BaseProxyURL");
+            let pathSendMarkingApi = "/db/insertDefect";
+            let url = BaseProxyURL + pathSendMarkingApi;
+
+            // Callback di successo
+            var successCallback = function (response) {
+                // publish difetti
+                sap.ui.getCore().getEventBus().publish("defect", "loadDefect", null);
+                that.MainPODcontroller.showToast(that.MainPODcontroller.getI18n("defect.success.message"));
+                that.onClosePopup();
+            };
+
+            // Callback di errore
+            var errorCallback = function (error) {
+                console.log("Chiamata POST fallita: ", error);
+                that.MainPODcontroller.showErrorMessageBox(that.MainPODcontroller.getI18n("defect.saveData.error.message"));
+            };
+            CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that,true,true);
         },
 
         onClosePopup: function () {

@@ -68,8 +68,7 @@
                         </HBox>
                         <HBox renderType="Bare" alignItems="Center">
                             <Label text="Variance" class="markingMediumLabel markingMediumLabelWidth9Rem"/>
-                            <Label id="selectedVarianceText" class="markingReasonDesc"/>
-                            <Button id="varianceButton" enabled="{/isMarkingEnabled}" press="onVarianceButtonPressed" icon="sap-icon://arrow-down" />
+                            <Label id="selectedVarianceText" class="markingReasonDesc" text="{/variance}"/>
                         </HBox>
                         <HBox renderType="Bare" alignItems="Center">
                             <Label text="Eng.Changes " class="markingMediumLabel markingMediumLabelWidth9Rem"/>
@@ -78,8 +77,9 @@
                         </HBox>
                         <HBox renderType="Bare" alignItems="Center">
                             <Label text="Defects" class="markingMediumLabel markingMediumLabelWidth9Rem"/>
-                            <Label id="selectedDefectText" class="markingReasonDesc"/>
-                            <Button id="defectButton" press="onDefectButtonPressed" icon="sap-icon://arrow-down" />
+                            <Select id="defectsID" selectedKey="{/defectSelected}" width="50%" items="{/defects}" change="onChangeDefect">
+                                <core:Item key="{id}" text="{title}" />
+                            </Select>
                         </HBox>
                     </VBox>
 

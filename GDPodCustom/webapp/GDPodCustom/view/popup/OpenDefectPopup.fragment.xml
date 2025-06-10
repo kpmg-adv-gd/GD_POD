@@ -31,21 +31,21 @@
                         </HBox>
                     </HBox>
                     <HBox width="100%" height="50%" renderType="Bare" justifyContent="SpaceBetween">
-                        <HBox renderType="Bare" alignItems="Center" width="30%">
+                        <HBox renderType="Bare" alignItems="Center" width="25%">
                             <Label text="Material" width="40%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
-                            <Input id="materialId" width="50%" value="{/material}" showSuggestion="true" class="markingMediumLabelValue"/>
+                            <Input id="materialId" width="50%" value="{/defect/material}" showSuggestion="true" class="markingMediumLabelValue"/>
                         </HBox>
                         <HBox renderType="Bare" alignItems="Center" width="30%">
-                            <Label text="Prod. Order / Purchasing Doc." width="40%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
-                            <Input id="prodOrderId" width="50%" value="{/prodOrder}" showSuggestion="true" class="markingMediumLabelValue" />
+                            <Label text="Prod. Order / Purchasing Doc." width="60%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
+                            <Input id="prodOrderId" width="30%" value="{/defect/prodOrder}" showSuggestion="true" class="markingMediumLabelValue" />
                         </HBox>
-                        <HBox renderType="Bare" alignItems="Center" width="30%">
+                        <HBox renderType="Bare" alignItems="Center" width="25%">
                             <Label text="Assembly" width="40%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
-                            <Input id="assemblyId" width="50%" value="{/assembly}" showSuggestion="true" class="markingMediumLabelValue" />
+                            <Input id="assemblyId" width="50%" value="{/defect/assembly}" showSuggestion="true" class="markingMediumLabelValue" />
                         </HBox>
-                        <HBox renderType="Bare" alignItems="Center" width="10%">
-                            <Label text="N° of Def." width="70%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true"/>
-                            <Input id="numDefectID" width="30%" type="Number" value="{/defect/numDefect}" class="markingMediumLabelValue"/>
+                        <HBox renderType="Bare" alignItems="Center" width="20%">
+                            <Label text="N° of Def." width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true"/>
+                            <Input id="numDefectID" width="20%" type="Number" value="{/defect/numDefect}" class="markingMediumLabelValue"/>
                         </HBox>
                     </HBox>
                 </VBox>
@@ -53,8 +53,8 @@
                 <HBox width="90%" height="50%" renderType="Bare" justifyContent="SpaceBetween">
                     <VBox width="45%" height="100%" renderType="Bare" justifyContent="SpaceBetween">
                         <HBox width="100%" renderType="Bare" alignItems="Center">
-                            <Label text="Title" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
-                            <Input id="titleId" width="50%" value="{/defect/title}" showValueHelp="false" class="markingMediumLabelValue" required="true"/>
+                            <Label text="Title" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true"/>
+                            <Input id="titleId" width="50%" value="{/defect/title}" showValueHelp="false" class="markingMediumLabelValue"/>
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center">
                             <Label text="Description" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
@@ -75,7 +75,7 @@
                         <HBox width="100%" renderType="Bare" alignItems="Center">
                             <Label text="Priority" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true"/>
                             <Select selectedKey="{/defect/priority}" width="50%" items="{/priorities}">
-                                <core:Item key="{costraints}" text="{description}" />
+                                <core:Item key="{priority}" text="{description}" />
                             </Select>
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center">
@@ -86,7 +86,7 @@
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center">
                             <Label text="Attachment" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" />
-                            <unified:FileUploader name="fileUploader" width="50%" uploadUrl="upload/service/endpoint" buttonText="Choose file" uploadOnChange="true" uploadComplete="uploadDocument"/>
+                            <unified:FileUploader name="fileUploader" width="50%" uploadUrl="upload/service/endpoint" buttonText="Choose file" uploadOnChange="false" change="uploadDocument"/>
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center">
                             <Label text="Blocking" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true" />
@@ -101,7 +101,7 @@
                         <HBox width="100%" renderType="Bare" alignItems="Center" visible="{/defect/createQN}">
                             <Label text="Notification Type" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true"/>
                             <Select selectedKey="{/defect/notificationType}" width="50%" items="{/notificationTypies}">
-                                <core:Item key="{costraints}" text="{description}" />
+                                <core:Item key="{notification_type}" text="{description}" />
                             </Select>
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center" visible="{/defect/createQN}">
@@ -131,7 +131,7 @@
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center" visible="{/defect/createQN}">
                             <Label text="Time (min)" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
-                            <Input id="timeID" width="50%" type="Number" value="{/time}" class="markingMediumLabelValue"/>
+                            <Input id="timeID" width="50%" type="Number" value="{/defect/time}" class="markingMediumLabelValue"/>
                         </HBox>
                     </VBox>
                 </HBox>

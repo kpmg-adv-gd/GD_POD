@@ -21,6 +21,7 @@ sap.ui.define([
             that.setMarkingEnabled(isMarkingEnabled);
             that.openDialog();
             that.clearData();
+            that.searchDefects();
         },
 
         clearData: function () {
@@ -380,9 +381,6 @@ sap.ui.define([
             }
 
         },
-        onDefectButtonPressed: function(){
-            var that=this;
-        },
         onGetUpdateTable: function(){
             var that=this;
             var that = this;
@@ -449,6 +447,7 @@ sap.ui.define([
             var modification = that.getView().byId("selectedUpdateText").getText() || "";
             var hh = parseInt(that.getView().byId("hhInputId").getValue(),10);
             var mm = parseInt(that.getView().byId("mmInputId").getValue(),10);
+            var defectId = that.MarkingPopupModel.getProperty("/defectSelected")
             if(!hh) hh=0;
             if(!mm) mm=0;
 
@@ -482,7 +481,8 @@ sap.ui.define([
                 cancellation: "",
                 modification: modification,
                 cancellationFlag: false,
-                cancelled_confirmation: null
+                cancelled_confirmation: null,
+                defectId: defectId != "" ? defectId : null
             }
 
             let BaseProxyURL = infoModel.getProperty("/BaseProxyURL");
@@ -556,6 +556,72 @@ sap.ui.define([
 
             
             return true;
+        },
+        
+        searchDefects: function () {
+            var that = this;
+            var infoModel = that.MainPODcontroller.getInfoModel();
+
+            let BaseProxyURL = infoModel.getProperty("/BaseProxyURL");
+            let pathGetMarkingDataApi = "/api/nonconformance/v2/nonconformances";
+            let url = BaseProxyURL + pathGetMarkingDataApi;
+
+            var routing = infoModel.getProperty("/selectedSFC/routing/routing");
+            var sfc = infoModel.getProperty("/selectedSFC/sfc");
+            var plant = infoModel.getProperty("/plant");
+            var routingStepId = that.markOperation.stepId;
+
+            url += "?routing=" + routing;
+            url += "&sfc=" + sfc;
+            url += "&plant=" + plant;
+            url += "&routingStepId=" + routingStepId;
+
+            let params = {
+            };
+
+            // Callback di successo
+            var successCallback = function (response) {
+                if (response.defectResponse && response.defectResponse.content) {
+                    that.getZDefects(response.defectResponse.content);
+                }
+            };
+            // Callback di errore
+            var errorCallback = function (error) {
+                console.log("Chiamata GET fallita: ", error);
+            };
+            CommonCallManager.callProxy("GET", url, params, true, successCallback, errorCallback, that);
+        },
+        getZDefects: function (defects) {
+            var that=this;
+            var infoModel = that.MainPODcontroller.getInfoModel();
+
+            let BaseProxyURL = infoModel.getProperty("/BaseProxyURL");
+            let pathOrderBomApi = "/db/selectZDefect";
+            let url = BaseProxyURL+pathOrderBomApi; 
+
+            var listDefect = [];
+            defects.forEach(element => {
+                listDefect.push(element.id)
+            });
+
+            let params={
+                listDefect
+            };
+
+            // Callback di successo
+            var successCallback = function(response) {
+                that.MarkingPopupModel.setProperty("/defects", response);
+            };
+            // Callback di errore
+            var errorCallback = function(error) {
+                console.log("Chiamata POST fallita:", error);
+            };
+            CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
+        },
+        onChangeDefect: function (oEvent) {
+            var that = this;
+            var variance = this.MarkingPopupModel.getProperty("/defects").filter(item => item.id = this.MarkingPopupModel.getProperty("/defectSelected"))[0].variance
+            that.MarkingPopupModel.setProperty("/variance", variance);
         },
         onConfirm: function () {
             var that = this;

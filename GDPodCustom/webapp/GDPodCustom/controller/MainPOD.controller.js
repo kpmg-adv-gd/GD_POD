@@ -16,6 +16,9 @@ sap.ui.define([
         onInit: function () {
             this.getView().setModel(this.oPODSfcModel, "PODSfcModel");
             this.getView().setModel(this.oPODOperationModel, "PODOperationModel");
+
+            // Subscribe difetti
+            sap.ui.getCore().getEventBus().subscribe("defect", "loadDefect", this.loadPODOperationsModel, this);
         },
 
         onAfterRendering: function(){
@@ -59,6 +62,7 @@ sap.ui.define([
             var successCallback = function(response) {
                 that.getView().getModel("PODOperationModel").setProperty("/operations",response.result);
                 that.getView().getModel("PODOperationModel").setProperty("/BusyLoadingOpTable",false);
+                that.getDefects();
             };
             // Callback di errore
             var errorCallback = function(error) {
@@ -67,6 +71,41 @@ sap.ui.define([
             };
             CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
 
+        },
+        getDefects: function () {
+            var that=this;
+            
+            let sfc = that.getView().getModel("PODSfcModel").getProperty("/sfc");
+            let plant = that.getInfoModel().getProperty("/plant");
+
+            let BaseProxyURL = that.getInfoModel().getProperty("/BaseProxyURL");
+            let pathAPIPodOperationTable = "/api/nonconformance/v2/nonconformances?plant=" + plant + "&sfc=" + sfc;
+            let url = BaseProxyURL+pathAPIPodOperationTable;
+
+            let params = {
+            }
+
+            // Callback di successo
+            var successCallback = function(response) {
+                var operations = this.getView().getModel("PODOperationModel").getProperty("/operations");
+                var defects = response.defectResponse.content;
+                that.getInfoModel().setProperty("/defectOperation",defects);
+                operations.forEach(item => {
+                    var stepId = item.stepId;
+                    if (defects.filter(item => item.routingStepId == stepId && item.state == "OPEN").length > 0) {
+                        item.hasDefectOpen = true;
+                    }else{
+                        item.hasDefectOpen = false;
+                    }
+                });
+                this.getView().getModel("PODOperationModel").refresh();
+                sap.ui.getCore().getEventBus().publish("defect", "receiveDefect", null);
+            };
+            // Callback di errore
+            var errorCallback = function(error) {
+                console.log("Chiamata GET fallita:", error);
+            };
+            CommonCallManager.callProxy("GET", url, params, true, successCallback, errorCallback, that);
         },
         onStartOperationPress: function(oEvent){
             var that=this;
@@ -329,6 +368,8 @@ sap.ui.define([
                     return;
                 }
                 that.getInfoModel().setProperty("/selectedOperation",selectedObject);
+                // Salvo i relativi difetti
+                var defects = that.getInfoModel().getProperty("/defects");
             } else {
                 that.getInfoModel().setProperty("/selectedOperation",undefined);
             }
