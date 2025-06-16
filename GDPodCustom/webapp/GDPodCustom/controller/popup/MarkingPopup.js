@@ -594,6 +594,7 @@ sap.ui.define([
         getZDefects: function (defects) {
             var that=this;
             var infoModel = that.MainPODcontroller.getInfoModel();
+            var plant = infoModel.getProperty("/plant");
 
             let BaseProxyURL = infoModel.getProperty("/BaseProxyURL");
             let pathOrderBomApi = "/db/selectZDefect";
@@ -605,7 +606,8 @@ sap.ui.define([
             });
 
             let params={
-                listDefect
+                listDefect: listDefect,
+                plant: plant
             };
 
             // Callback di successo

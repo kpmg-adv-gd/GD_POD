@@ -15,7 +15,7 @@
                     </OverflowToolbar>
                     </t:extension>
                     <t:columns>
-                        <t:Column width="16%">
+                        <t:Column width="19.5%">
                             <Label text="{i18n>Defect.treeTable.group}"/>
                             <t:template>
                                 <Text text="{DefectModel>groupOrCode}"/>
@@ -30,7 +30,7 @@
                         <t:Column width="16%">
                             <Label text="{i18n>Defect.treeTable.priority}"/>
                             <t:template>
-                                <Text text="{DefectModel>priority}"/>
+                                <Text text="{DefectModel>priority_description}"/>
                             </t:template>
                         </t:Column>     
                         <t:Column width="16%">
@@ -39,22 +39,22 @@
                                 <Text text="{DefectModel>status}"/>
                             </t:template>
                         </t:Column>  
-                        <t:Column width="10%" hAlign="Center">
+                        <t:Column width="16%" hAlign="Center">
                             <Label text="{i18n>Defect.treeTable.createQN}"/>
                             <t:template>
-                                <core:Icon src="sap-icon://accept" color="#3CB371" visible="{= ${DefectModel>create_qn} &amp;&amp; ${DefectModel>status} !== '' }" class="statusIcon" />
+                                <Text text="{DefectModel>qn_code}"/>
                             </t:template>
                         </t:Column>
-                        <t:Column width="11%" hAlign="Center">
+                        <t:Column width="8%" hAlign="Center">
                             <Label text="{i18n>Defect.treeTable.details}"/>
                             <t:template>
-                                <Button icon="sap-icon://hint" width="100%" press="onDetailPress" visible="{= ${DefectModel>status} !== '' }" />
+                                <Button icon="sap-icon://hint" width="100%" press="onDetailPress" visible="{= ${DefectModel>status} !== undefined }" />
                             </t:template>
                         </t:Column>
-                        <t:Column width="11%" hAlign="Center">
+                        <t:Column width="8%" hAlign="Center">
                             <Label text="{i18n>Defect.treeTable.close}"/>
                             <t:template>
-                                <Button text="{i18n>Defect.treeTable.button.close}" visible="{= ${DefectModel>okClose} &amp;&amp; ${DefectModel>status} !== '' }" width="100%" press="onClosePress" />
+                                <Button text="{i18n>Defect.treeTable.button.close}" visible="{= ${DefectModel>status} !== undefined &amp;&amp; ${DefectModel>okClose} }" width="100%" press="onClosePress" />
                             </t:template>
                         </t:Column>
                     </t:columns>

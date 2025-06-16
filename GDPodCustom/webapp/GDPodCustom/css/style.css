@@ -370,3 +370,64 @@
 .toolbarTable{
     background-color: antiquewhite;
 }
+
+/* Filtri per popup allegati */
+.uploadDialog .sapMDialogScroll {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.uploadContent {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+.btnUploadStyled {
+    color: white !important;
+    border-radius: 8px;
+    font-weight: bold;
+}
+.fileUploaderStyled .sapMBtn {
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding-left: 1.5rem;
+    display: inline-flex;
+    padding-top: 1rem;
+}
+.fileUploaderStyled .sapMInputBaseContentWrapper {
+    height: 2.5rem;
+}
+.fileUploaderStyled .sapMInputBaseInner {
+    height: 100%;
+    line-height: 2.5rem;
+    background-color: white;
+    color: #ca0b30;
+    border-radius: 8px;
+    font-weight: bold;
+    padding: 0 16px;
+    height: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.uploadDialogVBox {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.fileUploaderContaienr {
+    /* padding-top: 8px; */
+    /* padding-bottom: 8px; */
+    width: 100%;
+    height: 10%;
+}
+.uploadedTable {
+    flex-grow: 1;
+    min-height: 0;
+}

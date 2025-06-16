@@ -7,7 +7,7 @@ sap.ui.define([
     "use strict";
 
     return Dialog.extend("kpmg.custom.pod.GDPodCustom.GDPodCustom.controller.popup.OpenDefectPopup", {
-
+        ID: 0,
         open: function (oView, oController, selectedOp) {
             var that = this;
             that.OpenDefectModel = new JSONModel();
@@ -25,18 +25,22 @@ sap.ui.define([
             that.getNotificationType();
             that.getResponsible();
             that.getVariance();
+            
             that.openDialog();
         },
 
         clearData: function () {
             var that = this;
+            var selectedSFC = that.MainPODcontroller.getInfoModel().getProperty("/selectedSFC/");
+            var user = that.MainPODcontroller.getInfoModel().getProperty("/user_id");
+
             that.OpenDefectModel.setProperty("/defect", {
                 material: "",
-                prodOrder: "",
+                prodOrder: selectedSFC.ORDER_TYPE == "GRPF" ? selectedSFC.PURCHASE_ORDER : selectedSFC.order,
                 assembly: "",
                 numDefect: 1,
                 title: "",
-                description: "",
+                description: user,
                 codeGroup: "",
                 defectType: "",
                 priority: "",
@@ -50,7 +54,11 @@ sap.ui.define([
                 defectNote: "",
                 responsible: "",
                 time: "",
+                typeOrder: selectedSFC.ORDER_TYPE == "GRPF" ? "Purchasing Doc." : "Prod. Order",
+                attachments: [],
             });
+            that.getView().byId("attachID").clear();
+
         },
         loadHeaderData: function () {
             var that = this;
@@ -299,6 +307,26 @@ sap.ui.define([
             }
         },
 
+        popAllegaPress: function (oEvent) {
+            var that = this;
+            var oDialog = that.getView().byId("uploadDialog");
+            oDialog.open();
+        },
+
+        deleteAttachment: function (oEvent) {
+            var that = this;
+            var idDeleted = oEvent.getSource().getBindingContext().getObject().ID;
+            that.OpenDefectModel.setProperty("/defect/attachments", that.OpenDefectModel.getProperty("/defect/attachments").filter(item => item.ID != idDeleted))
+        },
+        handleUploadPress: function (oEvent) {
+            var that = this;
+            var oFileUploader = that.getView().byId("attachID");
+            oFileUploader.upload();
+            oFileUploader.clear();
+            var oDialog = that.getView().byId("uploadDialog");
+            oDialog.close();
+        },
+
         uploadDocument: function(oEvent) {
             var that = this;
             const aFiles = oEvent.getParameter("files");
@@ -310,11 +338,16 @@ sap.ui.define([
                 reader.onload = function(e) {
                     const base64String = e.target.result.split(",")[1]; // Rimuove il prefix "data:*/*;base64,"
     
-                    that.OpenDefectModel.setProperty("/defect/attachment", {
+                    that.OpenDefectModel.getProperty("/defect/attachments").push({
+                        "ID": that.ID,
                         "BASE_64": base64String,
                         "FILE_NAME": oFile.name,
                         "FILE_TYPE": oFile.type
                     });
+                    that.OpenDefectModel.refresh();
+                    that.ID++;
+                    var oFileUploader = that.getView().byId("attachID");
+                    oFileUploader.clear();
                 };
         
                 reader.onerror = function(err) {
@@ -387,12 +420,15 @@ sap.ui.define([
                 startSfcRequired: false,
                 allowNotAssembledComponents: false
             };
-            if (defect.attachment != undefined) {
-                params.files = {
-                    fileContent: defect.attachment.BASE_64,
-                    fileMediaType: defect.attachment.FILE_TYPE,
-                    fileName: defect.attachment.FILE_NAME,
-                }
+            if (defect.attachments.length > 0) {
+                params.files = [];
+                defect.attachments.forEach(element => {
+                    params.files.push({
+                        fileContent: element.BASE_64,
+                        fileMediaType: element.FILE_TYPE,
+                        fileName: element.FILE_NAME
+                    });
+                });
             }
 
             // Callback di successo
@@ -404,7 +440,11 @@ sap.ui.define([
             // Callback di errore
             var errorCallback = function (error) {
                 console.log("Chiamata POST fallita: ", error);
+                that.MainPODcontroller.showErrorMessageBox(error);
+                sap.ui.core.BusyIndicator.hide();
             };
+
+            sap.ui.core.BusyIndicator.show(0);
             CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
         },
         saveZDefects: function (idDefect) {
@@ -412,11 +452,17 @@ sap.ui.define([
             var infoModel = that.MainPODcontroller.getInfoModel();
             var defect = that.OpenDefectModel.getProperty("/defect");
             var sfc = infoModel.getProperty("/selectedSFC/sfc") || "";
+            var user = infoModel.getProperty("/user_id");
+            try {
+                var operation = that.selectedOp.routingOperation.operationActivity.operationActivity;
+            } catch (e) {
+                var operation = "";
+            }
 
             let params = {
                 idDefect: idDefect,
                 material: defect.material,
-                mesOrder: "todo domani",
+                mesOrder: defect.prodOrder,
                 assembly: defect.assembly,
                 title: defect.title,
                 description : defect.description,
@@ -425,6 +471,8 @@ sap.ui.define([
                 blocking : defect.blocking,
                 createQN : defect.createQN,
                 sfc: sfc,
+                user: user,
+                operation: operation,
             }
             if (defect.createQN) {
                 params.notificationType = defect.notificationType;
@@ -445,12 +493,14 @@ sap.ui.define([
                 sap.ui.getCore().getEventBus().publish("defect", "loadDefect", null);
                 that.MainPODcontroller.showToast(that.MainPODcontroller.getI18n("defect.success.message"));
                 that.onClosePopup();
+                sap.ui.core.BusyIndicator.hide();
             };
 
             // Callback di errore
             var errorCallback = function (error) {
                 console.log("Chiamata POST fallita: ", error);
                 that.MainPODcontroller.showErrorMessageBox(that.MainPODcontroller.getI18n("defect.saveData.error.message"));
+                sap.ui.core.BusyIndicator.hide();
             };
             CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that,true,true);
         },
@@ -458,6 +508,13 @@ sap.ui.define([
         onClosePopup: function () {
             var that = this;
             that.closeDialog();
+        },
+
+        
+        toggleBusyIndicator: function () {
+            var that = this;
+            var busyState = that.treeTable.getBusy();
+            that.treeTable.setBusy(!busyState);
         }
     })
 }

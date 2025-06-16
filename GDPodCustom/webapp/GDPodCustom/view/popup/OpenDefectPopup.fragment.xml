@@ -7,10 +7,41 @@
     xmlns:html="http://www.w3.org/1999/xhtml"
     controllerName="kpmg.custom.pod.GDPodCustom.GDPodCustom.controller.popup.OpenDefectPopup"
     width="100%"
-    height="100%"
->
+    height="100%">
     <Dialog id="openDefectDialog" title="Open Defect" showHeader="true" contentHeight="700px"  contentWidth="1500px" verticalScrolling="false" horizontalScrolling="false"> 
         <content>
+
+            <!-- Dialog per allegare file -->
+            <Dialog id="uploadDialog" showHeader="true" class="uploadDialog" title="Attach files" contentWidth="850px" contentHeight="450px">
+                <content>
+                    <VBox class="uploadDialogVBox">
+                        <HBox justifyContent="Center" class="fileUploaderContainer">
+                            <unified:FileUploader id="attachID" name="fileUploader" uploadUrl="upload/service/endpoint" change="uploadDocument" buttonText="Sfoglia" uploadOnChange="false" class="fileUploaderStyled"/>
+                        </HBox>
+                        <Table items="{/defect/attachments}" class="uploadedTable" growing="true" growingScrollToLoad="true" inset="false" popinLayout="GridSmall">
+                            <columns>
+                                <Column width="75%" minScreenWidth="Tablet" demandPopin="true">
+                                    <Text text="File name"></Text>
+                                </Column>
+                                <Column width="25%" minScreenWidth="Tablet" demandPopin="true">
+                                    <Text text="Elimina"></Text>
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <Text text="{FILE_NAME}"></Text>
+                                        <Button icon="sap-icon://delete" press="deleteAttachment"/>
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </VBox>
+                </content>
+                <beginButton>
+                    <Button text="Confirm" id="uploadButton" class="btnUploadStyled" press="handleUploadPress"/>
+                </beginButton>
+            </Dialog>
 
             <!-- Container principale -->
             <VBox width="100%" height="100%" renderType="Bare" alignItems="Center" justifyContent="SpaceBetween">
@@ -36,8 +67,8 @@
                             <Input id="materialId" width="50%" value="{/defect/material}" showSuggestion="true" class="markingMediumLabelValue"/>
                         </HBox>
                         <HBox renderType="Bare" alignItems="Center" width="30%">
-                            <Label text="Prod. Order / Purchasing Doc." width="60%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
-                            <Input id="prodOrderId" width="30%" value="{/defect/prodOrder}" showSuggestion="true" class="markingMediumLabelValue" />
+                            <Label text="{/defect/typeOrder}" width="40%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
+                            <Input id="prodOrderId" width="50%" value="{/defect/prodOrder}" showSuggestion="true" class="markingMediumLabelValue" />
                         </HBox>
                         <HBox renderType="Bare" alignItems="Center" width="25%">
                             <Label text="Assembly" width="40%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
@@ -86,16 +117,16 @@
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center">
                             <Label text="Attachment" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" />
-                            <unified:FileUploader name="fileUploader" width="50%" uploadUrl="upload/service/endpoint" buttonText="Choose file" uploadOnChange="false" change="uploadDocument"/>
+                            <Button text="Attach files" width="50%" press="popAllegaPress"/>
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center">
-                            <Label text="Blocking" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true" />
+                            <Label text="Blocking" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" />
                             <CheckBox text="" width="50%" selected="{/defect/blocking}" />  
                         </HBox>
                     </VBox>
                     <VBox width="45%" height="100%" renderType="Bare" justifyContent="SpaceBetween">
                         <HBox width="100%" renderType="Bare" alignItems="Center">
-                            <Label text="Create QN" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true" />
+                            <Label text="Create QN" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
                             <CheckBox text="" width="50%" selected="{/defect/createQN}" />  
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center" visible="{/defect/createQN}">

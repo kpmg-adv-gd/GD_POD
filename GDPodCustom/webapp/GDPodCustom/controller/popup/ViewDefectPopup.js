@@ -34,44 +34,91 @@ sap.ui.define([
             that.ViewDefectModel.setProperty("/sfc", sfc);
             that.ViewDefectModel.setProperty("/wc", wc);
             that.ViewDefectModel.setProperty("/defect/material", material);
+            that.ViewDefectModel.setProperty("/defect/attachments", []);
+
+            var files = that.ViewDefectModel.getProperty("/defect/files");
+            if (files) {
+                files.forEach(element => {
+                    that.downloadFile(element);
+                });
+            }
+
             that.openDialog();
             
-        },
-
-        onAttachmentPress: function () {
-            var that = this;
-            var files = that.ViewDefectModel.getProperty("/defect/files");
-
-            files.forEach(element => {
-                that.downloadFile(element);
-            });
         },
 
         downloadFile: function (idFile) {
             var that = this;
 
             let params = {
+                fileId: idFile
             };
 
             var infoModel = that.MainPODcontroller.getInfoModel();
             let BaseProxyURL = infoModel.getProperty("/BaseProxyURL");
-            let pathOrderBomApi = "/api/nonconformance/v1/file/download?fileId=" + idFile;
+            let pathOrderBomApi = "/api/nonconformance/v1/file/download";
             let url = BaseProxyURL+pathOrderBomApi; 
 
             // Callback di successo
             var successCallback = function(response) {
-                console.log(response)
+                if (response.fileContent && response.contentType) {
+
+                    that.ViewDefectModel.getProperty("/defect/attachments").push({
+                        response: response,
+                        FILE_NAME: response.fileName
+                    });
+                    that.ViewDefectModel.refresh();
+                    
+                } else {
+                    that.showErrorMessageBox("No Content File");
+                }
+     
             };
             // Callback di errore
             var errorCallback = function(error) {
                 console.log("Chiamata GET fallita:", error);
             };
-            CommonCallManager.callProxy("GET", url, params, true, successCallback, errorCallback, that);
+            CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
+        },
+
+        downloadAttachment: function (oEvent) {
+            var that = this;
+            var response = oEvent.getSource().getBindingContext().getObject().response;
+
+            sap.ui.core.BusyIndicator.show(0);
+
+            // Converte i dati in un Blob
+            var uintArray = new Uint8Array(response.fileContent.data);
+            var blob = new Blob([uintArray], { type: response.contentType });
+            // Crea un URL per il file
+            var fileUrl = URL.createObjectURL(blob);
+
+            //Provo il Download
+            var a = document.createElement("a");
+            a.href = fileUrl;
+            a.download = response.fileName; // Puoi settare il nome del file da scaricare
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            sap.ui.core.BusyIndicator.hide();
         },
         
+        onAttachmentPress: function () {
+            var that = this;
+            var oDialog = that.getView().byId("uploadViewDialog");
+            oDialog.open();
+        },
+
         onClosePopup: function () {
             var that = this;   
             that.closeDialog();
+        },
+
+        closePopupAttachments: function () {  
+            var that = this;
+            var oDialog = that.getView().byId("uploadViewDialog");
+            oDialog.close();
         },
 
         formatDateTime: function(date) {

@@ -11,9 +11,11 @@ sap.ui.define([
         Defect: new JSONModel(),
         ViewDefectPopup: new ViewDefectPopup(),
         oGroupModel: new JSONModel(),
+        oVarianceModel: new JSONModel(),
         onInit: function () {
             this.getView().setModel(this.Defect, "DefectModel");
             this.getView().setModel(this.oGroupModel, "GroupModel");
+            this.getView().setModel(this.oVarianceModel, "VarianceModel");
             
             this.treeTable = this.getView().byId("treeTableDefect");
 
@@ -23,8 +25,7 @@ sap.ui.define([
 
         onAfterRendering: function(){
             var that=this;
-            that.onNavigateTo();
-            that.getCodeGroups();
+            that.getVariance();
         },
 
         // Recupero CodeGroups 
@@ -41,7 +42,9 @@ sap.ui.define([
             // Callback di successo
             var successCallback = function (response) {
                 if (response.groupResponse) {
+                    response.groupResponse.forEach(item => item.associateCodes = []);
                     this.oGroupModel.setProperty("/", response.groupResponse);
+                    that.getCodes();
                 }
             };
             // Callback di errore
@@ -50,11 +53,65 @@ sap.ui.define([
             };
             CommonCallManager.callProxy("GET", url, params, true, successCallback, errorCallback, that);
         },
+        // Recupero codes
+        getCodes: function (oEvent) {
+            var that = this;
+            let plant = that.getInfoModel().getProperty("/plant");
+            
+            let BaseProxyURL =  that.getInfoModel().getProperty("/BaseProxyURL");
+            let pathGetMarkingDataApi = "/api/nonconformancecode/v1/nonconformancecodes?plant=" + plant;
+            let url = BaseProxyURL + pathGetMarkingDataApi;
+
+            let params = {
+            };
+
+            // Callback di successo
+            var successCallback = function (response) {
+                if (response.codeResponse) {
+                    response.codeResponse.forEach(code => {
+                        code.groups.forEach(group => {
+                            that.oGroupModel.getProperty("/").filter(item => item.group == group.group).forEach(item => item.associateCodes.push(code));
+                        })
+                    });
+                    that.oGroupModel.refresh();
+                    that.receiveGroupDefect(0);
+                }
+            };
+            // Callback di errore
+            var errorCallback = function (error) {
+                console.log("Chiamata GET fallita: ", error);
+            };
+            CommonCallManager.callProxy("GET", url, params, true, successCallback, errorCallback, that);
+        },
+        // Recupero variances
+        getVariance: function () {
+            var that = this;
+            var plant = that.getInfoModel().getProperty("/plant");
+
+            let BaseProxyURL = that.getInfoModel().getProperty("/BaseProxyURL");
+            let pathReasonForVarianceApi = "/db/getReasonsForVariance";
+            let url = BaseProxyURL + pathReasonForVarianceApi;
+
+            let params = {};
+
+            // Callback di successo
+            var successCallback = function (response) {
+                that.oVarianceModel.setProperty("/", response.filter(item => item.plant == plant));
+                that.getCodeGroups();
+            };
+
+            // Callback di errore
+            var errorCallback = function (error) {
+                console.log("Chiamata POST fallita: ", error);
+            };
+            CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
+        },
+
         onNavigateTo: function(){
             var that=this;
             var defects = that.getInfoModel().getProperty("/defectOperation");
 			if (defects.length > 0)
-	            that.receiveGroupDefect(0);
+	            that.getCodeGroups();
 			else
 				that.getView().getModel("DefectModel").setProperty("/Defect", []);
         },
@@ -109,11 +166,11 @@ sap.ui.define([
         },
         loadDefectModel: function(){
             var that=this;
-            that.toggleBusyIndicator();
 
             let BaseProxyURL = that.getInfoModel().getProperty("/BaseProxyURL");
             let pathOrderBomApi = "/db/selectZDefect";
             let url = BaseProxyURL+pathOrderBomApi; 
+            var plant = that.getInfoModel().getProperty("/plant");
 
             var listDefect = [];
             that.getInfoModel().getProperty("/defectOperation").forEach(element => {
@@ -121,34 +178,37 @@ sap.ui.define([
             });
 
             let params={
-                listDefect
+                listDefect: listDefect,
+                plant: plant
             };
 
             // Callback di successo
             var successCallback = function(response) {
                 var defectList = [];
                 response.forEach(item => {
-                    item.group = that.getInfoModel().getProperty("/defectOperation").filter(def => def.id == item.id)[0].group;
-                    item.code = that.getInfoModel().getProperty("/defectOperation").filter(def => def.id == item.id)[0].code;
-                    item.status = that.getInfoModel().getProperty("/defectOperation").filter(def => def.id == item.id)[0].state;
-                    item.groupOrCode = item.code;
+                    var defStd = that.getInfoModel().getProperty("/defectOperation").filter(def => def.id == item.id)[0];
+                    item.group = defStd.group;
+                    item.code = defStd.code;
+                    item.codeDesc = that.oGroupModel.getProperty("/").filter(group => group.group == item.group)[0].associateCodes.filter(code => code.code ==defStd.code)[0].description;
+                    item.status = defStd.state;
+                    item.groupOrCode = item.codeDesc;
+                    item.numDefect = defStd.quantity;
+                    item.varianceDesc = that.oVarianceModel.getProperty("/").filter(variance => variance.cause == item.variance)[0].description;
                     item.groupDesc = that.oGroupModel.getProperty("/").filter(group => group.codes.filter(code => code.code == item.code).length > 0)[0].description
-                    item.okClose = (item.create_qn == false || item.system_status == "ATCO") && item.status == "OPEN";
+                    item.okClose = (!item.create_qn || item.system_status == "ATCO") && item.status == "OPEN";
                     if (defectList.filter(def => def.groupOrCode == item.group).length > 0) {
                         defectList.filter(def => def.groupOrCode == item.group)[0].Children.push(item);
                     }else{
                         defectList.push({
-                            groupOrCode: item.group,
+                            groupOrCode: item.groupDesc,
                             Children: [item]
                         })
                     }
                 });
                 that.getView().getModel("DefectModel").setProperty("/Defect", defectList);
-                that.toggleBusyIndicator();
             };
             // Callback di errore
             var errorCallback = function(error) {
-                that.toggleBusyIndicator();
                 console.log("Chiamata POST fallita:", error);
             };
             CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
@@ -162,6 +222,7 @@ sap.ui.define([
         onClosePress: function (oEvent) {
             var that = this;
             let idDefect = oEvent.getSource().getParent().getBindingContext("DefectModel").getObject().id;
+            let qnCode = oEvent.getSource().getParent().getBindingContext("DefectModel").getObject().qn_code;
             var plant = that.getInfoModel().getProperty("/plant");
 
             let params = {
@@ -177,13 +238,44 @@ sap.ui.define([
             // Callback di successo
             var successCallback = function(response) {
                 // publish difetti
+                //that.sendCloseToSap(plant, idDefect, qnCode);
                 sap.ui.getCore().getEventBus().publish("defect", "loadDefect", null);
                 that.showToast(that.getI18n("defect.close.success.message"));
+                sap.ui.core.BusyIndicator.hide();
+            };
+            // Callback di errore
+            var errorCallback = function(error) {
+                console.log("Chiamata POST fallita:", error);
+                sap.ui.core.BusyIndicator.hide();
+            };
+            
+            sap.ui.core.BusyIndicator.show(0);
+            CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
+        },
+
+        sendCloseToSap: function (plant, idDefect, qnCode) {
+            var that = this;
+
+            let params = {
+                plant: plant,
+                defectId: idDefect,
+                qnCode: qnCode
+            };
+
+            let BaseProxyURL = that.getInfoModel().getProperty("/BaseProxyURL");
+            let pathOrderBomApi = "/api/nonconformance/v1/sap/close";
+            let url = BaseProxyURL+pathOrderBomApi; 
+
+            // Callback di successo
+            var successCallback = function(response) {
+
             };
             // Callback di errore
             var errorCallback = function(error) {
                 console.log("Chiamata POST fallita:", error);
             };
+            
+            sap.ui.core.BusyIndicator.show(0);
             CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
         },
 
