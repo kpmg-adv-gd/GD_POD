@@ -19,6 +19,7 @@ sap.ui.define([
             that.clearData();
             that.loadHeaderData();
             //that.getOrder(); 
+            that.getAssemblies();
             that.getCodeGroups();
             that.getPriority();
             that.getCoding();
@@ -45,7 +46,6 @@ sap.ui.define([
                 defectType: "",
                 priority: "",
                 variance: "",
-                time: 0,
                 blocking: false,
                 createQN: false,
                 notificationType: "",
@@ -53,7 +53,6 @@ sap.ui.define([
                 replaceInAssembly: 0,
                 defectNote: "",
                 responsible: "",
-                time: "",
                 typeOrder: selectedSFC.ORDER_TYPE == "GRPF" ? "Purchasing Doc." : "Prod. Order",
                 attachments: [],
             });
@@ -189,6 +188,32 @@ sap.ui.define([
             };
             CommonCallManager.callProxy("GET", url, params, true, successCallback, errorCallback, that);
         },
+        getAssemblies: function () {
+            var that = this;
+
+            var infoModel = that.MainPODcontroller.getInfoModel();
+            
+            var plant = infoModel.getProperty("/plant");
+            var bom =  infoModel.getProperty("/selectedSFC/bom/bom");
+            var type =  infoModel.getProperty("/selectedSFC/bom/type");
+
+            let BaseProxyURL = infoModel.getProperty("/BaseProxyURL");
+            let pathGetMarkingDataApi = "/api/bom/v1/boms";
+            let url = BaseProxyURL + pathGetMarkingDataApi;
+            url += "?plant=" + plant;
+            url += "&bom=" + bom;
+            url += "&type=" + type;
+
+            // Callback di successo
+            var successCallback = function (response) {
+                this.OpenDefectModel.setProperty("/assemblies", [...[{material: {material: ""}}], ...response.bomResponse[0].components]);
+            };
+            // Callback di errore
+            var errorCallback = function (error) {
+                console.log("Chiamata GET fallita: ", error);
+            };
+            CommonCallManager.callProxy("GET", url, {}, true, successCallback, errorCallback, that);
+        },
         getPriority: function () {
             var that = this;
 
@@ -302,8 +327,6 @@ sap.ui.define([
 
             if (that.validate()) {
                 that.openDefect();
-            } else {
-                that.MainPODcontroller.showErrorMessageBox(that.MainPODcontroller.getI18n("defect.error.message"));
             }
         },
 
@@ -365,9 +388,11 @@ sap.ui.define([
             // Check sui campo obbligatori
             if (defect.numDefect == "" || defect.title == "" || defect.codeGroup == "" || defect.defectType == "" || defect.priority == "" 
                 || defect.variance == "") {
+                    that.MainPODcontroller.showErrorMessageBox(that.MainPODcontroller.getI18n("defect.error.message"));
                     return false;
                 }
             if (defect.createQN && (defect.coding == "" || (defect.replaceInAssembly != 0 && defect.replaceInAssembly != 1) || defect.responsible == "")) {
+                that.MainPODcontroller.showErrorMessageBox(that.MainPODcontroller.getI18n("defect.error.message"));
                 return false;
             }
 
@@ -375,7 +400,12 @@ sap.ui.define([
             try {
                 var priorityScript = JSON.parse(that.OpenDefectModel.getProperty("/priorities").filter(item => item.priority == defect.priority)[0].costraints);
                 for (let chiave in priorityScript) {
-                    if (defect[chiave] != priorityScript[chiave]) return false;
+                    for (let key in priorityScript[chiave]) {
+                        if (priorityScript[chiave][key] && defect[key] == "") {
+                            that.MainPODcontroller.showErrorMessageBox("Error Priority to field " + key);
+                            return false;
+                        }
+                    }
                 }
             } catch (e) {
                 console.log("errore nel parsing json Priority");
@@ -385,7 +415,12 @@ sap.ui.define([
                 try {
                     var notificationTypeScript = JSON.parse(that.OpenDefectModel.getProperty("/notificationTypies").filter(item => item.notification_type == defect.notificationType)[0].costraints);
                     for (let chiave in notificationTypeScript) {
-                        if (defect[chiave] != notificationTypeScript[chiave]) return false;
+                        for (let key in notificationTypeScript[chiave]) {
+                            if (notificationTypeScript[chiave][key] && defect[key] == "") {
+                                that.MainPODcontroller.showErrorMessageBox("Error Notification Type to field " + key);
+                                return false;
+                            }
+                        }
                     }
                 } catch (e) {
                     console.log("errore nel parsing json Notification Type");
@@ -480,7 +515,6 @@ sap.ui.define([
                 params.replaceInAssembly = defect.replaceInAssembly == 0;
                 params.defectNote = defect.defectNote;
                 params.responsible = defect.responsible;
-                params.time = defect.time != "" ? defect.time : null;
             }
 
             let BaseProxyURL = infoModel.getProperty("/BaseProxyURL");

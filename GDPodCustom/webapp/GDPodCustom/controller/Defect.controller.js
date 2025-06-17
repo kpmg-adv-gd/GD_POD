@@ -20,11 +20,12 @@ sap.ui.define([
             this.treeTable = this.getView().byId("treeTableDefect");
 
             // subscribe aggiorna difetti
-            sap.ui.getCore().getEventBus().subscribe("defect", "receiveDefect", this.receiveGroupDefect, this);
+            sap.ui.getCore().getEventBus().subscribe("defect", "receiveDefect", this.onAfterRendering, this);
         },
 
         onAfterRendering: function(){
             var that=this;
+            that.getView().getModel("DefectModel").setProperty("/Defect", []);
             that.getVariance();
         },
 
@@ -195,9 +196,9 @@ sap.ui.define([
                     item.numDefect = defStd.quantity;
                     item.varianceDesc = that.oVarianceModel.getProperty("/").filter(variance => variance.cause == item.variance)[0].description;
                     item.groupDesc = that.oGroupModel.getProperty("/").filter(group => group.codes.filter(code => code.code == item.code).length > 0)[0].description
-                    item.okClose = (!item.create_qn || item.system_status == "ATCO") && item.status == "OPEN";
-                    if (defectList.filter(def => def.groupOrCode == item.group).length > 0) {
-                        defectList.filter(def => def.groupOrCode == item.group)[0].Children.push(item);
+                    item.okClose = (!item.create_qn || (item.system_status != null && item.system_status.includes("ATCO"))) && item.status == "OPEN";
+                    if (defectList.filter(def => def.groupOrCode == item.groupDesc).length > 0) {
+                        defectList.filter(def => def.groupOrCode == item.groupDesc)[0].Children.push(item);
                     }else{
                         defectList.push({
                             groupOrCode: item.groupDesc,
@@ -206,6 +207,8 @@ sap.ui.define([
                     }
                 });
                 that.getView().getModel("DefectModel").setProperty("/Defect", defectList);
+                sap.ui.getCore().getEventBus().publish("defect", "loadDefectToPOD", {defects: response});
+
             };
             // Callback di errore
             var errorCallback = function(error) {

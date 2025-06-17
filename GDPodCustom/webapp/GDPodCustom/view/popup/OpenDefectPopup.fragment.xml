@@ -72,7 +72,9 @@
                         </HBox>
                         <HBox renderType="Bare" alignItems="Center" width="25%">
                             <Label text="Assembly" width="40%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
-                            <Input id="assemblyId" width="50%" value="{/defect/assembly}" showSuggestion="true" class="markingMediumLabelValue" />
+                            <Select id="assemblyId" selectedKey="{/defect/assembly}" width="50%" items="{/assemblies}">
+                                <core:Item key="{material/material}" text="{material/material}" />
+                            </Select>
                         </HBox>
                         <HBox renderType="Bare" alignItems="Center" width="20%">
                             <Label text="N° of Def." width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true"/>
@@ -159,10 +161,6 @@
                             <Select selectedKey="{/defect/responsible}" width="50%" items="{/responsibles}">
                                 <core:Item key="{id}" text="{id}" />
                             </Select>
-                        </HBox>
-                        <HBox width="100%" renderType="Bare" alignItems="Center" visible="{/defect/createQN}">
-                            <Label text="Time (min)" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
-                            <Input id="timeID" width="50%" type="Number" value="{/defect/time}" class="markingMediumLabelValue"/>
                         </HBox>
                     </VBox>
                 </HBox>

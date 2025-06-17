@@ -116,7 +116,7 @@
                                         <t:Column width="10%" hAlign="Center">
                                             <Label text="{i18n>mainPOD.table.hasDefect}"  />
                                             <t:template>
-                                                <core:Icon src="sap-icon://alert" color="#E5BE01" visible="{PODOperationModel>hasDefectOpen}" class="statusIcon" />
+                                                <core:Icon src="sap-icon://high-priority" color="#ca0b30" visible="{PODOperationModel>hasDefectOpen}" class="statusIcon" />
                                             </t:template>
                                         </t:Column>                               
                                     </t:columns>
@@ -140,7 +140,7 @@
                                         <IconTabFilter visible="{= !!${PODSfcModel>/ECO_TYPE} }" icon="sap-icon://journey-change" text="{i18n>mainPOD.tab.modifiche}" key="MODIFICHE">
                                             <mvc:XMLView viewName="kpmg.custom.pod.GDPodCustom.GDPodCustom.view.Modifiche" />
                                         </IconTabFilter>
-                                        <IconTabFilter icon="sap-icon://cancel" text="{i18n>mainPOD.tab.defect}" key="DEFECT">
+                                        <IconTabFilter icon="sap-icon://high-priority" text="{i18n>mainPOD.tab.defect}" key="DEFECT">
                                             <mvc:XMLView viewName="kpmg.custom.pod.GDPodCustom.GDPodCustom.view.Defect" />
                                         </IconTabFilter>
                                     </items>

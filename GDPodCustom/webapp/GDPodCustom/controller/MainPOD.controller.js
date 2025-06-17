@@ -11,14 +11,17 @@ sap.ui.define([
     return BaseController.extend("kpmg.custom.pod.GDPodCustom.GDPodCustom.controller.MainPOD", {
         oPODSfcModel: new JSONModel(),
         oPODOperationModel: new JSONModel(),
+        oDefectModel: new JSONModel(),
         MarkingPopup: new MarkingPopup(),
         OpenDefectPopup: new OpenDefectPopup(),
         onInit: function () {
             this.getView().setModel(this.oPODSfcModel, "PODSfcModel");
             this.getView().setModel(this.oPODOperationModel, "PODOperationModel");
+            this.getView().setModel(this.oDefectModel, "PODDefectModel");
 
             // Subscribe difetti
             sap.ui.getCore().getEventBus().subscribe("defect", "loadDefect", this.loadPODOperationsModel, this);
+            sap.ui.getCore().getEventBus().subscribe("defect", "loadDefectToPOD", this.loadDefectToPOD, this);
         },
 
         onAfterRendering: function(){
@@ -34,6 +37,10 @@ sap.ui.define([
             var that=this;
             var selectedSFC = that.getInfoModel().getProperty("/selectedSFC");
             that.getView().getModel("PODSfcModel").setProperty("/",selectedSFC);
+        },
+        loadDefectToPOD: function (sChannelId, sEventId, oData) {
+            var that = this;
+            that.oDefectModel.setProperty("/", oData.defects);
         },
         loadPODOperationsModel: function(){
             var that=this;
@@ -323,6 +330,10 @@ sap.ui.define([
             if(!operations.some(obj => obj?.routingOperation?.operationActivity?.operationActivity !== operation && obj?.QUANTITY?.quantityDone !== 1 )){
                 checkMancantiLastOperation=true;
                 if(!!valueModifica) checkModificheLastOperation = true;
+                if (!that.checkOpenDefectBlocked()) {
+                    that.showErrorMessageBox(that.getI18n("mainPOD.podMessage.completeDefectBLocked"));
+                    return;
+                }
             }
             
             let params = {
@@ -354,6 +365,13 @@ sap.ui.define([
             };
             CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that, false,true);
         },
+        checkOpenDefectBlocked: function () {
+            var that = this;
+            var defects = that.oDefectModel.getProperty("/");
+
+            if (defects.filter(item => item.status == "OPEN" && item.blocking).length > 0) return false;
+            return true;
+        },
         rowSelectionChange: function(oEvent){
             var that=this;
             var oTable = oEvent.getSource();
@@ -368,8 +386,6 @@ sap.ui.define([
                     return;
                 }
                 that.getInfoModel().setProperty("/selectedOperation",selectedObject);
-                // Salvo i relativi difetti
-                var defects = that.getInfoModel().getProperty("/defects");
             } else {
                 that.getInfoModel().setProperty("/selectedOperation",undefined);
             }

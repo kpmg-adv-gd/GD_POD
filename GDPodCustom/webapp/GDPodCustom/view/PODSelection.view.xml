@@ -160,7 +160,7 @@
                             <t:Column sortProperty="NC" width="5%" hAlign="Center">
                                 <Label text="{i18n>podSelection.table.NC}"  />
                                 <t:template>
-                                    <core:Icon src="sap-icon://alert" color="#E5BE01" visible="{PODSelectionModel>NC}" class="statusIcon" />
+                                    <core:Icon src="sap-icon://high-priority" color="#ca0b30" visible="{PODSelectionModel>NC}" class="statusIcon" />
                                 </t:template>
                             </t:Column>        
                         </t:columns>
