@@ -56,7 +56,7 @@ sap.ui.define([
                 typeOrder: selectedSFC.ORDER_TYPE == "GRPF" ? "Purchasing Doc." : "Prod. Order",
                 attachments: [],
             });
-            that.getView().byId("attachID").clear();
+         //   that.getView().byId("attachID").clear();
 
         },
         loadHeaderData: function () {
