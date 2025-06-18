@@ -18,8 +18,6 @@ sap.ui.define([
             
             that.clearData();
             that.loadHeaderData();
-            //that.getOrder(); 
-            that.getAssemblies();
             that.getCodeGroups();
             that.getPriority();
             that.getCoding();
@@ -37,7 +35,6 @@ sap.ui.define([
 
             that.OpenDefectModel.setProperty("/defect", {
                 material: "",
-                prodOrder: selectedSFC.ORDER_TYPE == "GRPF" ? selectedSFC.PURCHASE_ORDER : selectedSFC.order,
                 assembly: "",
                 numDefect: 1,
                 title: "",
@@ -53,7 +50,6 @@ sap.ui.define([
                 replaceInAssembly: 0,
                 defectNote: "",
                 responsible: "",
-                typeOrder: selectedSFC.ORDER_TYPE == "GRPF" ? "Purchasing Doc." : "Prod. Order",
                 attachments: [],
             });
          //   that.getView().byId("attachID").clear();
@@ -62,6 +58,7 @@ sap.ui.define([
         loadHeaderData: function () {
             var that = this;
             var infoModel = that.MainPODcontroller.getInfoModel();
+            var selectedSFC = that.MainPODcontroller.getInfoModel().getProperty("/selectedSFC/");
 
             const wbe = infoModel.getProperty("/selectedSFC/WBE") || "";
             const sfc = infoModel.getProperty("/selectedSFC/sfc") || "";
@@ -73,42 +70,18 @@ sap.ui.define([
             that.OpenDefectModel.setProperty("/wc", wc);
             that.OpenDefectModel.setProperty("/defect/material", material);
 
-        },
-
-        getOrder: function () {
-            var that = this;
-            var infoModel = that.MainPODcontroller.getInfoModel();
-
-            var routing = infoModel.getProperty("/selectedSFC/routing/routing");
-            var type = infoModel.getProperty("/selectedSFC/routing/type");
-            var plant = infoModel.getProperty("/plant");
-            var stepId = that.selectedOp.stepId;
-            
-            let BaseProxyURL = infoModel.getProperty("/BaseProxyURL");
-            let pathGetMarkingDataApi = "/api/routing/v1/routings/routingSteps";
-            let url = BaseProxyURL + pathGetMarkingDataApi;
-
-            let params = {
-                plant: plant,
-                routing: routing,
-                type: type,
-                stepId: stepId
-            };
-
-            // Callback di successo
-            var successCallback = function (response) {
-                if (response.length > 0) {
-                    that.getCustomOrder();
-                }
-            };
-            // Callback di errore
-            var errorCallback = function (error) {
-                console.log("Chiamata POST fallita: ", error);
-            };
-            CommonCallManager.callProxy("GET", url, params, true, successCallback, errorCallback, that);
+            try {
+                var order = this.selectedOp.routingOperation.customValues.filter(custom => custom.attribute == "ORDER")[0].value;
+                var splitMaterial = that.selectedOp.routingOperation.operationActivity.operationActivity.split("_");
+                that.OpenDefectModel.setProperty("/defect/material", splitMaterial[1]);
+                that.getOrder(order);
+            } catch (e) {
+                console.log("Materiale o Ordine non trovato");
+            }
 
         },
-        getCustomOrder: function (order) {
+
+        getOrder: function (order) {
             var that = this;
             var infoModel = that.MainPODcontroller.getInfoModel();
 
@@ -117,21 +90,29 @@ sap.ui.define([
             let BaseProxyURL = infoModel.getProperty("/BaseProxyURL");
             let pathGetMarkingDataApi = "/api/order/v1/orders";
             let url = BaseProxyURL + pathGetMarkingDataApi;
+            url += "?plant=" + plant;
+            url += "&order=" + order;
 
             let params = {
-                plant: plant,
-                order: order
             };
 
             // Callback di successo
             var successCallback = function (response) {
-                if (response.length > 0) {
-                    
+                if (response.orderResponse && response.orderResponse.bom) {
+                    if (response.orderResponse.customValues.filter(custom => custom.attribute == "ORDER_TYPE").length > 0 
+                        && response.orderResponse.customValues.filter(custom => custom.attribute == "ORDER_TYPE")[0].value == "GRPF") {
+                            that.OpenDefectModel.setProperty("/defect/typeOrder", "Purchase Doc.");
+                            that.OpenDefectModel.setProperty("/defect/prodOrder", response.orderResponse.customValues.filter(custom => custom.attribute == "PURCHASE_ORDER")[0].value);
+                        }else{
+                            that.OpenDefectModel.setProperty("/defect/typeOrder", "Prod. Order");
+                            that.OpenDefectModel.setProperty("/defect/prodOrder", order);
+                        }
                 }
+                that.getAssemblies(response.orderResponse.bom.bom, response.orderResponse.bom.type);
             };
             // Callback di errore
             var errorCallback = function (error) {
-                console.log("Chiamata POST fallita: ", error);
+                console.log("Chiamata GET fallita: ", error);
             };
             CommonCallManager.callProxy("GET", url, params, true, successCallback, errorCallback, that);
 
@@ -188,14 +169,12 @@ sap.ui.define([
             };
             CommonCallManager.callProxy("GET", url, params, true, successCallback, errorCallback, that);
         },
-        getAssemblies: function () {
+        getAssemblies: function (bom, type) {
             var that = this;
 
             var infoModel = that.MainPODcontroller.getInfoModel();
             
             var plant = infoModel.getProperty("/plant");
-            var bom =  infoModel.getProperty("/selectedSFC/bom/bom");
-            var type =  infoModel.getProperty("/selectedSFC/bom/type");
 
             let BaseProxyURL = infoModel.getProperty("/BaseProxyURL");
             let pathGetMarkingDataApi = "/api/bom/v1/boms";
@@ -488,6 +467,8 @@ sap.ui.define([
             var defect = that.OpenDefectModel.getProperty("/defect");
             var sfc = infoModel.getProperty("/selectedSFC/sfc") || "";
             var user = infoModel.getProperty("/user_id");
+            var plant = infoModel.getProperty("/plant");
+
             try {
                 var operation = that.selectedOp.routingOperation.operationActivity.operationActivity;
             } catch (e) {
@@ -508,6 +489,7 @@ sap.ui.define([
                 sfc: sfc,
                 user: user,
                 operation: operation,
+                plant: plant,
             }
             if (defect.createQN) {
                 params.notificationType = defect.notificationType;

@@ -191,7 +191,6 @@ sap.ui.define([
                     item.group = defStd.group;
                     item.code = defStd.code;
                     item.codeDesc = that.oGroupModel.getProperty("/").filter(group => group.group == item.group)[0].associateCodes.filter(code => code.code ==defStd.code)[0].description;
-                    item.status = defStd.state;
                     item.groupOrCode = item.codeDesc;
                     item.numDefect = defStd.quantity;
                     item.varianceDesc = that.oVarianceModel.getProperty("/").filter(variance => variance.cause == item.variance)[0].description;
