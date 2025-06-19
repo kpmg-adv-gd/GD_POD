@@ -109,10 +109,8 @@ sap.ui.define([
 
             // Callback di successo
             var successCallback = function(response) {
-				response.result.forEach(i => i.NC = false);
                 that.getView().getModel("PODSelectionModel").setProperty("/SFCs",response.result);
                 that.getView().getModel("PODSelectionModel").setProperty("/BusyLoadingOpTable",false);
-                that.calculateNC([...new Set(response.result.map(item => item.sfc))]);
             };
             // Callback di errore
             var errorCallback = function(error) {
@@ -121,29 +119,6 @@ sap.ui.define([
             };
             CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
 
-        },
-        calculateNC: function (sfcs) {
-            var that=this;
-            let BaseProxyURL = that.getInfoModel().getProperty("/BaseProxyURL");
-            let pathAPIFilter = "/api/getDefectOpenBySFCs";
-            let url = BaseProxyURL+pathAPIFilter;
-            let params = {
-                "sfcs": sfcs
-            }
-            // Callback di successo
-            var successCallback = function(response) {
-                that.getView().getModel("PODSelectionModel").getProperty("/SFCs").forEach(element => {
-                    var NC = response.data.value.filter(item => item.SFC == element.sfc).length > 0
-                    element.NC = NC;
-                });
-				that.getView().getModel("PODSelectionModel").refresh();
-            };
-
-            // Callback di errore
-            var errorCallback = function(error) {
-                console.log("Chiamata POST fallita:", error);
-            };
-            CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
         },
         onClearPress: function(oEvent){
             var that = this;

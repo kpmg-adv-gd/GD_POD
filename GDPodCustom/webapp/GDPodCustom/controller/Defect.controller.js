@@ -193,6 +193,7 @@ sap.ui.define([
                     item.codeDesc = that.oGroupModel.getProperty("/").filter(group => group.group == item.group)[0].associateCodes.filter(code => code.code ==defStd.code)[0].description;
                     item.groupOrCode = item.codeDesc;
                     item.numDefect = defStd.quantity;
+                    item.status = defStd.state;
                     item.varianceDesc = that.oVarianceModel.getProperty("/").filter(variance => variance.cause == item.variance)[0].description;
                     item.groupDesc = that.oGroupModel.getProperty("/").filter(group => group.codes.filter(code => code.code == item.code).length > 0)[0].description
                     item.okClose = (!item.create_qn || (item.system_status != null && item.system_status.includes("ATCO"))) && item.status == "OPEN";
@@ -224,13 +225,16 @@ sap.ui.define([
         onClosePress: function (oEvent) {
             var that = this;
             let idDefect = oEvent.getSource().getParent().getBindingContext("DefectModel").getObject().id;
-            let qnCode = oEvent.getSource().getParent().getBindingContext("DefectModel").getObject().qn_code;
             var plant = that.getInfoModel().getProperty("/plant");
+            let sfc = that.getInfoModel().getProperty("/selectedSFC/sfc");
+            let order = that.getInfoModel().getProperty("/selectedSFC/order");
 
             let params = {
                 id: idDefect,
                 plant: plant,
-                comments: ""
+                comments: "",
+                sfc: sfc,
+                order: order
             };
 
             let BaseProxyURL = that.getInfoModel().getProperty("/BaseProxyURL");

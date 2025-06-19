@@ -58,7 +58,6 @@ sap.ui.define([
         loadHeaderData: function () {
             var that = this;
             var infoModel = that.MainPODcontroller.getInfoModel();
-            var selectedSFC = that.MainPODcontroller.getInfoModel().getProperty("/selectedSFC/");
 
             const wbe = infoModel.getProperty("/selectedSFC/WBE") || "";
             const sfc = infoModel.getProperty("/selectedSFC/sfc") || "";
@@ -417,6 +416,7 @@ sap.ui.define([
 
             var plant = infoModel.getProperty("/plant");
             var sfc = infoModel.getProperty("/selectedSFC/sfc") || "";
+            var order =  infoModel.getProperty("/selectedSFC/order");
             var wc = infoModel.getProperty("/selectedSFC/WORKCENTER") || "";
             var stepId = that.selectedOp.stepId;
 
@@ -432,7 +432,8 @@ sap.ui.define([
                 quantity: defect.numDefect,
                 routingStepId: stepId,
                 startSfcRequired: false,
-                allowNotAssembledComponents: false
+                allowNotAssembledComponents: false,
+                order: order
             };
             if (defect.attachments.length > 0) {
                 params.files = [];
