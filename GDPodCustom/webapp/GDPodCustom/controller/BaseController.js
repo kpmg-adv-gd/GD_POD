@@ -60,6 +60,13 @@ sap.ui.define([
         getInfoModel: function(){
             return sap.ui.getCore().getModel("InfoModel");
         },
+        getMainPodController: function(){
+            let oNavContainer = this.getInfoModel().getProperty("/oNavContainer");
+            let oTargetView = oNavContainer.getPages().find(function (oPage) {
+                return oPage.getViewName() === this.MainPODView;
+            });
+            return oTargetView.getController();
+        },
         setBasicProperties: function(){
             this.getInfoModel().setProperty("/BaseProxyURL",this.getConfiguration().BaseProxyURL);
             this.getInfoModel().setProperty("/plant",this.getConfiguration().Plant);

@@ -139,12 +139,6 @@
                                     <Text wrapping="false" text="{PODSelectionModel>DATADIFINESCHEDULATA}"  />
                                 </t:template>
                             </t:Column>    -->
-                            <t:Column sortProperty="MATERIALEPADRE" filterProperty="MATERIALEPADRE" width="16%">
-                                <Label text="{i18n>podSelection.table.parentMaterial}"  />
-                                <t:template>
-                                    <Text wrapping="false" text="{PODSelectionModel>MATERIALEPADRE}"  />
-                                </t:template>
-                            </t:Column>
                             <t:Column sortProperty="MANCANTI" width="5%" hAlign="Center">
                                 <Label text="{i18n>podSelection.table.missingComponents}"  />
                                 <t:template>

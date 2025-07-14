@@ -44,7 +44,11 @@
                                 <HBox width="90%" height="100%" renderType="Bare" class="leftButtonsPODOperation">
                                     <Button icon="sap-icon://begin" type="Emphasized" class="startOpButton" text="Start" tooltip="{i18n>mainPOD.tooltip.startoperation}" press="onStartOperationPress" />
                                     <Button icon="sap-icon://complete" type="Emphasized" class="completeOpButton" text="Complete" tooltip="{i18n>mainPOD.tooltip.completeoperation}" press="onCompleteOperationPress" />
+<<<<<<< HEAD
                                     <Button icon="sap-icon://message-warning" type="Emphasized" class="nonConformancesButton" text="Nonconformances" tooltip="{i18n>mainPOD.tooltip.nonconformances}" press="onNonConformancesPress" />
+=======
+                                    <Button icon="sap-icon://list" type="Emphasized" class="sinotticoButton" text="Mach BOM" tooltip="{i18n>mainPOD.tooltip.sinottico}" press="onOpenSinottico" />
+>>>>>>> 184bbee92b56452a29c8a3e1d9fd1f1806795412
                                 </HBox>
                                 <!-- ICONE COLLAPSE/EXPAND SECONDO CONTAINER -->
                                 <HBox width="10%" height="100%" renderType="Bare" class="rightIconsBox">
@@ -142,9 +146,16 @@
                                         <IconTabFilter visible="{= !!${PODSfcModel>/ECO_TYPE} }" icon="sap-icon://journey-change" text="{i18n>mainPOD.tab.modifiche}" key="MODIFICHE">
                                             <mvc:XMLView viewName="kpmg.custom.pod.GDPodCustom.GDPodCustom.view.Modifiche" />
                                         </IconTabFilter>
+<<<<<<< HEAD
                                         <IconTabFilter icon="sap-icon://high-priority" text="{i18n>mainPOD.tab.defect}" key="DEFECT">
                                             <mvc:XMLView viewName="kpmg.custom.pod.GDPodCustom.GDPodCustom.view.Defect" />
                                         </IconTabFilter>
+=======
+                                        <IconTabFilter visible="{= ${PODSfcModel>/ORDER_TYPE} === 'MACH' }" icon="sap-icon://electrocardiogram" text="{i18n>mainPOD.tab.electricalBox}" key="ELECTRICAL_BOX">
+                                            <mvc:XMLView viewName="kpmg.custom.pod.GDPodCustom.GDPodCustom.view.ElectricalBox" />
+                                        </IconTabFilter>
+                                        <!-- sap-icon://tri-state -->
+>>>>>>> 184bbee92b56452a29c8a3e1d9fd1f1806795412
                                     </items>
                                 </IconTabBar>      
                             </HBox>                                        

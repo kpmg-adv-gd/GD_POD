@@ -4,8 +4,9 @@ sap.ui.define([
     "./BaseController",
     "../utilities/CommonCallManager",
     "./popup/MarkingPopup",
-    "./popup/OpenDefectPopup"
-], function (jQuery, JSONModel, BaseController, CommonCallManager, MarkingPopup, OpenDefectPopup) {
+    "./popup/OpenDefectPopup",
+    "./popup/SinotticoPopup"
+], function (jQuery, JSONModel, BaseController, CommonCallManager, MarkingPopup, OpenDefectPopup, SinotticoPopup) {
     "use strict";
 
     return BaseController.extend("kpmg.custom.pod.GDPodCustom.GDPodCustom.controller.MainPOD", {
@@ -14,6 +15,7 @@ sap.ui.define([
         oDefectModel: new JSONModel(),
         MarkingPopup: new MarkingPopup(),
         OpenDefectPopup: new OpenDefectPopup(),
+        SinotticoPopup: new SinotticoPopup(),
         onInit: function () {
             this.getView().setModel(this.oPODSfcModel, "PODSfcModel");
             this.getView().setModel(this.oPODOperationModel, "PODOperationModel");
@@ -31,7 +33,8 @@ sap.ui.define([
             var that=this;
             that.loadSFCModel();
             that.loadPODOperationsModel();
-            that.loadOrderBom(); 
+            that.loadOrderBom();
+            that.loadElectricalBox();
         },
         loadSFCModel: function(){
             var that=this;
@@ -474,6 +477,14 @@ sap.ui.define([
                     that.checkCertificationMarker(markOperation);
                 }
             }
+        },
+        loadElectricalBox: function(){
+            var that=this;
+        },
+        onOpenSinottico: function(){
+            var that=this;
+            let order = that.getInfoModel().getProperty("/selectedSFC/order");
+            that.SinotticoPopup.open(that.getView(), that, order);
         },
         onCollapse: function(){
             var that=this;

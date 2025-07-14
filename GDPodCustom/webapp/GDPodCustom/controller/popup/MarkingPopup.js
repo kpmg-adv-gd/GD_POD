@@ -395,7 +395,8 @@ sap.ui.define([
 
             let params = {
                 plant:plant,
-                order:order
+                order:order,
+                sfc:sfc
             };
 
             // Callback di successo
@@ -525,26 +526,26 @@ sap.ui.define([
             if(parseInt(mmInputValue,10)<0 || parseInt(mmInputValue,10)>59) return false;
 
 
-            function convertToDate(dateStr) {
-                let parts = dateStr.split("/");
-                return new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
-            }
-            let markingDate = convertToDate(sMarkingDate);
-            let today = new Date();
-            if (markingDate > today) {
-                return false;
-            }
-            let dayMarking = sMarkingDate.split("/")[0];
-            let monthsMarking = sMarkingDate.split("/")[1];
-            let yearMarking = sMarkingDate.split("/")[2];
-            let comparingDate = new Date();
-            //Data attuale con il primo giorno del mese
-            comparingDate.setDate(1);
-            if(today.getDate()<=2){
-                comparingDate.setMonth(monthsMarking-1);
-            }
-            comparingDate.setHours(0,0,0,0);
-            if(markingDate<comparingDate) return false;
+            // function convertToDate(dateStr) {
+            //     let parts = dateStr.split("/");
+            //     return new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+            // }
+            // let markingDate = convertToDate(sMarkingDate);
+            // let today = new Date();
+            // if (markingDate > today) {
+            //     return false;
+            // }
+            // let dayMarking = sMarkingDate.split("/")[0];
+            // let monthsMarking = sMarkingDate.split("/")[1];
+            // let yearMarking = sMarkingDate.split("/")[2];
+            // let comparingDate = new Date();
+            // //Data attuale con il primo giorno del mese
+            // comparingDate.setDate(1);
+            // if(today.getDate()<=2){
+            //     comparingDate.setMonth(monthsMarking-1);
+            // }
+            // comparingDate.setHours(0,0,0,0);
+            // if(markingDate<comparingDate) return false;
 
             let confirmation_number = that.MarkingPopupModel.getProperty("/confirmNumber");
             let personnelNumber = that.MarkingPopupModel.getProperty("/personnelNumber");
