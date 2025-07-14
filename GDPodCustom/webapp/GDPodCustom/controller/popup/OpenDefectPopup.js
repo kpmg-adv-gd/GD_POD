@@ -491,6 +491,8 @@ sap.ui.define([
                 user: user,
                 operation: operation,
                 plant: plant,
+                wbe: infoModel.getProperty("/selectedSFC/WBE"),
+                typeOrder: defect.typeOrder
             }
             if (defect.createQN) {
                 params.notificationType = defect.notificationType;

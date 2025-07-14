@@ -28,13 +28,11 @@ sap.ui.define([
             const wbe = infoModel.getProperty("/selectedSFC/WBE") || "";
             const sfc = infoModel.getProperty("/selectedSFC/sfc") || "";
             const wc = infoModel.getProperty("/selectedSFC/WORKCENTER") || "";
-            const material = infoModel.getProperty("/selectedSFC/material/material");
-
+            
             that.ViewDefectModel.setProperty("/defect", that.defectSelected);
             that.ViewDefectModel.setProperty("/wbe", wbe);
             that.ViewDefectModel.setProperty("/sfc", sfc);
             that.ViewDefectModel.setProperty("/wc", wc);
-            that.ViewDefectModel.setProperty("/defect/material", material);
             that.ViewDefectModel.setProperty("/defect/attachments", []);
 
             var files = that.ViewDefectModel.getProperty("/defect/files");

@@ -147,8 +147,8 @@
                             <Label text="Replaced in Assembly" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true"/>
                             <RadioButtonGroup selectedIndex="{/defect/replaceInAssembly}" width="50%">
                                 <buttons>
-                                    <RadioButton text="Sì" groupName="group1" selected="{= ${/defect/replaceInAssembly} === 'Si' }" />
-                                    <RadioButton text="No" groupName="group1" selected="{= ${/defect/replaceInAssembly} === 'No' }" />
+                                    <RadioButton text="YES" groupName="group1" selected="{= ${/defect/replaceInAssembly} === 'YES' }" />
+                                    <RadioButton text="NO" groupName="group1" selected="{= ${/defect/replaceInAssembly} === 'NO' }" />
                                 </buttons>
                             </RadioButtonGroup>
                         </HBox>

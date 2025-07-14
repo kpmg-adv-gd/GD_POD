@@ -54,7 +54,9 @@
                             </HBox>                          
                             <!-- TABELLA OPERAZIONI -->
                             <VBox width="100%" height="100%" renderType="Bare">
-                                <t:Table id="podOperationTable" busy="{PODOperationModel>/BusyLoadingOpTable}" rowSelectionChange="rowSelectionChange"  class="kpmgGDTable mediumPaddingTable" rows="{PODOperationModel>/operations}" selectionMode="Single" selectionBehavior="RowOnly" visibleRowCountMode="Auto" rowHeight="45px" >
+                                <t:Table id="podOperationTable" busy="{PODOperationModel>/BusyLoadingOpTable}" rowSelectionChange="rowSelectionChange" 
+                                 class="kpmgGDTable mediumPaddingTable" rows="{PODOperationModel>/operations}" selectionMode="Single" 
+                                 selectionBehavior="RowOnly" visibleRowCountMode="Auto" rowHeight="45px" >
                                 <t:layoutData>
                                     <FlexItemData growFactor="1" baseSize="0%"/>
                                 </t:layoutData>
