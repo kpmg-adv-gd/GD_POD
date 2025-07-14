@@ -60,16 +60,14 @@ sap.ui.define([
 
             let BaseProxyURL = that.getInfoModel().getProperty("/BaseProxyURL");
             let pathModificheDb = "/db/getModificheBySfc";
-            let url = BaseProxyURL+pathModificheDb; 
+            let url = BaseProxyURL+pathModificheDb;
 
             let plant = that.getInfoModel().getProperty("/plant") || "";
-            let wbe = that.getInfoModel().getProperty("/selectedSFC/WBE") || "";;
             let sfc = that.getInfoModel().getProperty("/selectedSFC/sfc") || "";;
             let order = that.getInfoModel().getProperty("/selectedSFC/order") || "";
 
             let params={
                 plant: plant,
-                wbe: wbe,
                 sfc: sfc,
                 order: order
             };
@@ -91,24 +89,68 @@ sap.ui.define([
             var that=this;
             var pathModificheList = oEvent.getSource().getParent().getRowBindingContext().getPath();
             var objStatusModified = that.getView().getModel("ModificheModel").getProperty(pathModificheList);
-            that.updateStatusModification(objStatusModified);
+            if(objStatusModified.type=="MT"){
+                let warningMessage = that.getI18n("modifiche.warningMessage.allModificheTecniche");
+                sap.m.MessageBox.show(
+                    warningMessage,  // Messaggio da visualizzare
+                    sap.m.MessageBox.Icon.WARNING,      // Tipo di icona: warning
+                    "Warning",                       // Titolo della MessageBox
+                    [sap.m.MessageBox.Action.OK,sap.m.MessageBox.Action.CANCEL],
+                    function(oAction) { // Funzione di callback
+                        if (oAction === sap.m.MessageBox.Action.OK) {
+                            // Se l'utente preme OK
+                            that.updateStatusModification(objStatusModified);
+                        } else if (oAction === sap.m.MessageBox.Action.CANCEL) {
+                            that.loadStatusCollection();
+                            //Se preme cancel
+                        }
+                    }
+                );   
+            } else{
+                that.updateStatusModification(objStatusModified);
+            }
+            
 
         },
         updateStatusModification: function(objStatusModified){
             var that=this;
             let BaseProxyURL = that.getInfoModel().getProperty("/BaseProxyURL");
-            let pathUpdateStatusModifica = "/db/updateStatusModifica";
+            let pathUpdateStatusModifica = "/api/sendAndUpdateModifiche";
             let url = BaseProxyURL+pathUpdateStatusModifica; 
 
+            var sfcObj =  that.getInfoModel().getProperty("/selectedSFC");
+
             let plant = objStatusModified.plant;
+            var wbe = objStatusModified.wbe;
             let process_id = objStatusModified.process_id;
             let prog_eco = objStatusModified.prog_eco;
             let newStatus = objStatusModified.status;
+            var material = objStatusModified.material;
+            var child_material = objStatusModified.child_material;
+            var type = objStatusModified.type;
+            
+            let orderType = sfcObj.ORDER_TYPE;
+            var objOrder = "";
+            var item = "";
+            if(orderType=="ZPA1" || orderType=="ZPA2" || orderType=="ZPF1" || orderType=="ZPF2"){
+                objOrder = objStatusModified.order;
+            } else if(orderType=="GRPF"){
+                objOrder = sfcObj.PURCHASE_ORDER;
+                item = sfcObj.PURCHASE_ORDER_POSITION;
+            }
 
             let params={
                 plant: plant,
+                wbe: wbe,
+                process_id: process_id,
                 prog_eco: prog_eco,
-                newStatus: newStatus
+                newStatus: newStatus,
+                material: material,
+                child_material: child_material,
+                type: type,
+                objOrder: objOrder,
+                item: item,
+                resolution: ""
             };
 
             // Callback di successo
@@ -162,14 +204,18 @@ sap.ui.define([
                 }
             };
             that.getView().getModel("ModificheModel").setProperty("/selectedOpMark",markOperation);
-            that.checkCertificationMarkerModificheOp(markOperation);
+
+            //Eliminata il check sulla certificazione - Se rsi reinserisce eliminare apertura popup da qua e /selectedOpMark uguale ad udnefined
+            //that.checkCertificationMarkerModificheOp(markOperation);
+            that.MarkingPopup.open(that.getView(), that, markOperation, true);
+            that.getView().getModel("ModificheModel").setProperty("/selectedOpMark",undefined);
         },
         checkCertificationMarkerModificheOp: function(markOperation){
             var that=this;
 
             let BaseProxyURL = that.getInfoModel().getProperty("/BaseProxyURL");
             let pathAPICheckCertification = "/api/certification/v1/certifications/check";
-            let url = BaseProxyURL+pathAPICheckCertification;
+            var url = BaseProxyURL+pathAPICheckCertification;
 
             
             let plant = that.getInfoModel().getProperty("/plant");
@@ -208,17 +254,34 @@ sap.ui.define([
         updateResolutionModificaMA: function(objStatusModified){
             var that=this;
             let BaseProxyURL = that.getInfoModel().getProperty("/BaseProxyURL");
-            let pathUpdateStatusModifica = "/db/updateResolutionModificaMA";
-            let url = BaseProxyURL+pathUpdateStatusModifica; 
+            let pathUpdateStatusModifica = "/api/sendAndUpdateModifiche";
+            var url = BaseProxyURL+pathUpdateStatusModifica; 
 
             let plant = objStatusModified.plant;
             let process_id = objStatusModified.process_id;
             let userId = that.getInfoModel().getProperty("/user_id");
+            var resolution = "Modifica assieme applicata da " + userId;
+            var wbe = objStatusModified.wbe;
+            let prog_eco = objStatusModified.prog_eco;
+            let newStatus = objStatusModified.status;
+            var material = objStatusModified.material;
+            var child_material = objStatusModified.child_material;
+            var type = objStatusModified.type;
+            var objOrder = "";
+            var item = "";
 
             let params={
                 plant: plant,
+                wbe: wbe,
                 process_id: process_id,
-                userId: userId
+                prog_eco: prog_eco,
+                newStatus: newStatus,
+                material: material,
+                child_material: child_material,
+                type: type,
+                objOrder: objOrder,
+                item: item,
+                resolution: resolution
             };
 
             // Callback di successo
@@ -230,7 +293,7 @@ sap.ui.define([
             var errorCallback = function(error) {
                 console.log("Chiamata POST fallita:", error);
             };
-            CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
+            CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that,false,true);
 
         }
 

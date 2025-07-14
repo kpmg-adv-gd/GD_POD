@@ -44,6 +44,7 @@
                                 <HBox width="90%" height="100%" renderType="Bare" class="leftButtonsPODOperation">
                                     <Button icon="sap-icon://begin" type="Emphasized" class="startOpButton" text="Start" tooltip="{i18n>mainPOD.tooltip.startoperation}" press="onStartOperationPress" />
                                     <Button icon="sap-icon://complete" type="Emphasized" class="completeOpButton" text="Complete" tooltip="{i18n>mainPOD.tooltip.completeoperation}" press="onCompleteOperationPress" />
+                                    <Button icon="sap-icon://list" type="Emphasized" class="sinotticoButton" text="Mach BOM" tooltip="{i18n>mainPOD.tooltip.sinottico}" press="onOpenSinottico" />
                                 </HBox>
                                 <!-- ICONE COLLAPSE/EXPAND SECONDO CONTAINER -->
                                 <HBox width="10%" height="100%" renderType="Bare" class="rightIconsBox">
@@ -133,6 +134,10 @@
                                         <IconTabFilter visible="{= !!${PODSfcModel>/ECO_TYPE} }" icon="sap-icon://journey-change" text="{i18n>mainPOD.tab.modifiche}" key="MODIFICHE">
                                             <mvc:XMLView viewName="kpmg.custom.pod.GDPodCustom.GDPodCustom.view.Modifiche" />
                                         </IconTabFilter>
+                                        <IconTabFilter visible="{= ${PODSfcModel>/ORDER_TYPE} === 'MACH' }" icon="sap-icon://electrocardiogram" text="{i18n>mainPOD.tab.electricalBox}" key="ELECTRICAL_BOX">
+                                            <mvc:XMLView viewName="kpmg.custom.pod.GDPodCustom.GDPodCustom.view.ElectricalBox" />
+                                        </IconTabFilter>
+                                        <!-- sap-icon://tri-state -->
                                     </items>
                                 </IconTabBar>      
                             </HBox>                                        

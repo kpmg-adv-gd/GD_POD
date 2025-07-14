@@ -45,7 +45,8 @@ sap.ui.define([
                 },
                 error: function(error) {
                     // Recupera il messaggio di errore
-                    var errorMessage = error?.responseJSON?.error?.message || error?.responseJSON?.error?.error?.message || error?.responseText || "An unknown error occurred.";         
+                    var errorMessage = error?.responseJSON?.error?.message || error?.responseJSON?.error?.error?.message || error?.responseJSON?.error ||error?.responseText || "An unknown error occurred.";         
+   
                     try {
                         // Se è una stringa JSON (es. '"Errore test"') il parsing rimuove gli apici
                         errorMessage = JSON.parse(errorMessage);

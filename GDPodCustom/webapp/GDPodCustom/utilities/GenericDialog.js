@@ -14,6 +14,11 @@ sap.ui.define([
             if (null === this._dialog) {
                 // create dialog via fragment factory
                 this._dialog = sap.ui.xmlfragment(view.getId(), dialogClass, this);
+                // assegna modello i18n se disponibile nella view
+                var i18nModel = view.getModel("i18n");
+                if (i18nModel) {
+                    this._dialog.setModel(i18nModel, "i18n");
+                }
 
             }
             // connect dialog to view (models, lifecycle)
