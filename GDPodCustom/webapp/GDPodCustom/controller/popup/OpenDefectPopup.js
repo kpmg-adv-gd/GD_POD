@@ -15,7 +15,7 @@ sap.ui.define([
             that.selectedOp = selectedOp;
 
             that._initDialog("kpmg.custom.pod.GDPodCustom.GDPodCustom.view.popup.OpenDefectPopup", oView, that.OpenDefectModel);
-            
+
             that.clearData();
             that.loadHeaderData();
             that.getCodeGroups();
@@ -24,7 +24,7 @@ sap.ui.define([
             that.getNotificationType();
             that.getResponsible();
             that.getVariance();
-            
+
             that.openDialog();
         },
 
@@ -52,7 +52,7 @@ sap.ui.define([
                 responsible: "",
                 attachments: [],
             });
-         //   that.getView().byId("attachID").clear();
+            //   that.getView().byId("attachID").clear();
 
         },
         loadHeaderData: function () {
@@ -67,12 +67,16 @@ sap.ui.define([
             that.OpenDefectModel.setProperty("/wbe", wbe);
             that.OpenDefectModel.setProperty("/sfc", sfc);
             that.OpenDefectModel.setProperty("/wc", wc);
-            that.OpenDefectModel.setProperty("/defect/material", material);
 
             try {
                 var order = this.selectedOp.routingOperation.customValues.filter(custom => custom.attribute == "ORDER")[0].value;
                 var splitMaterial = that.selectedOp.routingOperation.operationActivity.operationActivity.split("_");
-                that.OpenDefectModel.setProperty("/defect/material", splitMaterial[1]);
+                if (infoModel.getProperty("/selectedSFC/ORDER_TYPE") == "ZPA1" || infoModel.getProperty("/selectedSFC/ORDER_TYPE") == "ZPA2" || infoModel.getProperty("/selectedSFC/ORDER_TYPE") == "ZPF1" ||
+                    infoModel.getProperty("/selectedSFC/ORDER_TYPE") == "ZPF2" || infoModel.getProperty("/selectedSFC/ORDER_TYPE") == "GRPF" || infoModel.getProperty("/selectedSFC/ORDER_TYPE") == "ZMGF" || splitMaterial[1] == undefined) {
+                    that.OpenDefectModel.setProperty("/defect/material", material);
+                } else {
+                    that.OpenDefectModel.setProperty("/defect/material", splitMaterial[1]);
+                }
                 that.getOrder(order);
             } catch (e) {
                 console.log("Materiale o Ordine non trovato");
@@ -85,7 +89,7 @@ sap.ui.define([
             var infoModel = that.MainPODcontroller.getInfoModel();
 
             var plant = infoModel.getProperty("/plant");
-            
+
             let BaseProxyURL = infoModel.getProperty("/BaseProxyURL");
             let pathGetMarkingDataApi = "/api/order/v1/orders";
             let url = BaseProxyURL + pathGetMarkingDataApi;
@@ -98,14 +102,19 @@ sap.ui.define([
             // Callback di successo
             var successCallback = function (response) {
                 if (response.orderResponse && response.orderResponse.bom) {
-                    if (response.orderResponse.customValues.filter(custom => custom.attribute == "ORDER_TYPE").length > 0 
+                    if (response.orderResponse.customValues.filter(custom => custom.attribute == "ORDER_TYPE").length > 0
                         && response.orderResponse.customValues.filter(custom => custom.attribute == "ORDER_TYPE")[0].value == "GRPF") {
-                            that.OpenDefectModel.setProperty("/defect/typeOrder", "Purchase Doc.");
+                            that.OpenDefectModel.setProperty("/defect/typeOrderDesc", "Purchase Doc.");
                             that.OpenDefectModel.setProperty("/defect/prodOrder", response.orderResponse.customValues.filter(custom => custom.attribute == "PURCHASE_ORDER")[0].value);
-                        }else{
-                            that.OpenDefectModel.setProperty("/defect/typeOrder", "Prod. Order");
-                            that.OpenDefectModel.setProperty("/defect/prodOrder", order);
-                        }
+                    } else if (response.orderResponse.customValues.filter(custom => custom.attribute == "ORDER_TYPE").length > 0
+                            && response.orderResponse.customValues.filter(custom => custom.attribute == "ORDER_TYPE")[0].value == "ZMGF") {
+                        that.OpenDefectModel.setProperty("/defect/typeOrderDesc", "Prod. Order");
+                        that.OpenDefectModel.setProperty("/defect/prodOrder", "");
+                    } else{
+                        that.OpenDefectModel.setProperty("/defect/typeOrderDesc", "Prod. Order");
+                        that.OpenDefectModel.setProperty("/defect/prodOrder", order);
+                    }
+                    that.OpenDefectModel.setProperty("/defect/typeOrder", response.orderResponse.customValues.filter(custom => custom.attribute == "ORDER_TYPE")[0].value);
                 }
                 that.getAssemblies(response.orderResponse.bom.bom, response.orderResponse.bom.type);
             };
@@ -120,19 +129,19 @@ sap.ui.define([
             var that = this;
             var infoModel = that.MainPODcontroller.getInfoModel();
             var plant = infoModel.getProperty("/plant");
-            
+
             let BaseProxyURL = infoModel.getProperty("/BaseProxyURL");
             let pathGetMarkingDataApi = "/api/nonconformancegroup/v1/nonconformancegroups?plant=" + plant;
             let url = BaseProxyURL + pathGetMarkingDataApi;
 
             let params = {
-                
+
             };
 
             // Callback di successo
             var successCallback = function (response) {
                 if (response.groupResponse) {
-                    this.OpenDefectModel.setProperty("/codeGroups", [...[{group: "", description: ""}], ...response.groupResponse]);
+                    this.OpenDefectModel.setProperty("/codeGroups", [...[{ group: "", description: "" }], ...response.groupResponse]);
                 }
             };
             // Callback di errore
@@ -146,7 +155,7 @@ sap.ui.define([
             var infoModel = that.MainPODcontroller.getInfoModel();
             var plant = infoModel.getProperty("/plant");
             var group = that.OpenDefectModel.getProperty("/defect/codeGroup");
-            
+
             let BaseProxyURL = infoModel.getProperty("/BaseProxyURL");
             let pathGetMarkingDataApi = "/api/nonconformancecode/v1/nonconformancecodes?plant=" + plant;
             let url = BaseProxyURL + pathGetMarkingDataApi;
@@ -158,7 +167,7 @@ sap.ui.define([
             var successCallback = function (response) {
                 if (response.codeResponse) {
                     var filter = response.codeResponse.filter(item => item.status == "ENABLED" && item.groups.filter(mc => mc.group == group).length > 0);
-                    this.OpenDefectModel.setProperty("/defectTypes", [...[{code: "", description: ""}], ...filter]);
+                    this.OpenDefectModel.setProperty("/defectTypes", [...[{ code: "", description: "" }], ...filter]);
 
                 }
             };
@@ -172,7 +181,7 @@ sap.ui.define([
             var that = this;
 
             var infoModel = that.MainPODcontroller.getInfoModel();
-            
+
             var plant = infoModel.getProperty("/plant");
 
             let BaseProxyURL = infoModel.getProperty("/BaseProxyURL");
@@ -184,7 +193,7 @@ sap.ui.define([
 
             // Callback di successo
             var successCallback = function (response) {
-                this.OpenDefectModel.setProperty("/assemblies", [...[{material: {material: ""}}], ...response.bomResponse[0].components]);
+                this.OpenDefectModel.setProperty("/assemblies", [...[{ material: { material: "" } }], ...response.bomResponse[0].components]);
             };
             // Callback di errore
             var errorCallback = function (error) {
@@ -200,11 +209,11 @@ sap.ui.define([
             let pathGetMarkingDataApi = "/db/getZPriorityData";
             let url = BaseProxyURL + pathGetMarkingDataApi;
 
-            let params = { };
+            let params = {};
 
             // Callback di successo
             var successCallback = function (response) {
-                this.OpenDefectModel.setProperty("/priorities", [...[{priority: "", description: ""}], ...response]);
+                this.OpenDefectModel.setProperty("/priorities", [...[{ priority: "", description: "" }], ...response]);
             };
             // Callback di errore
             var errorCallback = function (error) {
@@ -225,7 +234,7 @@ sap.ui.define([
 
             // Callback di successo
             var successCallback = function (response) {
-                this.OpenDefectModel.setProperty("/variances", [...[{cause: "", description: ""}], ...response.filter(item => item.plant == plant)]);
+                this.OpenDefectModel.setProperty("/variances", [...[{ cause: "", description: "" }], ...response.filter(item => item.plant == plant)]);
             };
 
             // Callback di errore
@@ -246,7 +255,7 @@ sap.ui.define([
 
             // Callback di successo
             var successCallback = function (response) {
-                this.OpenDefectModel.setProperty("/codings", [...[{coding: "", coding_description: ""}], ...response]);
+                this.OpenDefectModel.setProperty("/codings", [...[{ coding: "", coding_description: "" }], ...response]);
             };
 
             // Callback di errore
@@ -267,7 +276,7 @@ sap.ui.define([
 
             // Callback di successo
             var successCallback = function (response) {
-                this.OpenDefectModel.setProperty("/responsibles", [...[{id: ""}], ...response]);
+                this.OpenDefectModel.setProperty("/responsibles", [...[{ id: "" }], ...response]);
             };
 
             // Callback di errore
@@ -288,7 +297,7 @@ sap.ui.define([
 
             // Callback di successo
             var successCallback = function (response) {
-                this.OpenDefectModel.setProperty("/notificationTypies", [...[{notification_type: "", description: ""}], ...response]);
+                this.OpenDefectModel.setProperty("/notificationTypies", [...[{ notification_type: "", description: "" }], ...response]);
             };
 
             // Callback di errore
@@ -328,17 +337,17 @@ sap.ui.define([
             oDialog.close();
         },
 
-        uploadDocument: function(oEvent) {
+        uploadDocument: function (oEvent) {
             var that = this;
             const aFiles = oEvent.getParameter("files");
-        
+
             if (aFiles && aFiles.length > 0) {
                 const oFile = aFiles[0]; // Prendiamo solo il primo file
                 const reader = new FileReader();
-        
-                reader.onload = function(e) {
+
+                reader.onload = function (e) {
                     const base64String = e.target.result.split(",")[1]; // Rimuove il prefix "data:*/*;base64,"
-    
+
                     that.OpenDefectModel.getProperty("/defect/attachments").push({
                         "ID": that.ID,
                         "BASE_64": base64String,
@@ -350,12 +359,12 @@ sap.ui.define([
                     var oFileUploader = that.getView().byId("attachID");
                     oFileUploader.clear();
                 };
-        
-                reader.onerror = function(err) {
+
+                reader.onerror = function (err) {
                     console.error("Errore nella lettura del file:", err);
                 };
-        
-                reader.readAsDataURL(oFile); 
+
+                reader.readAsDataURL(oFile);
             }
         },
 
@@ -364,11 +373,11 @@ sap.ui.define([
             var defect = that.OpenDefectModel.getProperty("/defect");
 
             // Check sui campo obbligatori
-            if (defect.numDefect == "" || defect.title == "" || defect.codeGroup == "" || defect.defectType == "" || defect.priority == "" 
+            if (defect.numDefect == "" || defect.title == "" || defect.codeGroup == "" || defect.defectType == "" || defect.priority == ""
                 || defect.variance == "") {
-                    that.MainPODcontroller.showErrorMessageBox(that.MainPODcontroller.getI18n("defect.error.message"));
-                    return false;
-                }
+                that.MainPODcontroller.showErrorMessageBox(that.MainPODcontroller.getI18n("defect.error.message"));
+                return false;
+            }
             if (defect.createQN && (defect.coding == "" || (defect.replaceInAssembly != 0 && defect.replaceInAssembly != 1) || defect.responsible == "")) {
                 that.MainPODcontroller.showErrorMessageBox(that.MainPODcontroller.getI18n("defect.error.message"));
                 return false;
@@ -379,7 +388,7 @@ sap.ui.define([
                 var priorityScript = JSON.parse(that.OpenDefectModel.getProperty("/priorities").filter(item => item.priority == defect.priority)[0].costraints);
                 for (let chiave in priorityScript) {
                     for (let key in priorityScript[chiave]) {
-                        if (priorityScript[chiave][key] && defect[key] == "") {
+                        if ((priorityScript[chiave][key] == true && defect[key] == "") || (priorityScript[chiave][key].length > 0 && defect[key] != priorityScript[chiave][key])) {
                             that.MainPODcontroller.showErrorMessageBox("Error Priority to field " + key);
                             return false;
                         }
@@ -394,7 +403,7 @@ sap.ui.define([
                     var notificationTypeScript = JSON.parse(that.OpenDefectModel.getProperty("/notificationTypies").filter(item => item.notification_type == defect.notificationType)[0].costraints);
                     for (let chiave in notificationTypeScript) {
                         for (let key in notificationTypeScript[chiave]) {
-                            if (notificationTypeScript[chiave][key] && defect[key] == "") {
+                            if ((notificationTypeScript[chiave][key] == true && defect[key] == "") || (notificationTypeScript[chiave][key].length > 0 && defect[key] != notificationTypeScript[chiave][key])) {
                                 that.MainPODcontroller.showErrorMessageBox("Error Notification Type to field " + key);
                                 return false;
                             }
@@ -416,7 +425,7 @@ sap.ui.define([
 
             var plant = infoModel.getProperty("/plant");
             var sfc = infoModel.getProperty("/selectedSFC/sfc") || "";
-            var order =  infoModel.getProperty("/selectedSFC/order");
+            var order = infoModel.getProperty("/selectedSFC/order");
             var wc = infoModel.getProperty("/selectedSFC/WORKCENTER") || "";
             var stepId = that.selectedOp.stepId;
 
@@ -433,7 +442,7 @@ sap.ui.define([
                 routingStepId: stepId,
                 startSfcRequired: false,
                 allowNotAssembledComponents: false,
-                order: order
+                order: order,
             };
             if (defect.attachments.length > 0) {
                 params.files = [];
@@ -469,6 +478,7 @@ sap.ui.define([
             var sfc = infoModel.getProperty("/selectedSFC/sfc") || "";
             var user = infoModel.getProperty("/user_id");
             var plant = infoModel.getProperty("/plant");
+            var order = infoModel.getProperty("/selectedSFC/order");
 
             try {
                 var operation = that.selectedOp.routingOperation.operationActivity.operationActivity;
@@ -480,17 +490,20 @@ sap.ui.define([
                 idDefect: idDefect,
                 material: defect.material,
                 mesOrder: defect.prodOrder,
+                dmOrder: order,
                 assembly: defect.assembly,
                 title: defect.title,
-                description : defect.description,
-                priority : defect.priority,
+                description: defect.description,
+                priority: defect.priority,
                 variance: defect.variance,
-                blocking : defect.blocking,
-                createQN : defect.createQN,
+                blocking: defect.blocking,
+                createQN: defect.createQN,
                 sfc: sfc,
                 user: user,
                 operation: operation,
                 plant: plant,
+                group: defect.codeGroup,
+                code: defect.defectType,
                 wbe: infoModel.getProperty("/selectedSFC/WBE"),
                 typeOrder: defect.typeOrder
             }
@@ -521,7 +534,7 @@ sap.ui.define([
                 that.MainPODcontroller.showErrorMessageBox(that.MainPODcontroller.getI18n("defect.saveData.error.message"));
                 sap.ui.core.BusyIndicator.hide();
             };
-            CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that,true,true);
+            CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that, true, true);
         },
 
         onClosePopup: function () {
@@ -529,7 +542,7 @@ sap.ui.define([
             that.closeDialog();
         },
 
-        
+
         toggleBusyIndicator: function () {
             var that = this;
             var busyState = that.treeTable.getBusy();

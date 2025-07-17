@@ -109,35 +109,28 @@
     width: 8rem;
     margin-left: 0.5rem;
 }
-<<<<<<< HEAD
 .nonConformancesButton{
     height: 100%;
     width: 12rem;
-=======
+    margin-left: 0.5rem;
+}
 .sinotticoButton{
     height: 100%;
     width: 9rem;
->>>>>>> 184bbee92b56452a29c8a3e1d9fd1f1806795412
     margin-left: 0.5rem;
 }
 .sapMBtn.sapMBtnBase.startOpButton,
 .sapMBtn.sapMBtnBase.completeOpButton,
-<<<<<<< HEAD
-.sapMBtn.sapMBtnBase.nonConformancesButton {
-=======
+.sapMBtn.sapMBtnBase.nonConformancesButton, 
 .sapMBtn.sapMBtnBase.sinotticoButton {
->>>>>>> 184bbee92b56452a29c8a3e1d9fd1f1806795412
     height: 100% !important;
 }
 
 /* Allineo la scritta adentro al bottone al centro vicino all'icona */
 .startOpButton .sapMBtnContent,
 .completeOpButton .sapMBtnContent,
-<<<<<<< HEAD
-.nonConformancesButton .sapMBtnContent {
-=======
+.nonConformancesButton .sapMBtnContent,
 .sinotticoButton .sapMBtnContent {
->>>>>>> 184bbee92b56452a29c8a3e1d9fd1f1806795412
     padding-top: 0.65rem;
     padding-left: 0.5rem;
     font-size: larger;
@@ -145,11 +138,8 @@
 
 .completeOpButton .sapUiIcon.sapMBtnIcon,
 .startOpButton .sapUiIcon.sapMBtnIcon,
-<<<<<<< HEAD
-.nonConformancesButton .sapUiIcon.sapMBtnIcon {
-=======
+.nonConformancesButton .sapUiIcon.sapMBtnIcon, 
 .sinotticoButton .sapUiIcon.sapMBtnIcon {
->>>>>>> 184bbee92b56452a29c8a3e1d9fd1f1806795412
     padding-top: 0.65rem;
     font-size: x-large;
 }
@@ -181,27 +171,23 @@
     color: #fff !important;
     text-shadow: 0 0 .125rem transparent;
 }
-<<<<<<< HEAD
 .nonConformancesButton .sapMBtnInner.sapMBtnEmphasized {
     height: 3rem;
     background-color: rgb(231, 25, 25) !important;
-=======
+}
 .sinotticoButton .sapMBtnInner.sapMBtnEmphasized {
     height: 3rem;
     background-color: rgb(88, 48, 130) !important;
->>>>>>> 184bbee92b56452a29c8a3e1d9fd1f1806795412
     border-color: rgb(0, 14, 41) !important;
     color: #fff !important;
     text-shadow: 0 0 .125rem transparent;
 }
-<<<<<<< HEAD
 .nonConformancesButton .sapMBtnInner.sapMBtnEmphasized:hover{
     background-color: rgb(231, 25, 25) !important;
     border-color: white !important;
     color: #fff !important;
     text-shadow: 0 0 .125rem transparent;
 }
-=======
 .sinotticoButton .sapMBtnInner.sapMBtnEmphasized:hover{
     background-color: rgba(88, 48, 130, 0.75) !important;
     border-color: rgb(179, 136, 255) !important;
@@ -209,7 +195,6 @@
     text-shadow: 0 0 .125rem transparent;
 }
 
->>>>>>> 184bbee92b56452a29c8a3e1d9fd1f1806795412
 
 .leftButtonsPODOperation{
     padding-left: 1.25rem;
@@ -410,7 +395,6 @@
     background-color: antiquewhite;
 }
 
-<<<<<<< HEAD
 /* Filtri per popup allegati */
 .uploadDialog .sapMDialogScroll {
     height: 100%;
@@ -470,7 +454,7 @@
 .uploadedTable {
     flex-grow: 1;
     min-height: 0;
-=======
+}
 .largeIcon{
     font-size: x-large;
 }
@@ -478,5 +462,4 @@
 /* Disabilita la transizione per la barra di progresso */
 .sapMPIBar {
     transition: none !important;
->>>>>>> 184bbee92b56452a29c8a3e1d9fd1f1806795412
 }

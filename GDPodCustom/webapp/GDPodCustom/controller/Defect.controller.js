@@ -188,15 +188,13 @@ sap.ui.define([
                 var defectList = [];
                 response.forEach(item => {
                     var defStd = that.getInfoModel().getProperty("/defectOperation").filter(def => def.id == item.id)[0];
-                    item.group = defStd.group;
-                    item.code = defStd.code;
                     item.codeDesc = that.oGroupModel.getProperty("/").filter(group => group.group == item.group)[0].associateCodes.filter(code => code.code ==defStd.code)[0].description;
                     item.groupOrCode = item.codeDesc;
                     item.numDefect = defStd.quantity;
-                    item.status = defStd.state;
+                    //item.status = defStd.state;
                     item.varianceDesc = that.oVarianceModel.getProperty("/").filter(variance => variance.cause == item.variance)[0].description;
-                    item.groupDesc = that.oGroupModel.getProperty("/").filter(group => group.codes.filter(code => code.code == item.code).length > 0)[0].description
-                    item.okClose = (!item.create_qn || (item.system_status != null && item.system_status.includes("ATCO"))) && item.status == "OPEN";
+                    item.groupDesc = that.oGroupModel.getProperty("/").filter(group => group.group == item.group)[0].description;
+                    item.okClose = (!item.create_qn || (item.system_status != null && item.system_status.includes("ATCO")) || item.qn_annullata) && item.status == "OPEN";
                     if (defectList.filter(def => def.groupOrCode == item.groupDesc).length > 0) {
                         defectList.filter(def => def.groupOrCode == item.groupDesc)[0].Children.push(item);
                     }else{
@@ -224,17 +222,18 @@ sap.ui.define([
         },
         onClosePress: function (oEvent) {
             var that = this;
-            let idDefect = oEvent.getSource().getParent().getBindingContext("DefectModel").getObject().id;
+            let defect = oEvent.getSource().getParent().getBindingContext("DefectModel").getObject();
             var plant = that.getInfoModel().getProperty("/plant");
             let sfc = that.getInfoModel().getProperty("/selectedSFC/sfc");
             let order = that.getInfoModel().getProperty("/selectedSFC/order");
 
             let params = {
-                id: idDefect,
+                id: defect.id,
                 plant: plant,
                 comments: "",
                 sfc: sfc,
-                order: order
+                order: order,
+                qnCode: defect.qn_code == "" ? null : defect.qn_code
             };
 
             let BaseProxyURL = that.getInfoModel().getProperty("/BaseProxyURL");
@@ -243,20 +242,16 @@ sap.ui.define([
 
             // Callback di successo
             var successCallback = function(response) {
-                // publish difetti
-                //that.sendCloseToSap(plant, idDefect, qnCode);
-                sap.ui.getCore().getEventBus().publish("defect", "loadDefect", null);
                 that.showToast(that.getI18n("defect.close.success.message"));
-                sap.ui.core.BusyIndicator.hide();
+                sap.ui.getCore().getEventBus().publish("defect", "loadDefect", null);
             };
             // Callback di errore
             var errorCallback = function(error) {
                 console.log("Chiamata POST fallita:", error);
-                sap.ui.core.BusyIndicator.hide();
+                that.showErrorMessageBox(that.getI18n("defect.error.closeDefect"));
             };
             
-            sap.ui.core.BusyIndicator.show(0);
-            CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
+            CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that, true, true);
         },
 
         sendCloseToSap: function (plant, idDefect, qnCode) {
