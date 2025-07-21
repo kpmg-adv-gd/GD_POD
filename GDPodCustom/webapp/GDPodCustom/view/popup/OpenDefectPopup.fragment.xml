@@ -50,29 +50,29 @@
                     <HBox width="100%" height="50%" renderType="Bare" justifyContent="SpaceAround">
                         <HBox renderType="Bare" alignItems="Center" width="auto">
                             <Label text="WBE" width="auto" class="markingHeaderLabel markingSmallLabel sapUiSmallMarginEnd"/>
-                            <Label text="{/wbe}" width="50%" class="markingSmallLabel"/>
+                            <Label text="{/wbe}" width="auto" class="markingSmallLabel"/>
                         </HBox>
                         <HBox renderType="Bare" alignItems="Center" width="auto">
                             <Label text="SFC" width="auto" class="markingHeaderLabel markingSmallLabel sapUiSmallMarginEnd"/>
-                            <Label text="{/sfc}" width="50%" class="markingSmallLabel"/>
+                            <Label text="{/sfc}" width="auto" class="markingSmallLabel"/>
                         </HBox>
                         <HBox renderType="Bare" alignItems="Center" justifyContent="End" width="auto">
                             <Label text="WORKCENTER" width="auto" class="markingHeaderLabel markingSmallLabel sapUiSmallMarginEnd"/>
-                            <Label text="{/wc}" width="50%" class="markingSmallLabel"/>
+                            <Label text="{/wc}" width="auto" class="markingSmallLabel"/>
                         </HBox>
                     </HBox>
                     <HBox width="100%" height="50%" renderType="Bare" justifyContent="SpaceBetween">
                         <HBox renderType="Bare" alignItems="Center" width="auto">
                             <Label text="Material" width="auto" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
-                            <Input id="materialId" width="50%" value="{/defect/material}" showSuggestion="true" class="markingMediumLabelValue"/>
+                            <Input id="materialId" width="auto" value="{/defect/material}" showSuggestion="true" class="markingMediumLabelValue"/>
                         </HBox>
                         <HBox renderType="Bare" alignItems="Center" width="auto">
                             <Label text="{/defect/typeOrderDesc}" width="auto" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
-                            <Input id="prodOrderId" width="50%" value="{/defect/prodOrder}" showSuggestion="true" class="markingMediumLabelValue" />
+                            <Input id="prodOrderId" width="auto" value="{/defect/prodOrder}" showSuggestion="true" class="markingMediumLabelValue" />
                         </HBox>
                         <HBox renderType="Bare" alignItems="Center" width="auto">
                             <Label text="Assembly" width="auto" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
-                            <Select id="assemblyId" selectedKey="{/defect/assembly}" width="50%" items="{/assemblies}">
+                            <Select id="assemblyId" selectedKey="{/defect/assembly}" width="auto" items="{/assemblies}">
                                 <core:Item key="{material/material}" text="{material/material}" />
                             </Select>
                         </HBox>

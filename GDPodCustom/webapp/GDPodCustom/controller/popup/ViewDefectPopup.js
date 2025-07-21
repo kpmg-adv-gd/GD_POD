@@ -22,6 +22,10 @@ sap.ui.define([
                 that.defectSelected.files = defectStandard.fileIds;
             }
 
+            if (that.defectSelected.type_order == "GRPF") that.defectSelected.type_order = "Purch. Doc.";
+            else if (that.defectSelected.type_order == "ZMGF") that.defectSelected.type_order = "";
+            else that.defectSelected.type_order = "Prod. Order.";
+
             that._initDialog("kpmg.custom.pod.GDPodCustom.GDPodCustom.view.popup.ViewDefectPopup", oView, that.ViewDefectModel);
             
             var infoModel = that.MainPODcontroller.getInfoModel();
