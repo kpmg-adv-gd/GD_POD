@@ -378,7 +378,7 @@ sap.ui.define([
                 that.MainPODcontroller.showErrorMessageBox(that.MainPODcontroller.getI18n("defect.error.message"));
                 return false;
             }
-            if (defect.createQN && (defect.coding == "" || (defect.replaceInAssembly != 0 && defect.replaceInAssembly != 1) || defect.responsible == "")) {
+            if (defect.createQN && (defect.coding == "" || defect.coding == null || defect.notificationType == "" || defect.notificationType == null || (defect.replaceInAssembly != 0 && defect.replaceInAssembly != 1) || defect.responsible == "" || defect.responsible == null)) {
                 that.MainPODcontroller.showErrorMessageBox(that.MainPODcontroller.getI18n("defect.error.message"));
                 return false;
             }

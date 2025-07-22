@@ -15,7 +15,7 @@ sap.ui.define([
             that.defectSelected = defect;
             that.defectSelected.modifiedDateTime = defectStandard.modifiedDateTime;
             //that.defectSelected.state = defectStandard.state;
-            that.defectSelected.system_status_description = that.defectSelected.system_status_description == null ? "" : that.defectSelected.system_status_description.replaceAll(",", "\n");
+            that.defectSelected.system_status = that.defectSelected.system_status == null ? "" : that.defectSelected.system_status.replaceAll(",", "\n");
             that.defectSelected.hasAttachment = defectStandard.fileIds && defectStandard.fileIds.length > 0
 
             if (that.defectSelected.hasAttachment) {

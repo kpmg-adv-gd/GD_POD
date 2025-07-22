@@ -25,6 +25,7 @@ sap.ui.define([
 
         onAfterRendering: function(){
             var that=this;
+            that.treeTable.setBusy(true);
             that.getView().getModel("DefectModel").setProperty("/Defect", []);
             that.getVariance();
         },
@@ -125,10 +126,10 @@ sap.ui.define([
             var defects = that.getInfoModel().getProperty("/defectOperation");
             var plant = that.getInfoModel().getProperty("/plant");
 
-            if (elem == "defect") {
-				if (defects.length == 0) return;
-				elem = 0;
-			}
+			if (defects.length == 0) {
+                that.treeTable.setBusy(false);
+                return;
+            }
 
             if (defects.filter(item => item.code == defects[elem].code && item.group != undefined).length > 0) {
                 var group = defects.filter(item => item.code == defects[elem].code && item.group != undefined)[0].group;
@@ -161,6 +162,7 @@ sap.ui.define([
             };
             // Callback di errore
             var errorCallback = function(error) {
+                that.treeTable.setBusy(false);
                 console.log("Chiamata GET fallita:", error);
             };
             CommonCallManager.callProxy("GET", url, params, true, successCallback, errorCallback, that);
@@ -187,30 +189,36 @@ sap.ui.define([
             var successCallback = function(response) {
                 var defectList = [];
                 response.forEach(item => {
-                    var defStd = that.getInfoModel().getProperty("/defectOperation").filter(def => def.id == item.id)[0];
-                    item.codeDesc = that.oGroupModel.getProperty("/").filter(group => group.group == item.group)[0].associateCodes.filter(code => code.code ==defStd.code)[0].description;
-                    item.groupOrCode = item.codeDesc;
-                    item.numDefect = defStd.quantity;
-                    //item.status = defStd.state;
-                    item.varianceDesc = that.oVarianceModel.getProperty("/").filter(variance => variance.cause == item.variance)[0].description;
-                    item.groupDesc = that.oGroupModel.getProperty("/").filter(group => group.group == item.group)[0].description;
-                    item.okClose = (!item.create_qn || (item.system_status != null && item.system_status.includes("ATCO")) || item.qn_annullata) && item.status == "OPEN";
-                    if (defectList.filter(def => def.groupOrCode == item.groupDesc).length > 0) {
-                        defectList.filter(def => def.groupOrCode == item.groupDesc)[0].Children.push(item);
-                    }else{
-                        defectList.push({
-                            groupOrCode: item.groupDesc,
-                            Children: [item]
-                        })
+                    try {
+                        var defStd = that.getInfoModel().getProperty("/defectOperation").filter(def => def.id == item.id)[0];
+                        item.codeDesc = that.oGroupModel.getProperty("/").filter(group => group.group == item.group)[0].associateCodes.filter(code => code.code ==defStd.code)[0].description;
+                        item.groupOrCode = item.codeDesc;
+                        item.numDefect = defStd.quantity;
+                        //item.status = defStd.state;
+                        item.varianceDesc = that.oVarianceModel.getProperty("/").filter(variance => variance.cause == item.variance)[0].description;
+                        item.groupDesc = that.oGroupModel.getProperty("/").filter(group => group.group == item.group)[0].description;
+                        item.okClose = (!item.create_qn || (item.system_status != null && item.system_status.includes("ATCO")) || item.qn_annullata) && item.status == "OPEN";
+                        if (defectList.filter(def => def.groupOrCode == item.groupDesc).length > 0) {
+                            defectList.filter(def => def.groupOrCode == item.groupDesc)[0].Children.push(item);
+                        }else{
+                            defectList.push({
+                                groupOrCode: item.groupDesc,
+                                Children: [item]
+                            })
+                        }
+                    } catch (e) {
+                        console.log("Defect ID: " + item.id +  " - Error: " + e);
                     }
                 });
                 that.getView().getModel("DefectModel").setProperty("/Defect", defectList);
                 sap.ui.getCore().getEventBus().publish("defect", "loadDefectToPOD", {defects: response});
-
+                
+                that.treeTable.setBusy(false);
             };
             // Callback di errore
             var errorCallback = function(error) {
                 console.log("Chiamata POST fallita:", error);
+                that.treeTable.setBusy(false);
             };
             CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
         },
@@ -252,32 +260,6 @@ sap.ui.define([
             };
             
             CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that, true, true);
-        },
-
-        sendCloseToSap: function (plant, idDefect, qnCode) {
-            var that = this;
-
-            let params = {
-                plant: plant,
-                defectId: idDefect,
-                qnCode: qnCode
-            };
-
-            let BaseProxyURL = that.getInfoModel().getProperty("/BaseProxyURL");
-            let pathOrderBomApi = "/api/nonconformance/v1/sap/close";
-            let url = BaseProxyURL+pathOrderBomApi; 
-
-            // Callback di successo
-            var successCallback = function(response) {
-
-            };
-            // Callback di errore
-            var errorCallback = function(error) {
-                console.log("Chiamata POST fallita:", error);
-            };
-            
-            sap.ui.core.BusyIndicator.show(0);
-            CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
         },
 
         onExpandAll: function() {

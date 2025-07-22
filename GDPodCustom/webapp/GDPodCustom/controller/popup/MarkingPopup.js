@@ -613,7 +613,7 @@ sap.ui.define([
 
             // Callback di successo
             var successCallback = function(response) {
-                that.MarkingPopupModel.setProperty("/defects", response);
+                that.MarkingPopupModel.setProperty("/defects", [...[{id:"", title:"", variance: ""}], ...response]);
             };
             // Callback di errore
             var errorCallback = function(error) {
@@ -623,7 +623,7 @@ sap.ui.define([
         },
         onChangeDefect: function (oEvent) {
             var that = this;
-            var variance = this.MarkingPopupModel.getProperty("/defects").filter(item => item.id = this.MarkingPopupModel.getProperty("/defectSelected"))[0].variance
+            var variance = this.MarkingPopupModel.getProperty("/defects").filter(item => item.id == this.MarkingPopupModel.getProperty("/defectSelected"))[0].variance
             that.MarkingPopupModel.setProperty("/variance", variance);
         },
         onConfirm: function () {

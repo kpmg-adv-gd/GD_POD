@@ -133,7 +133,7 @@
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center" >
                             <Label text="Responsible" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" />
-                            <Label text="{/defect/responsible}" width="50%"/>
+                            <Label text="{/defect/responsible_description}" width="50%"/>
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center" >
                             <Label text="Opened By" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
@@ -151,7 +151,7 @@
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center" >
                             <Label text="System Status" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
-                            <TextArea width="50%" value="{/defect/system_status_description}" class="markingMediumLabelValue" editable="false"/>
+                            <TextArea width="50%" value="{/defect/system_status}" class="markingMediumLabelValue" editable="false"/>
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center" >
                             <Label text="User Status" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>

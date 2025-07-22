@@ -16,7 +16,7 @@
                 <content>
                     <VBox class="uploadDialogVBox">
                         <HBox justifyContent="Center" class="fileUploaderContainer">
-                            <unified:FileUploader id="attachID" name="fileUploader" uploadUrl="upload/service/endpoint" change="uploadDocument" buttonText="Sfoglia" uploadOnChange="false" class="fileUploaderStyled"/>
+                            <unified:FileUploader id="attachID" name="fileUploader" uploadUrl="upload/service/endpoint" change="uploadDocument" buttonText="Search" uploadOnChange="false" class="fileUploaderStyled"/>
                         </HBox>
                         <Table items="{/defect/attachments}" class="uploadedTable" growing="true" growingScrollToLoad="true" inset="false" popinLayout="GridSmall">
                             <columns>
@@ -24,7 +24,7 @@
                                     <Text text="File name"></Text>
                                 </Column>
                                 <Column width="25%" minScreenWidth="Tablet" demandPopin="true">
-                                    <Text text="Elimina"></Text>
+                                    <Text text="Delete"></Text>
                                 </Column>
                             </columns>
                             <items>
@@ -159,7 +159,7 @@
                         <HBox width="100%" renderType="Bare" alignItems="Center" visible="{/defect/createQN}">
                             <Label text="Responsible" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true"/>
                             <Select selectedKey="{/defect/responsible}" width="50%" items="{/responsibles}">
-                                <core:Item key="{id}" text="{id}" />
+                                <core:Item key="{id}" text="{description}" />
                             </Select>
                         </HBox>
                     </VBox>
