@@ -228,7 +228,23 @@ sap.ui.define([
             that.ViewDefectPopup.open(that.getView(), that, 
                 defect, this.getInfoModel().getProperty("/defectOperation").filter(def => def.id == defect.id)[0]);
         },
-        onClosePress: function (oEvent) {
+        onClosePress(oEvent) {
+            var that = this;
+            sap.m.MessageBox.show(
+                that.getI18n("defect.warning.closeDefect"), // Messaggio da visualizzare
+                {
+                    icon: sap.m.MessageBox.Icon.WARNING, // Tipo di icona
+                    title: that.getI18n("defect.titleWarning.closeDefect") || "Warning",         // Titolo della MessageBox
+                    actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL], 
+                    onClose: function(oAction) {          // Callback all'interazione
+                        if (oAction === "OK") {
+                            that.onCloseDefect(oEvent) // Chiama il callback con il contesto corretto
+                        }
+                    }
+                }
+            );
+        },
+        onCloseDefect: function (oEvent) {
             var that = this;
             let defect = oEvent.getSource().getParent().getBindingContext("DefectModel").getObject();
             var plant = that.getInfoModel().getProperty("/plant");

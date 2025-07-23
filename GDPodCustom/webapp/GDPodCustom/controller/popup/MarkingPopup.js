@@ -510,7 +510,7 @@ sap.ui.define([
             var hhInputValue = that.getView().byId("hhInputId").getValue();
             var mmInputValue = that.getView().byId("mmInputId").getValue();
 
-            if (!sMarkingDate) {
+            if (!sMarkingDate || new Date(sMarkingDate).getTime() > new Date().getTime()) {
                 return false;
             }
 

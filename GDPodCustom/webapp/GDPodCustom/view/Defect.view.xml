@@ -45,6 +45,12 @@
                                 <Text text="{DefectModel>qn_code}"/>
                             </t:template>
                         </t:Column>
+                        <t:Column width="16%" hAlign="Center">
+                            <Label text="{i18n>Defect.treeTable.blocking}"/>
+                            <t:template>
+                                <core:Icon src="sap-icon://accept" color="#d70a32" visible="{DefectModel>blocking}" />
+                            </t:template>
+                        </t:Column>
                         <t:Column width="8%" hAlign="Center">
                             <Label text="{i18n>Defect.treeTable.details}"/>
                             <t:template>
