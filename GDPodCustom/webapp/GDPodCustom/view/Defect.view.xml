@@ -48,7 +48,7 @@
                         <t:Column width="16%" hAlign="Center">
                             <Label text="{i18n>Defect.treeTable.blocking}"/>
                             <t:template>
-                                <core:Icon src="sap-icon://accept" color="#d70a32" visible="{DefectModel>blocking}" />
+                                <core:Icon src="sap-icon://accept" color="#d70a32" visible="{= ${DefectModel>status} !== undefined &amp;&amp; ${DefectModel>blocking} }" />
                             </t:template>
                         </t:Column>
                         <t:Column width="8%" hAlign="Center">

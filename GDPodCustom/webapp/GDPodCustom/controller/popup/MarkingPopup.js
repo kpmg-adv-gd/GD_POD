@@ -510,7 +510,7 @@ sap.ui.define([
             var hhInputValue = that.getView().byId("hhInputId").getValue();
             var mmInputValue = that.getView().byId("mmInputId").getValue();
 
-            if (!sMarkingDate || new Date(sMarkingDate).getTime() > new Date().getTime()) {
+            if (!sMarkingDate || new Date(that.parseDateFromString(sMarkingDate)).getTime() > new Date().getTime()) {
                 return false;
             }
 
@@ -524,28 +524,6 @@ sap.ui.define([
                 mmInputValue="00";
             }
             if(parseInt(mmInputValue,10)<0 || parseInt(mmInputValue,10)>59) return false;
-
-
-            // function convertToDate(dateStr) {
-            //     let parts = dateStr.split("/");
-            //     return new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
-            // }
-            // let markingDate = convertToDate(sMarkingDate);
-            // let today = new Date();
-            // if (markingDate > today) {
-            //     return false;
-            // }
-            // let dayMarking = sMarkingDate.split("/")[0];
-            // let monthsMarking = sMarkingDate.split("/")[1];
-            // let yearMarking = sMarkingDate.split("/")[2];
-            // let comparingDate = new Date();
-            // //Data attuale con il primo giorno del mese
-            // comparingDate.setDate(1);
-            // if(today.getDate()<=2){
-            //     comparingDate.setMonth(monthsMarking-1);
-            // }
-            // comparingDate.setHours(0,0,0,0);
-            // if(markingDate<comparingDate) return false;
 
             let confirmation_number = that.MarkingPopupModel.getProperty("/confirmNumber");
             let personnelNumber = that.MarkingPopupModel.getProperty("/personnelNumber");
@@ -623,8 +601,11 @@ sap.ui.define([
         },
         onChangeDefect: function (oEvent) {
             var that = this;
-            var variance = this.MarkingPopupModel.getProperty("/defects").filter(item => item.id == this.MarkingPopupModel.getProperty("/defectSelected"))[0].variance
-            that.MarkingPopupModel.setProperty("/variance", variance);
+            var variance = this.MarkingPopupModel.getProperty("/defects").filter(item => item.id == this.MarkingPopupModel.getProperty("/defectSelected"))[0].variance;
+            var variance_description = this.MarkingPopupModel.getProperty("/defects").filter(item => item.id == this.MarkingPopupModel.getProperty("/defectSelected"))[0].variance_description;
+            that.getView().byId("selectedVarianceText").setText(variance);
+            that._selectedCause = variance
+            that._selectedDescription = variance_description
         },
         onConfirm: function () {
             var that = this;
@@ -636,6 +617,10 @@ sap.ui.define([
             }
         },
 
+        parseDateFromString: function(dateStr) {
+            const [day, month, year] = dateStr.split('/').map(Number);
+            return new Date(year, month - 1, day); // i mesi partono da 0 (gennaio)
+        },
         onClosePopup: function () {
             var that = this;
             that.closeDialog();
