@@ -120,6 +120,10 @@
                             <Label text="{/defect/notification_type_description}" width="50%" />
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center" >
+                            <Label text="Coding Group" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" />
+                            <Label text="{/defect/coding_group_description}" width="50%" />
+                        </HBox>
+                        <HBox width="100%" renderType="Bare" alignItems="Center" >
                             <Label text="Coding" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" />
                             <Label text="{/defect/coding_description}" width="50%" />
                         </HBox>
@@ -155,7 +159,7 @@
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center" >
                             <Label text="User Status" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
-                            <Label width="50%" text="{/defect/user_status}" class="markingMediumLabelValue"/>
+                            <TextArea width="50%" value="{/defect/user_status}" class="markingMediumLabelValue" editable="false"/>
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center" >
                             <Label text="Approval User" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>

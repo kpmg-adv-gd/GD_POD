@@ -138,9 +138,15 @@
                             </Select>
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center" visible="{/defect/createQN}">
+                            <Label text="Coding Group" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true"/>
+                            <Select selectedKey="{/defect/coding_group}" width="50%" items="{/codingGroups}" change="onChangeCoding">
+                                <core:Item key="{coding_group}" text="{coding_group_description}" />
+                            </Select>
+                        </HBox>
+                        <HBox width="100%" renderType="Bare" alignItems="Center" visible="{/defect/createQN}">
                             <Label text="Coding" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true"/>
-                            <Select selectedKey="{/defect/coding}" width="50%" items="{/codings}">
-                                <core:Item key="{coding}" text="{coding_description}" />
+                            <Select selectedKey="{/defect/coding_id}" width="50%" items="{/codings}">
+                                <core:Item key="{coding_id}" text="{coding_description}" />
                             </Select>
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center" visible="{/defect/createQN}">

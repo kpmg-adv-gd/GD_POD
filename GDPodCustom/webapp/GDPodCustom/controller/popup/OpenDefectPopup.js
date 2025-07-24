@@ -246,16 +246,30 @@ sap.ui.define([
         getCoding: function () {
             var that = this;
             var infoModel = that.MainPODcontroller.getInfoModel();
+            var plant = infoModel.getProperty("/plant");
 
             let BaseProxyURL = infoModel.getProperty("/BaseProxyURL");
             let pathReasonForVarianceApi = "/db/getZCodingData";
             let url = BaseProxyURL + pathReasonForVarianceApi;
 
-            let params = {};
+            let params = {
+                plant: plant
+            };
 
             // Callback di successo
             var successCallback = function (response) {
-                this.OpenDefectModel.setProperty("/codings", [...[{ coding: "", coding_description: "" }], ...response]);
+                var codingGroups = [];
+                response.forEach(item => {
+                    if (codingGroups.filter(c => c.coding_group == item.coding_group).length == 0) {
+                        codingGroups.push({
+                            coding_group: item.coding_group,
+                            coding_group_description: item.coding_group_description
+                        });
+                    }
+                })
+                this.OpenDefectModel.setProperty("/responseCoding", response);
+                this.OpenDefectModel.setProperty("/codingGroups", [...[{ coding_group: "", coding_group_description: "" }], ...codingGroups]);
+                this.OpenDefectModel.setProperty("/codings", [...[{ coding_id: "", coding_description: "" }], ...[]]);
             };
 
             // Callback di errore
@@ -263,6 +277,21 @@ sap.ui.define([
                 console.log("Chiamata POST fallita: ", error);
             };
             CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
+        },
+        onChangeCoding: function (oEvent) {
+            var that = this;
+            var coding_group = that.OpenDefectModel.getProperty("/defect/coding_group");
+            var codings = [];
+            this.OpenDefectModel.getProperty("/responseCoding").forEach(item => {
+                if (item.coding_group == coding_group) {
+                    codings.push({
+                        coding_id: item.id,
+                        coding_description: item.coding_description
+                    });
+                }
+            })
+            that.OpenDefectModel.setProperty("/codings", [...[{ coding_id: "", coding_description: "" }], ...codings]);
+            that.OpenDefectModel.setProperty("/defect/coding_id", "");
         },
         getResponsible: function () {
             var that = this;
@@ -378,7 +407,7 @@ sap.ui.define([
                 that.MainPODcontroller.showErrorMessageBox(that.MainPODcontroller.getI18n("defect.error.message"));
                 return false;
             }
-            if (defect.createQN && (defect.coding == "" || defect.coding == null || defect.notificationType == "" || defect.notificationType == null || (defect.replaceInAssembly != 0 && defect.replaceInAssembly != 1) || defect.responsible == "" || defect.responsible == null)) {
+            if (defect.createQN && (defect.coding == "" || defect.coding == null || defect.coding_id == "" || defect.coding_id == null || defect.notificationType == "" || defect.notificationType == null || (defect.replaceInAssembly != 0 && defect.replaceInAssembly != 1) || defect.responsible == "" || defect.responsible == null)) {
                 that.MainPODcontroller.showErrorMessageBox(that.MainPODcontroller.getI18n("defect.error.message"));
                 return false;
             }
@@ -509,7 +538,7 @@ sap.ui.define([
             }
             if (defect.createQN) {
                 params.notificationType = defect.notificationType;
-                params.coding = defect.coding;
+                params.coding = defect.coding_id;
                 params.replaceInAssembly = defect.replaceInAssembly == 0;
                 params.defectNote = defect.defectNote;
                 params.responsible = defect.responsible;
@@ -523,7 +552,7 @@ sap.ui.define([
             var successCallback = function (response) {
                 // publish difetti
                 sap.ui.getCore().getEventBus().publish("defect", "loadDefect", null);
-                that.MainPODcontroller.showToast(that.MainPODcontroller.getI18n("defect.success.message"));
+                sap.m.MessageBox.show(that.MainPODcontroller.getI18n("defect.success.message"));
                 that.onClosePopup();
                 sap.ui.core.BusyIndicator.hide();
             };
