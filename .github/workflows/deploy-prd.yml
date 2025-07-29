@@ -1,4 +1,4 @@
-name: Deploy to Prd (Cloud Foundry)
+name: Deploy to Dev (Cloud Foundry)
 
 on:
   push:
@@ -15,15 +15,17 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 🧪 Installa dipendenze e lancia i test
+        working-directory: ./GDPodCustom  # ⬅️ sostituisci con la cartella giusta
         run: |
           echo "📦 Installo dipendenze..."
           npm install
           echo "🧪 Eseguo test unitari..."
           # npm test
 
-      - name: 📄 Usa manifest per ambiente Prd
+      - name: Usa manifest per ambiente Prd
         run: cp .staging/mta-prd.yaml mta.yaml
-        
+
+
       - name: ⚙️ Installa MTA Build Tool (mbt)
         run: |
           echo "📦 Installo mbt..."
@@ -49,7 +51,10 @@ jobs:
           echo "👤 Login con utente: ${{ vars.CF_USERNAME }}"
           cf login -a '${{ vars.CF_API }}' -u '${{ vars.CF_USERNAME }}' -p '${{ secrets.CF_PASSWORD }}' -o '${{ vars.CF_ORG }}' -s '${{ vars.CF_SPACE_DEV }}'
  
-      - name: 🚀 Deploy MTA su ambiente Dev
+      - name: ➕ Installa plugin multiapps per MTA deploy
         run: |
-          echo "📦 Deploy MTA..."
+          cf install-plugin -r CF-Community "multiapps" -f
+
+      - name: 🚀 Deploy MTA su Cloud Foundry
+        run: |
           cf deploy mta_archives/*.mtar -f
