@@ -51,7 +51,10 @@ jobs:
           echo "👤 Login con utente: ${{ vars.CF_USERNAME }}"
           cf login -a '${{ vars.CF_API }}' -u '${{ vars.CF_USERNAME }}' -p '${{ secrets.CF_PASSWORD }}' -o '${{ vars.CF_ORG }}' -s '${{ vars.CF_SPACE_DEV }}'
  
-      - name: 🚀 Deploy MTA su ambiente Dev
+      - name: ➕ Installa plugin multiapps per MTA deploy
         run: |
-          echo "📦 Deploy MTA..."
+          cf install-plugin -r CF-Community "multiapps" -f
+
+      - name: 🚀 Deploy MTA su Cloud Foundry
+        run: |
           cf deploy mta_archives/*.mtar -f
