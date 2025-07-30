@@ -127,6 +127,7 @@ sap.ui.define([
             var plant = that.getInfoModel().getProperty("/plant");
 
 			if (defects.length == 0) {
+                sap.ui.getCore().getEventBus().publish("defect", "loadDefectToPOD", {defects: []});
                 that.treeTable.setBusy(false);
                 return;
             }
@@ -272,7 +273,7 @@ sap.ui.define([
             // Callback di errore
             var errorCallback = function(error) {
                 console.log("Chiamata POST fallita:", error);
-                that.showErrorMessageBox(that.getI18n("defect.error.closeDefect"));
+                that.showErrorMessageBox(error);
             };
             
             CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that, true, true);

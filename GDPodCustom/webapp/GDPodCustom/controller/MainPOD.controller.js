@@ -372,6 +372,8 @@ sap.ui.define([
             var that = this;
             var defects = that.oDefectModel.getProperty("/");
 
+            if (defects == undefined) return true
+
             if (defects.filter(item => item.status == "OPEN" && item.blocking).length > 0) return false;
             return true;
         },
