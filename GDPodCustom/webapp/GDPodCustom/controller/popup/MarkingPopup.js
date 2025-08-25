@@ -156,7 +156,7 @@ sap.ui.define([
             var that = this;
 
             if (!that._oVariancePopover) {
-                that._oTable = new sap.m.Table("varianceTable", {
+                that._oTable = new sap.m.Table({
                     mode: "SingleSelectMaster",
                     columns: [
                         new sap.m.Column({ header: new sap.m.Label({ text: "Plant" }) }),
@@ -270,7 +270,7 @@ sap.ui.define([
             var that = this;
 
             if (!that._oUpdatePopover) {
-                that._oTable = new sap.m.Table("updateTable", {
+                that._oTable = new sap.m.Table({
                     mode: "SingleSelectMaster",
                     columns: [
                         new sap.m.Column({ header: new sap.m.Label({ text: "Progressive Eco" }) }),
@@ -448,7 +448,7 @@ sap.ui.define([
             var modification = that.getView().byId("selectedUpdateText").getText() || "";
             var hh = parseInt(that.getView().byId("hhInputId").getValue(),10);
             var mm = parseInt(that.getView().byId("mmInputId").getValue(),10);
-            var defectId = that.MarkingPopupModel.getProperty("/defectSelected")
+            var defectId = that.MarkingPopupModel.getProperty("/defectSelected");
             if(!hh) hh=0;
             if(!mm) mm=0;
 
@@ -509,6 +509,7 @@ sap.ui.define([
             var sMarkingDate = that.getView().byId("markingDatePicker").getValue();
             var hhInputValue = that.getView().byId("hhInputId").getValue();
             var mmInputValue = that.getView().byId("mmInputId").getValue();
+            var defectSelected = that.MarkingPopupModel.getProperty("/defectSelected");
 
             if (!sMarkingDate || new Date(that.parseDateFromString(sMarkingDate)).getTime() > new Date().getTime()) {
                 return false;
@@ -532,6 +533,7 @@ sap.ui.define([
             let reason_for_variance = that._selectedCause || "";
             let modification = that.getView().byId("selectedUpdateText").getText() || "";
             if(!reason_for_variance && !!modification) return false;
+            if(!!reason_for_variance && !modification && !defectSelected) return false;
 
             
             return true;

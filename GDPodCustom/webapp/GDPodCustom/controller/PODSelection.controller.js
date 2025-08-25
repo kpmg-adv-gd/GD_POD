@@ -28,8 +28,10 @@ sap.ui.define([
             let pathAPIFilter = "/api/getFilterPOD";
             let url = BaseProxyURL+pathAPIFilter;
             let plant = that.getInfoModel().getProperty("/plant");
+            let userId = that.getInfoModel().getProperty("/user_id");
             let params = {
-                "plant": plant
+                "plant": plant,
+                "userId": userId
             }
             // Callback di successo
             var successCallback = function(response) {

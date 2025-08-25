@@ -7,7 +7,7 @@
                     <VBox width="12.5%" height="100%" renderType="Bare" class="filterBox" >
                         <Label text="{i18n>podSelection.label.workcenter}:" width="100%" textAlign="Left" vAlign="Middle" class="kpmgGDSmallLabel requiredLabel paddingLeft" />
                         <ComboBox id="workcenterComboBoxId" width="100%" class="GDComboBoxField" items="{FilterModel>/WorkCenters}" showSecondaryValues="true" required="true">
-                            <core:ListItem key="{FilterModel>WORKCENTER}" text="{FilterModel>WORKCENTER}" additionalText="{FilterModel>DESCRIPTION}" />
+                            <core:ListItem key="{FilterModel>workCenter}" text="{FilterModel>workCenter}" additionalText="{FilterModel>description}" />
                         </ComboBox>                                   
                     </VBox>
                     <VBox width="12.5%" height="100%" renderType="Bare" class="filterBox" >

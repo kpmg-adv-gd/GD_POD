@@ -55,7 +55,7 @@
                         <t:Column width="20%">
                             <Label text="{i18n>modifiche.table.status}"  />
                             <t:template>
-                                <Select editable="{= ${ModificheModel>status} === '0' }" selectedKey="{ModificheModel>status}" change="onStatusChange" items="{path: '/StatusCollection', sorter: { path: 'key' } }">
+                                <Select selectedKey="{ModificheModel>status}" change="onStatusChange" items="{path: '/StatusCollection', sorter: { path: 'key' } }">
                                     <core:Item key="{key}" text="{text}" />
                                 </Select>
                             </t:template>
@@ -115,12 +115,11 @@
                             </t:template>
                         </t:Column>
                         <t:Column width="30%" >
-                            <Label text="{i18n>modifiche.table.resolution}"  />
+                            <Label text="{i18n>modifiche.table.status}"  />
                             <t:template>
-                                <VBox>
-                                    <Text visible="{= !!${ModificheModel>resolution}}" wrapping="true" text="{ModificheModel>resolution}"  />
-                                    <Button visible="{= !${ModificheModel>resolution}}" text="{i18n>modifiche.table.button.modificaDone}" width="100%" press="onModifcaDoneMA" />
-                                </VBox>
+                                <Select selectedKey="{ModificheModel>status}" change="onStatusChangeMA" items="{path: '/StatusCollection', sorter: { path: 'key' } }">
+                                    <core:Item key="{key}" text="{text}" />
+                                </Select>
                             </t:template>
                         </t:Column>   
                     </t:columns>

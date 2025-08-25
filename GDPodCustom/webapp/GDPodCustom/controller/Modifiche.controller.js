@@ -89,6 +89,7 @@ sap.ui.define([
             var that=this;
             var pathModificheList = oEvent.getSource().getParent().getRowBindingContext().getPath();
             var objStatusModified = that.getView().getModel("ModificheModel").getProperty(pathModificheList);
+            var status = objStatusModified.status;
             if(objStatusModified.type=="MT"){
                 let warningMessage = that.getI18n("modifiche.warningMessage.allModificheTecniche");
                 sap.m.MessageBox.show(
@@ -99,7 +100,7 @@ sap.ui.define([
                     function(oAction) { // Funzione di callback
                         if (oAction === sap.m.MessageBox.Action.OK) {
                             // Se l'utente preme OK
-                            that.updateStatusModification(objStatusModified);
+                            that.onOpenNoteDialog(objStatusModified,status);
                         } else if (oAction === sap.m.MessageBox.Action.CANCEL) {
                             that.loadStatusCollection();
                             //Se preme cancel
@@ -107,50 +108,50 @@ sap.ui.define([
                     }
                 );   
             } else{
-                that.updateStatusModification(objStatusModified);
+                that.updateStatusModification(objStatusModified,status);
             }
             
 
         },
-        updateStatusModification: function(objStatusModified){
+        onStatusChangeMA: function(oEvent){
+            var that=this;
+            var pathModificheList = oEvent.getSource().getParent().getRowBindingContext().getPath();
+            var objStatusModified = that.getView().getModel("ModificheModel").getProperty(pathModificheList);
+            let userId = that.getInfoModel().getProperty("/user_id");
+            let status = objStatusModified.status;
+            objStatusModified.resolution = "Modifica assieme applicata da " + userId;
+            that.onOpenNoteDialog(objStatusModified,status);
+        },
+        updateStatusModification: function(objStatusModified,status){
+            
             var that=this;
             let BaseProxyURL = that.getInfoModel().getProperty("/BaseProxyURL");
             let pathUpdateStatusModifica = "/api/sendAndUpdateModifiche";
             let url = BaseProxyURL+pathUpdateStatusModifica; 
 
-            var sfcObj =  that.getInfoModel().getProperty("/selectedSFC");
-
             let plant = objStatusModified.plant;
             var wbe = objStatusModified.wbe;
             let process_id = objStatusModified.process_id;
             let prog_eco = objStatusModified.prog_eco;
-            let newStatus = objStatusModified.status;
             var material = objStatusModified.material;
             var child_material = objStatusModified.child_material;
             var type = objStatusModified.type;
+            var resolution = objStatusModified.resolution;
+            var note = objStatusModified.note || "";
             
-            let orderType = sfcObj.ORDER_TYPE;
-            var objOrder = "";
-            var item = "";
-            if(orderType=="ZPA1" || orderType=="ZPA2" || orderType=="ZPF1" || orderType=="ZPF2"){
-                objOrder = objStatusModified.order;
-            } else if(orderType=="GRPF"){
-                objOrder = sfcObj.PURCHASE_ORDER;
-                item = sfcObj.PURCHASE_ORDER_POSITION;
-            }
 
             let params={
                 plant: plant,
                 wbe: wbe,
                 process_id: process_id,
                 prog_eco: prog_eco,
-                newStatus: newStatus,
+                newStatus: status,
                 material: material,
                 child_material: child_material,
                 type: type,
-                objOrder: objOrder,
-                item: item,
-                resolution: ""
+                order: objStatusModified.order,
+                resolution: resolution,
+                note: note
             };
 
             // Callback di successo
@@ -160,9 +161,10 @@ sap.ui.define([
             };
             // Callback di errore
             var errorCallback = function(error) {
+                that.loadModificheModel();
                 console.log("Chiamata POST fallita:", error);
             };
-            CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
+            CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that,false,true);
         },
         loadOperationModifiche: function(){
             var that=this;
@@ -245,57 +247,46 @@ sap.ui.define([
             };
             CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
         },
-        onModifcaDoneMA: function(oEvent){
-            var that=this;
-            var pathModificheList = oEvent.getSource().getParent().getParent().getRowBindingContext().getPath();
-            var objStatusModified = that.getView().getModel("ModificheModel").getProperty(pathModificheList);
-            that.updateResolutionModificaMA(objStatusModified);
-        },
-        updateResolutionModificaMA: function(objStatusModified){
-            var that=this;
-            let BaseProxyURL = that.getInfoModel().getProperty("/BaseProxyURL");
-            let pathUpdateStatusModifica = "/api/sendAndUpdateModifiche";
-            var url = BaseProxyURL+pathUpdateStatusModifica; 
-
-            let plant = objStatusModified.plant;
-            let process_id = objStatusModified.process_id;
-            let userId = that.getInfoModel().getProperty("/user_id");
-            var resolution = "Modifica assieme applicata da " + userId;
-            var wbe = objStatusModified.wbe;
-            let prog_eco = objStatusModified.prog_eco;
-            let newStatus = objStatusModified.status;
-            var material = objStatusModified.material;
-            var child_material = objStatusModified.child_material;
-            var type = objStatusModified.type;
-            var objOrder = "";
-            var item = "";
-
-            let params={
-                plant: plant,
-                wbe: wbe,
-                process_id: process_id,
-                prog_eco: prog_eco,
-                newStatus: newStatus,
-                material: material,
-                child_material: child_material,
-                type: type,
-                objOrder: objOrder,
-                item: item,
-                resolution: resolution
-            };
-
-            // Callback di successo
-            var successCallback = function(response) {
-                that.loadModificheModel();
-                that.showToast("Added Resolution!")
-            };
-            // Callback di errore
-            var errorCallback = function(error) {
-                console.log("Chiamata POST fallita:", error);
-            };
-            CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that,false,true);
-
+        onOpenNoteDialog: function (objStatusModified, status) {
+            var that = this;
+        
+            var oNoteDialog = new sap.m.Dialog({
+                title: "Inserisci una Nota",
+                type: "Message",
+                contentWidth: "500px",
+                content: [
+                    new sap.m.TextArea({
+                        id: "noteTextArea_" + Date.now(), // ID unico se vuoi evitare conflitti
+                        width: "100%",
+                        placeholder: "Scrivi una nota (facoltativa)...",
+                        rows: 5
+                    })
+                ],
+                beginButton: new sap.m.Button({
+                    text: "Conferma",
+                    type: "Accept",
+                    press: function () {
+                        var note = oNoteDialog.getContent()[0].getValue(); // Accesso diretto al TextArea
+                        objStatusModified.note = note;
+                        that.updateStatusModification(objStatusModified, status);
+                        oNoteDialog.close();
+                    }
+                }),
+                endButton: new sap.m.Button({
+                    text: "Annulla",
+                    type: "Reject",
+                    press: function () {
+                        oNoteDialog.close();
+                    }
+                }),
+                afterClose: function () {
+                    oNoteDialog.destroy();
+                }
+            });
+        
+            this.getView().addDependent(oNoteDialog);
+            oNoteDialog.open();
         }
-
+        
     });
 });

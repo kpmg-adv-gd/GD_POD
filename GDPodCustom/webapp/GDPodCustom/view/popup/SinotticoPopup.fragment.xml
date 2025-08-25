@@ -40,28 +40,34 @@
                                 <Text text="{SFC}"/>
                             </t:template>
                         </t:Column>
-                        <t:Column width="8%" sortProperty="OrderType" filterProperty="OrderType" showFilterMenuEntry="true" hAlign="Center" >
+                        <t:Column width="7%" sortProperty="OrderType" filterProperty="OrderType" showFilterMenuEntry="true" hAlign="Center" >
                             <Label text="{i18n>SinotticoBomMultilivello.treeTable.orderType}"/>
                             <t:template>
                                 <Text text="{OrderType}"/>
                             </t:template>
                         </t:Column>     
-                        <t:Column width="8%" sortProperty="MissingParts" hAlign="Center">
+                        <t:Column width="7%" sortProperty="MissingParts" hAlign="Center">
                             <Label text="{i18n>SinotticoBomMultilivello.treeTable.missingComponents}"/>
                             <t:template>
                                 <core:Icon src="sap-icon://alert" color="#E5BE01" visible="{= (${MissingParts} === 'true') ? true:false}" class="largeIcon" />
                             </t:template>
                         </t:Column>
-                        <t:Column width="8%" sortProperty="hasDefects"  hAlign="Center">
+                        <t:Column width="7%" sortProperty="EngChanges" hAlign="Center">
+                            <Label text="{i18n>SinotticoBomMultilivello.treeTable.engChanges}"/>
+                            <t:template>
+                                <Text text="{EngChanges}"/>
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="7%" sortProperty="hasDefects"  hAlign="Center">
                             <Label text="{i18n>SinotticoBomMultilivello.treeTable.defects}"/>
                             <t:template>
                                 <Text text="{hasDefects}"/>
                             </t:template>
                         </t:Column>
-                        <t:Column width="18%" hAlign="Center">
+                        <t:Column width="15%" hAlign="Center">
                             <Label text="{i18n>SinotticoBomMultilivello.treeTable.progressStatus}"/>
                             <t:template>
-                                <ProgressIndicator percentValue="{ProgressStatus}" displayValue="{= ${ProgressStatus} + '%'}" state="Success" showValue="true" visible="{= (${OrderType} !== 'COMP') ? true:false}" width="100%"/>
+                                <ProgressIndicator percentValue="{ProgressStatus}" displayValue="{= ${ProgressStatus} + '%'}" state="Success" showValue="true" visible="{= (${OrderType} !== 'COMP' &amp;&amp; ${ParentAssembly} !== true ) ? true:false}" width="100%"/>
                             </t:template>
                         </t:Column>
                     </t:columns>
