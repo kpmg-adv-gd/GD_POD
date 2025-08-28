@@ -87,6 +87,12 @@
                                                 </HBox>
                                             </t:template>     
                                         </t:Column>
+                                        <t:Column filterProperty="description" width="15%" visible="{= ${PODSfcModel>/ORDER_TYPE} === 'MACH' }">
+                                            <Label text="{i18n>mainPOD.table.MacroPhase}"  />
+                                            <t:template>
+                                                <Text wrapping="false" text="{PODOperationModel>macroPhase}"  />
+                                            </t:template>     
+                                        </t:Column>
                                        <t:Column filterProperty="workCenter/workCenter" width="10%" hAlign="Center">
                                             <Label text="{i18n>mainPOD.table.workcenter}"  />
                                             <t:template>
