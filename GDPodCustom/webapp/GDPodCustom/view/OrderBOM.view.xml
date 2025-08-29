@@ -21,7 +21,7 @@
                                 <Text text="{BomModel>Material}"/>
                             </t:template>
                         </t:Column>
-                        <t:Column width="35%" visible="{BomModel>isNotMacrMach}" >
+                        <t:Column width="35%" visible="{BomModel>/isNotMacrMach}" >
                             <Label text="{i18n>orderBOM.treeTable.materialDescription}"/>
                             <t:template>
                                 <Text text="{BomModel>MaterialDescription}"/>
