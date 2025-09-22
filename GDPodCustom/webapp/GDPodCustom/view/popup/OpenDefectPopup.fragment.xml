@@ -163,8 +163,26 @@
                             <TextArea id="defectNoteId" width="50%" value="{/defect/defectNote}" rows="3" class="markingMediumLabelValue" tooltip="Any additional notes"/>
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center" visible="{/defect/createQN}">
-                            <Label text="Responsible" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true"/>
-                            <Select selectedKey="{/defect/responsible}" width="50%" items="{/responsibles}" tooltip="Department or person responsible for managing the defect">
+                            <Label text="Responsible 1" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true"/>
+                            <Select change="changeResponsible1" selectedKey="{/defect/responsible1}" width="50%" items="{/responsibles1}" tooltip="Department or person responsible for managing the defect">
+                                <core:Item key="{id}" text="{description}" />
+                            </Select>
+                        </HBox>
+                        <HBox width="100%" renderType="Bare" alignItems="Center" visible="{= ${/defect/createQN} === true &amp;&amp; ${/responsiblesVis2} === true }">
+                            <Label text="Responsible 2" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true"/>
+                            <Select change="changeResponsible2" selectedKey="{/defect/responsible2}" width="50%" items="{/responsibles2}" tooltip="Department or person responsible for managing the defect">
+                                <core:Item key="{id}" text="{description}" />
+                            </Select>
+                        </HBox>
+                        <HBox width="100%" renderType="Bare" alignItems="Center" visible="{= ${/defect/createQN} === true &amp;&amp; ${/responsiblesVis3} === true }">
+                            <Label text="Responsible 3" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true"/>
+                            <Select change="changeResponsible3" selectedKey="{/defect/responsible3}" width="50%" items="{/responsibles3}" tooltip="Department or person responsible for managing the defect">
+                                <core:Item key="{id}" text="{description}" />
+                            </Select>
+                        </HBox>
+                        <HBox width="100%" renderType="Bare" alignItems="Center" visible="{= ${/defect/createQN} === true &amp;&amp; ${/responsiblesVis4} === true }">
+                            <Label text="Responsible 4" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true"/>
+                            <Select change="changeResponsible4" selectedKey="{/defect/responsible4}" width="50%" items="{/responsibles4}" tooltip="Department or person responsible for managing the defect">
                                 <core:Item key="{id}" text="{description}" />
                             </Select>
                         </HBox>
