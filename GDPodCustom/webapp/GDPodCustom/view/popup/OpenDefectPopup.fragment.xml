@@ -72,7 +72,7 @@
                         </HBox>
                         <HBox renderType="Bare" alignItems="Center" width="auto">
                             <Label text="Assembly" width="auto" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
-                            <Select id="assemblyId" selectedKey="{/defect/assembly}" width="auto" items="{/assemblies}" tooltip="Component in which the defect was detected">
+                            <Select id="assemblyId" selectedKey="{/defect/assembly}" width="auto" items="{/assemblies}">
                                 <core:Item key="{material/material}" text="{material/material}" />
                             </Select>
                         </HBox>
@@ -87,21 +87,21 @@
                     <VBox width="45%" height="100%" renderType="Bare" justifyContent="SpaceBetween">
                         <HBox width="100%" renderType="Bare" alignItems="Center">
                             <Label text="Title" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true"/>
-                            <Input id="titleId" width="50%" value="{/defect/title}" showValueHelp="false" class="markingMediumLabelValue" tooltip="Defect identification title"/>
+                            <Input id="titleId" width="50%" value="{/defect/title}" showValueHelp="false" class="markingMediumLabelValue"/>
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center">
                             <Label text="Description" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
-                            <TextArea id="descriptionId" width="50%" value="{/defect/description}" rows="3" class="markingMediumLabelValue" tooltip="Detailed description of the defect"/>
+                            <TextArea id="descriptionId" width="50%" value="{/defect/description}" rows="3" class="markingMediumLabelValue" />
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center">
                             <Label text="Code Group" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true"/>
-                            <Select id="codeGroupID" selectedKey="{/defect/codeGroup}" width="50%" items="{/codeGroups}" change="onChangeCodeGroup" tooltip="Code group to which the defect belongs">
+                            <Select id="codeGroupID" selectedKey="{/defect/codeGroup}" width="50%" items="{/codeGroups}" change="onChangeCodeGroup">
                                 <core:Item key="{group}" text="{description}" />
                             </Select>
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center">
                             <Label text="Defect Type" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true"/>
-                            <Select id="defectTypeID"  selectedKey="{/defect/defectType}" width="50%" items="{/defectTypes}" tooltip="Type of defect">
+                            <Select id="defectTypeID"  selectedKey="{/defect/defectType}" width="50%" items="{/defectTypes}" >
                                 <core:Item key="{code}" text="{description}" />
                             </Select>
                         </HBox>
@@ -113,45 +113,45 @@
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center">
                             <Label text="Variance" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true"/>
-                            <Select selectedKey="{/defect/variance}" width="50%" items="{/variances}" tooltip="Type of variance associated with the defect">
+                            <Select selectedKey="{/defect/variance}" width="50%" items="{/variances}">
                                 <core:Item key="{cause}" text="{description}" />
                             </Select>
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center">
                             <Label text="Attachment" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" />
-                            <Button text="Attach files" width="50%" press="popAllegaPress" tooltip="Upload images, documents, or other files useful for documenting the defect"/>
+                            <Button text="Attach files" width="50%" press="popAllegaPress"/>
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center">
                             <Label text="Blocking" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" />
-                            <CheckBox text="" width="50%" selected="{/defect/blocking}" tooltip="Select if the defect blocks the closure of the SFC" />  
+                            <CheckBox text="" width="50%" selected="{/defect/blocking}"/>  
                         </HBox>
                     </VBox>
                     <VBox width="45%" height="100%" renderType="Bare" justifyContent="SpaceBetween">
                         <HBox width="100%" renderType="Bare" alignItems="Center">
                             <Label text="Create QN" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
-                            <CheckBox text="" width="50%" selected="{/defect/createQN}" tooltip="Indicate whether a Quality Notification (QN) should be generated" />  
+                            <CheckBox text="" width="50%" selected="{/defect/createQN}"  />  
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center" visible="{/defect/createQN}">
                             <Label text="Notification Type" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true"/>
-                            <Select selectedKey="{/defect/notificationType}" width="50%" items="{/notificationTypies}" tooltip="Notification type">
+                            <Select selectedKey="{/defect/notificationType}" width="50%" items="{/notificationTypies}">
                                 <core:Item key="{notification_type}" text="{description}" />
                             </Select>
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center" visible="{/defect/createQN}">
                             <Label text="Coding Group" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true"/>
-                            <Select selectedKey="{/defect/coding_group}" width="50%" items="{/codingGroups}" change="onChangeCoding" tooltip="Group of areas to which the defect belongs">
+                            <Select selectedKey="{/defect/coding_group}" width="50%" items="{/codingGroups}" change="onChangeCoding">
                                 <core:Item key="{coding_group}" text="{coding_group_description}" />
                             </Select>
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center" visible="{/defect/createQN}">
                             <Label text="Coding" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true"/>
-                            <Select selectedKey="{/defect/coding_id}" width="50%" items="{/codings}" tooltip="Represents the area within which the defect is identified">
+                            <Select selectedKey="{/defect/coding_id}" width="50%" items="{/codings}" >
                                 <core:Item key="{coding_id}" text="{coding_description}" />
                             </Select>
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center" visible="{/defect/createQN}">
                             <Label text="Replaced in Assembly" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true"/>
-                            <RadioButtonGroup selectedIndex="{/defect/replaceInAssembly}" width="50%" tooltip="Indicates whether the defective component was replaced during assembly">
+                            <RadioButtonGroup selectedIndex="{/defect/replaceInAssembly}" width="50%">
                                 <buttons>
                                     <RadioButton text="YES" groupName="group1" selected="{= ${/defect/replaceInAssembly} === 'YES' }" />
                                     <RadioButton text="NO" groupName="group1" selected="{= ${/defect/replaceInAssembly} === 'NO' }" />
@@ -160,29 +160,29 @@
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center" visible="{/defect/createQN}">
                             <Label text="Defect Note" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
-                            <TextArea id="defectNoteId" width="50%" value="{/defect/defectNote}" rows="3" class="markingMediumLabelValue" tooltip="Any additional notes"/>
+                            <TextArea id="defectNoteId" width="50%" value="{/defect/defectNote}" rows="3" class="markingMediumLabelValue"/>
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center" visible="{/defect/createQN}">
                             <Label text="Responsible 1" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true"/>
-                            <Select change="changeResponsible1" selectedKey="{/defect/responsible1}" width="50%" items="{/responsibles1}" tooltip="Department or person responsible for managing the defect">
+                            <Select change="changeResponsible1" selectedKey="{/defect/responsible1}" width="50%" items="{/responsibles1}" >
                                 <core:Item key="{id}" text="{description}" />
                             </Select>
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center" visible="{= ${/defect/createQN} === true &amp;&amp; ${/responsiblesVis2} === true }">
                             <Label text="Responsible 2" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true"/>
-                            <Select change="changeResponsible2" selectedKey="{/defect/responsible2}" width="50%" items="{/responsibles2}" tooltip="Department or person responsible for managing the defect">
+                            <Select change="changeResponsible2" selectedKey="{/defect/responsible2}" width="50%" items="{/responsibles2}" >
                                 <core:Item key="{id}" text="{description}" />
                             </Select>
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center" visible="{= ${/defect/createQN} === true &amp;&amp; ${/responsiblesVis3} === true }">
                             <Label text="Responsible 3" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true"/>
-                            <Select change="changeResponsible3" selectedKey="{/defect/responsible3}" width="50%" items="{/responsibles3}" tooltip="Department or person responsible for managing the defect">
+                            <Select change="changeResponsible3" selectedKey="{/defect/responsible3}" width="50%" items="{/responsibles3}">
                                 <core:Item key="{id}" text="{description}" />
                             </Select>
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center" visible="{= ${/defect/createQN} === true &amp;&amp; ${/responsiblesVis4} === true }">
                             <Label text="Responsible 4" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true"/>
-                            <Select change="changeResponsible4" selectedKey="{/defect/responsible4}" width="50%" items="{/responsibles4}" tooltip="Department or person responsible for managing the defect">
+                            <Select change="changeResponsible4" selectedKey="{/defect/responsible4}" width="50%" items="{/responsibles4}" >
                                 <core:Item key="{id}" text="{description}" />
                             </Select>
                         </HBox>
