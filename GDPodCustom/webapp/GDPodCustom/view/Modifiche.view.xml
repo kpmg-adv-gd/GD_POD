@@ -24,7 +24,7 @@
                             <Label text="{i18n>modifiche.table.progEco}"  />
                             <t:template>
                                 <VBox>
-                                    <Text wrapping="false" text="{ModificheModel>prog_eco}"  />
+                                    <Text wrapping="false" text="{path: 'ModificheModel>prog_eco', formatter: '.stripLeadingZeros'}" />
                                 </VBox>
                             </t:template>
                         </t:Column>
@@ -86,7 +86,7 @@
                             <Label text="{i18n>modifiche.table.processId}"  />
                             <t:template>
                                 <VBox>
-                                    <Text wrapping="false" text="{ModificheModel>process_id}"  />
+                                    <Text wrapping="false" text="{path: 'ModificheModel>process_id', formatter: '.stripLeadingZeros'}" />
                                 </VBox>
                             </t:template>
                         </t:Column>

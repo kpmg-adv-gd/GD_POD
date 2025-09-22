@@ -15,7 +15,7 @@
                     </OverflowToolbar>
                     </t:extension>
                     <t:columns>
-                        <t:Column width="50%">
+                        <t:Column width="55%">
                             <Label text="{i18n>orderBOM.treeTable.material}"/>
                             <t:template>
                                 <Text text="{BomModel>Material}"/>
@@ -27,7 +27,7 @@
                                 <Text text="{BomModel>Quantity}"/>
                             </t:template>
                         </t:Column>
-                        <t:Column width="20%">
+                        <t:Column width="15%">
                             <Label text="{i18n>orderBOM.treeTable.fluxType}"/>
                             <t:template>
                                 <Text text="{BomModel>FluxType}"/>

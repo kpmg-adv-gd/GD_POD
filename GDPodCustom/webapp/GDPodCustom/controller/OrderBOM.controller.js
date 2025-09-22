@@ -34,7 +34,14 @@ sap.ui.define([
             let url = BaseProxyURL+pathOrderBomApi; 
 
             let order = that.getInfoModel().getProperty("/selectedSFC/order") || "";
+            let orderType = that.getInfoModel().getProperty("/selectedSFC/ORDER_TYPE") || "";
             let plant = that.getInfoModel().getProperty("/plant") || "";
+
+            // if(orderType!=="MACR" && orderType!=="MACH"){
+            //     that.getView().getModel("BomModel").setProperty("/isNotMacrMach",true);
+            // } else{
+            //     that.getView().getModel("BomModel").setProperty("/isNotMacrMach",false);
+            // }
 
             let params={
                 order: order,

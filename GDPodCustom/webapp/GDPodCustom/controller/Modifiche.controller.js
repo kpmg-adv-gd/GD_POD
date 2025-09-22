@@ -286,6 +286,10 @@ sap.ui.define([
         
             this.getView().addDependent(oNoteDialog);
             oNoteDialog.open();
+        },
+        stripLeadingZeros: function(value) {
+            if (!value) return value;
+            return value.replace(/^0+/, '');
         }
         
     });
