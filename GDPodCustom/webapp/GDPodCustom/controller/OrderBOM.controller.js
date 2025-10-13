@@ -37,11 +37,11 @@ sap.ui.define([
             let orderType = that.getInfoModel().getProperty("/selectedSFC/ORDER_TYPE") || "";
             let plant = that.getInfoModel().getProperty("/plant") || "";
 
-            // if(orderType!=="MACR" && orderType!=="MACH"){
-            //     that.getView().getModel("BomModel").setProperty("/isNotMacrMach",true);
-            // } else{
-            //     that.getView().getModel("BomModel").setProperty("/isNotMacrMach",false);
-            // }
+            if(orderType!=="MACR" && orderType!=="MACH"){
+                that.getView().getModel("BomModel").setProperty("/isNotMacrMach",true);
+            } else{
+                that.getView().getModel("BomModel").setProperty("/isNotMacrMach",false);
+            }
 
             let params={
                 order: order,
