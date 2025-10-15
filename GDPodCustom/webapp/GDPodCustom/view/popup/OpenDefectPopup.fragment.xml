@@ -66,7 +66,7 @@
                             <Label text="Material" width="auto" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
                             <Input id="materialId" width="auto" value="{/defect/material}" showSuggestion="true" class="markingMediumLabelValue"/>
                         </HBox>
-                        <HBox renderType="Bare" alignItems="Center" width="25%">
+                        <HBox renderType="Bare" alignItems="Center" width="24%">
                             <Label text="{/defect/typeOrderDesc}" width="auto" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
                             <Input id="prodOrderId" width="auto" value="{/defect/prodOrder}" showSuggestion="true" class="markingMediumLabelValue" />
                         </HBox>
