@@ -72,8 +72,8 @@
                         </HBox>
                         <HBox renderType="Bare" alignItems="Center" width="auto">
                             <Label text="Assembly" width="auto" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
-                            <Select id="assemblyId" selectedKey="{/defect/assembly}" width="auto" items="{/assemblies}">
-                                <core:Item key="{material/material}" text="{material/material}" />
+                            <Select id="assemblyId" selectedKey="{/defect/assembly}" width="auto" items="{/assemblies}" showSecondaryValues="true">
+                                <core:ListItem key="{material}" text="{material}" additionalText="{description}" />
                             </Select>
                         </HBox>
                         <HBox renderType="Bare" alignItems="Center" width="auto">

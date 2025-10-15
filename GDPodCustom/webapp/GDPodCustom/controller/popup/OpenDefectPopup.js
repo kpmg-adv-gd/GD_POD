@@ -196,7 +196,20 @@ sap.ui.define([
 
             // Callback di successo
             var successCallback = function (response) {
-                this.OpenDefectModel.setProperty("/assemblies", [...[{ material: { material: "" } }], ...response.bomResponse[0].components]);
+                var assemblies = [];
+                response.bomResponse[0].components.forEach(item => {
+                    var material = item.material.material;
+                    if (item.customValues.filter(cf => cf.attribute == "DESCRIZIONE COMPONENTE").length > 0) {
+                        var description = item.customValues.filter(cf => cf.attribute == "DESCRIZIONE COMPONENTE")[0].value;
+                    }else{
+                        var description = "";
+                    }
+                    assemblies.push({
+                        material: material,
+                        description: description
+                    })
+                });
+                this.OpenDefectModel.setProperty("/assemblies", [...[ { material: "", description: "" }], ...assemblies]);
             };
             // Callback di errore
             var errorCallback = function (error) {
