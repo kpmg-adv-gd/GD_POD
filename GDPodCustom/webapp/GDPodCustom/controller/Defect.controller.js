@@ -273,7 +273,7 @@ sap.ui.define([
             // Callback di errore
             var errorCallback = function(error) {
                 console.log("Chiamata POST fallita:", error);
-                that.showErrorMessageBox(error);
+                that.showErrorMessageBox(that.getI18n("defect.close.error.message"));
             };
             
             CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that, true, true);
