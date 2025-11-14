@@ -61,7 +61,7 @@
                         <t:Column width="7%" sortProperty="hasDefects"  hAlign="Center">
                             <Label text="{i18n>SinotticoBomMultilivello.treeTable.defects}"/>
                             <t:template>
-                                <core:Icon src="sap-icon://high-priority" color="#ca0b30" visible="{= (${Defects>MissingParts} === 'true') ? true:false}" class="largeIcon" />
+                                <core:Icon src="sap-icon://high-priority" color="#ca0b30" visible="{= (${Defects} === 'true') ? true:false}" class="largeIcon" />
                             </t:template>
                         </t:Column>
                         <t:Column width="15%" hAlign="Center">
