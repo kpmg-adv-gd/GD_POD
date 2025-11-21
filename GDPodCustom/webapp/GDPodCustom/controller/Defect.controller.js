@@ -258,7 +258,7 @@ sap.ui.define([
                 comments: "",
                 sfc: sfc,
                 order: order,
-                qnCode: defect.qn_code == "" ? null : defect.qn_code
+                qnCode: defect.qn_code == "" ? null : defect.qn_code,
             };
 
             let BaseProxyURL = that.getInfoModel().getProperty("/BaseProxyURL");
