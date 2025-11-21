@@ -26,6 +26,7 @@ sap.ui.define([
             that.getVariance();
 
             that.openDialog();
+            that.OpenDefectModel.setSizeLimit(1000)
         },
 
         clearData: function () {
