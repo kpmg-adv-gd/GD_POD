@@ -38,6 +38,8 @@ sap.ui.define([
                 var oFilterModel = new JSONModel(response);
                 oFilterModel.setSizeLimit(10000);
                 this.getView().setModel(oFilterModel,"FilterModel");
+                //Risettiamo il metodo di filtraggio dei suggerimenti dei filtri per permettere anche all'interno del filtro
+                that.settingSugesstionFilter();
             };
 
             // Callback di errore
@@ -46,6 +48,21 @@ sap.ui.define([
             };
             CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
 
+        },
+        settingSugesstionFilter: function(){
+            var that=this;
+            that.byId("projectInputId").setFilterFunction(function (sValue, oItem) {
+                return oItem.getText().toLowerCase().includes(sValue.toLowerCase());
+            });
+            that.byId("wbsInputId").setFilterFunction(function (sValue, oItem) {
+                return oItem.getText().toLowerCase().includes(sValue.toLowerCase());
+            });
+            that.byId("parentMaterialInputId").setFilterFunction(function (sValue, oItem) {
+                return oItem.getText().toLowerCase().includes(sValue.toLowerCase());
+            });
+            that.byId("materialInputId").setFilterFunction(function (sValue, oItem) {
+                return oItem.getText().toLowerCase().includes(sValue.toLowerCase());
+            });
         },
         onGoPress: function(){
             var that=this;

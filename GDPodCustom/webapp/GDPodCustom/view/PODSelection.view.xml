@@ -12,7 +12,7 @@
                     </VBox>
                     <VBox width="12.5%" height="100%" renderType="Bare" class="filterBox" >
                         <Label text="{i18n>podSelection.label.sfc}:" width="100%" textAlign="Left" vAlign="Middle" class="kpmgGDSmallLabel paddingLeft" />
-                        <Input id="sfcInputId" placeholder="Enter SFC" showSuggestion="true" showValueHelp="false" suggestionItems="{FilterModel>/SFCs}"  class="GDInputField">
+                        <Input id="sfcInputId" placeholder="Enter SFC" showSuggestion="true" showValueHelp="false" suggestionItems="{FilterModel>/SFCs}" class="GDInputField">
                             <suggestionItems>
                                 <core:Item text="{FilterModel>SFC}" />
                             </suggestionItems>
@@ -20,7 +20,7 @@
                     </VBox>
                     <VBox width="12.5%" height="100%" renderType="Bare" class="filterBox" >
                         <Label text="{i18n>podSelection.label.project}:" width="100%" textAlign="Left" vAlign="Middle" class="kpmgGDSmallLabel paddingLeft" />
-                        <Input id="projectInputId" placeholder="Enter Project" showSuggestion="true" showValueHelp="false" suggestionItems="{FilterModel>/Project}"  class="GDInputField">
+                        <Input id="projectInputId" placeholder="Enter Project" showSuggestion="true" showValueHelp="false" suggestionItems="{FilterModel>/Project}" class="GDInputField">
                             <suggestionItems>
                                 <core:Item text="{FilterModel>DATA_FIELD_VALUE}" />
                             </suggestionItems>
@@ -28,7 +28,7 @@
                     </VBox>
                     <VBox width="12.5%" height="100%" renderType="Bare" class="filterBox" >
                         <Label text="{i18n>podSelection.label.wbs}:" width="100%" textAlign="Left" vAlign="Middle" class="kpmgGDSmallLabel paddingLeft" />
-                        <Input id="wbsInputId" placeholder="Enter WBS Element" showSuggestion="true" showValueHelp="false" suggestionItems="{FilterModel>/WBS}"  class="GDInputField">
+                        <Input id="wbsInputId" placeholder="Enter WBS Element" showSuggestion="true" showValueHelp="false" suggestionItems="{FilterModel>/WBS}" class="GDInputField">
                             <suggestionItems>
                                 <core:Item text="{FilterModel>DATA_FIELD_VALUE}" />
                             </suggestionItems>
@@ -36,7 +36,7 @@
                     </VBox>
                     <VBox width="12.5%" height="100%" renderType="Bare" class="filterBox" >
                         <Label text="{i18n>podSelection.label.machineSection}:" width="100%" textAlign="Left" vAlign="Middle" class="kpmgGDSmallLabel paddingLeft" />
-                        <Input id="machineSectionInputId" placeholder="Enter Machine Section" showSuggestion="true" showValueHelp="false" suggestionItems="{FilterModel>/MachineSection}"  class="GDInputField">
+                        <Input id="machineSectionInputId" placeholder="Enter Machine Section" showSuggestion="true" showValueHelp="false" suggestionItems="{FilterModel>/MachineSection}" class="GDInputField">
                             <suggestionItems>
                                 <core:Item text="{FilterModel>DATA_FIELD_VALUE}" />
                             </suggestionItems>
@@ -44,7 +44,7 @@
                     </VBox>
                     <VBox width="12.5%" height="100%" renderType="Bare" class="filterBox">
                         <Label text="{i18n>podSelection.label.parentMaterial}:" width="100%" textAlign="Left" vAlign="Middle" class="kpmgGDSmallLabel paddingLeft" />
-                        <Input id="parentMaterialInputId" placeholder="Enter Parent Material" showSuggestion="true" showValueHelp="false" suggestionItems="{FilterModel>/ParentMaterial}"  class="GDInputField">
+                        <Input id="parentMaterialInputId" placeholder="Enter Parent Material" showSuggestion="true" showValueHelp="false" suggestionItems="{FilterModel>/ParentMaterial}" class="GDInputField">
                             <suggestionItems>
                                 <core:Item text="{FilterModel>DATA_FIELD_VALUE}" />
                             </suggestionItems>
@@ -52,7 +52,7 @@
                     </VBox>
                     <VBox width="12.5%" height="100%" renderType="Bare" class="filterBox" >
                         <Label text="{i18n>podSelection.label.material}:" width="100%" textAlign="Left" vAlign="Middle" class="kpmgGDSmallLabel paddingLeft" />
-                        <Input id="materialInputId" placeholder="Enter Material" showSuggestion="true" showValueHelp="false" suggestionItems="{FilterModel>/Materials}"  class="GDInputField">
+                        <Input id="materialInputId" placeholder="Enter Material" showSuggestion="true" showValueHelp="false" suggestionItems="{FilterModel>/Materials}" class="GDInputField">
                             <suggestionItems>
                                 <core:Item text="{FilterModel>MATERIAL}" />
                             </suggestionItems>
