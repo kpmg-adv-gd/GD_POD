@@ -261,6 +261,22 @@
     font-weight: normal;
 }
 
+.kpmgGDMediumlLabelBold {
+    font-size: 1.2rem;
+    color: #3c3b39;
+    font-weight: bold;
+}
+
+.kpmgGDMediumlLabelInfoBold {
+    font-size: 1.2rem;
+    color: rgb(202, 11, 48);
+    font-weight: bold;
+}
+
+.smallMarginLeft {
+    margin-left: 1.5px;
+}
+
 .paddingLeft{
     padding-left: 0.5%;
 }
