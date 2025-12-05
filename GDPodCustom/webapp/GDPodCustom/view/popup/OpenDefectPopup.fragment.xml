@@ -159,7 +159,7 @@
                             </RadioButtonGroup>
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center" visible="{/defect/createQN}">
-                            <Label text="Defect Note" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="{}"/>
+                            <Label text="Defect Note" width="50%" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true"/>
                             <TextArea id="defectNoteId" width="50%" value="{/defect/defectNote}" rows="3" class="markingMediumLabelValue"/>
                         </HBox>
                         <HBox width="100%" renderType="Bare" alignItems="Center" visible="{/defect/createQN}">
