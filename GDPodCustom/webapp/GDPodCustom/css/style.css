@@ -407,6 +407,10 @@
     margin-top: 1.5%;
 }
 
+.smallMarginBottom{
+    margin-bottom: 3%;
+}
+
 .toolbarTable{
     background-color: antiquewhite;
 }
