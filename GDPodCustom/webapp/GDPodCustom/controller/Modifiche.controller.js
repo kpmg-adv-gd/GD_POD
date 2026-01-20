@@ -209,7 +209,14 @@ sap.ui.define([
 
             //Eliminata il check sulla certificazione - Se rsi reinserisce eliminare apertura popup da qua e /selectedOpMark uguale ad udnefined
             //that.checkCertificationMarkerModificheOp(markOperation);
-            that.MarkingPopup.open(that.getView(), that, markOperation, true);
+            var actualWC = that.getInfoModel().getProperty("/selectedSFC/WORKCENTER");
+            var activeWCsString = that.getInfoModel().getProperty("/MarkingWorkCentersListEnabled");
+            var activeWCsArray = activeWCsString.split(";");
+            if(!activeWCsArray.includes(actualWC)){
+                that.MarkingPopup.open(that.getView(), that, markOperation, false);
+            } else{
+                that.MarkingPopup.open(that.getView(), that, markOperation, true);
+            }
             that.getView().getModel("ModificheModel").setProperty("/selectedOpMark",undefined);
         },
         checkCertificationMarkerModificheOp: function(markOperation){
