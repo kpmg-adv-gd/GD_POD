@@ -24,9 +24,11 @@ sap.ui.define([
             that.getNotificationType();
             that.getResponsible();
             that.getVariance();
+            //that.getCauses();
+
+            that.OpenDefectModel.setSizeLimit(1000)
 
             that.openDialog();
-            that.OpenDefectModel.setSizeLimit(1000)
         },
 
         clearData: function () {
@@ -252,6 +254,30 @@ sap.ui.define([
             // Callback di successo
             var successCallback = function (response) {
                 this.OpenDefectModel.setProperty("/variances", [...[{ cause: "", description: "" }], ...response.filter(item => item.plant == plant)]);
+            };
+
+            // Callback di errore
+            var errorCallback = function (error) {
+                console.log("Chiamata POST fallita: ", error);
+            };
+            CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
+        },
+        getCauses: function () { 
+            var that = this;
+            var infoModel = that.MainPODcontroller.getInfoModel();
+            var plant = infoModel.getProperty("/plant");
+
+            let BaseProxyURL = infoModel.getProperty("/BaseProxyURL");
+            let pathReasonForVarianceApi = "/db/getCauses";
+            let url = BaseProxyURL + pathReasonForVarianceApi;
+
+            let params = {
+                plant: plant
+            };
+
+            // Callback di successo
+            var successCallback = function (response) {
+                this.OpenDefectModel.setProperty("/causes", [...[{ cause: "", description: "" }], ...response]);
             };
 
             // Callback di errore
@@ -523,16 +549,11 @@ sap.ui.define([
 
             // Check sui campo obbligatori
             if (defect.numDefect == "" || defect.title == "" || defect.codeGroup == "" || defect.defectType == "" || defect.priority == ""
-                || defect.variance == "") {
+                || defect.variance == "" || defect.cause == "") {
                 that.MainPODcontroller.showErrorMessageBox(that.MainPODcontroller.getI18n("defect.error.message"));
                 return false;
             }
             if (defect.createQN && (defect.coding_id == "" || defect.coding_id == null || defect.notificationType == "" || defect.notificationType == null || (defect.replaceInAssembly != 0 && defect.replaceInAssembly != 1))) {
-                that.MainPODcontroller.showErrorMessageBox(that.MainPODcontroller.getI18n("defect.error.message"));
-                return false;
-            }
-
-            if (defect.createQN && defect.attachments.length > 0 && defect.defectNote == "") {
                 that.MainPODcontroller.showErrorMessageBox(that.MainPODcontroller.getI18n("defect.error.message"));
                 return false;
             }
@@ -655,6 +676,7 @@ sap.ui.define([
             var user = infoModel.getProperty("/user_id");
             var plant = infoModel.getProperty("/plant");
             var order = infoModel.getProperty("/selectedSFC/order");
+            var project = infoModel.getProperty("/selectedSFC/COMMESSA")
 
             try {
                 var operation = that.selectedOp.routingOperation.operationActivity.operationActivity;
@@ -674,6 +696,7 @@ sap.ui.define([
                 variance: defect.variance,
                 blocking: defect.blocking,
                 createQN: defect.createQN,
+                cause: defect.cause,
                 sfc: sfc,
                 user: user,
                 operation: operation,
@@ -681,7 +704,9 @@ sap.ui.define([
                 group: defect.codeGroup,
                 code: defect.defectType,
                 wbe: infoModel.getProperty("/selectedSFC/WBE"),
-                typeOrder: defect.typeOrder
+                typeOrder: defect.typeOrder,
+                project: project,
+                phase: "Assembly"
             }
             if (defect.createQN) {
                 params.notificationType = defect.notificationType;
