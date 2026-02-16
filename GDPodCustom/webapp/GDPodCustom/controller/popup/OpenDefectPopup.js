@@ -262,7 +262,7 @@ sap.ui.define([
             };
             CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
         },
-        getCauses: function () {
+        getCauses: function () { 
             var that = this;
             var infoModel = that.MainPODcontroller.getInfoModel();
             var plant = infoModel.getProperty("/plant");
