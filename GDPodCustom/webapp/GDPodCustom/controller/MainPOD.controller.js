@@ -73,7 +73,6 @@ sap.ui.define([
                 that.getView().getModel("PODOperationModel").setProperty("/operations",response.result);
                 that.getView().getModel("PODOperationModel").setProperty("/BusyLoadingOpTable",false);
                 that.getDefects();
-                that.checkOperationMacrofase6();
             };
             // Callback di errore
             var errorCallback = function(error) {
@@ -325,14 +324,17 @@ sap.ui.define([
             let orderMaterial = that.getInfoModel().getProperty("/selectedSFC/material/material");
             let sfc = that.getView().getModel("PODSfcModel").getProperty("/sfc");
             let workCenter = that.getInfoModel().getProperty("/selectedSFC/WORKCENTER");
+            let orderType = that.getInfoModel().getProperty("/selectedSFC/ORDER_TYPE");
 
             let checkModificheLastOperation = false;
             let checkMancantiLastOperation = false;
+            let checkMachLastOperation = false;
             let valueModifica = that.getInfoModel().getProperty("/selectedSFC/ECO_TYPE");
             //Controllo se l'operazione che sto completando è l'ultima operazione dell'sfc da completare
             let operations = that.getView().getModel("PODOperationModel").getProperty("/operations");
             if(!operations.some(obj => obj?.routingOperation?.operationActivity?.operationActivity !== operation && obj?.QUANTITY?.quantityDone !== 1 )){
                 checkMancantiLastOperation=true;
+                if(orderType === "MACH") checkMachLastOperation=true;
                 if(!!valueModifica) checkModificheLastOperation = true;
                 if (!that.checkOpenDefectBlocked()) {
                     that.showErrorMessageBox(that.getI18n("mainPOD.podMessage.completeDefectBLocked"));
@@ -350,7 +352,8 @@ sap.ui.define([
                 sfc: sfc,
                 checkModificheLastOperation: checkModificheLastOperation,
                 valueModifica: valueModifica,
-                checkMancantiLastOperation: checkMancantiLastOperation
+                checkMancantiLastOperation: checkMancantiLastOperation,
+                checkMachLastOperation: checkMachLastOperation
             }
 
             // Callback di successo
@@ -483,59 +486,6 @@ sap.ui.define([
         },
         loadElectricalBox: function(){
             var that=this;
-        },
-        checkOperationMacrofase6: function(){
-            var that=this;
-            //Se nella macchina ho solo operazioni di fase 6 non completate => aggiorno campo custom per non far vedere l'sfc nel pod selection
-            if(that.getInfoModel().getProperty("/selectedSFC/ORDER_TYPE")==="MACH"){
-                const operations = that.getView().getModel("PODOperationModel").getProperty("/operations");
-                let hasMF6 = false;
-                let othersCompleted = true;
-
-                operations.forEach(op => {
-                    const routingOp = op.routingOperation;
-                    if (!routingOp) return;
-                    // Trova MF dentro customValues
-                    const mfValue = routingOp.customValues?.find(cv => cv.attribute === "MF")?.value;
-                    if (mfValue === "MF6") {
-                        hasMF6 = true;
-                    } else {
-                        // Tutti gli altri devono avere quantityDone = 1
-                        if (routingOp?.QUANTITY?.quantityDone !== 1) {
-                            othersCompleted = false;
-                        }
-                    }
-                });
-
-                if (hasMF6 && othersCompleted) {
-                    let BaseProxyURL = that.getInfoModel().getProperty("/BaseProxyURL");
-                    let pathAPIUpdateCustomField = "/api/updateCustomFieldOrder";
-                    let url = BaseProxyURL+pathAPIUpdateCustomField;
-
-                    let plant = that.getInfoModel().getProperty("/plant");
-                    let order = that.getInfoModel().getProperty("/selectedSFC/order");
-                    let customField = [{customField:"MACHINE_ASSEMBLY_COMPLETED",customValue:"true"}];
-
-                    
-                    let params = {
-                        plant: plant,
-                        order: order,
-                        customField: customField
-                    }
-
-                    // Callback di successo
-                    var successCallback = function(response) {
-                        console.log("Update Custom Field MACHINE_ASSEMBLY_COMPLETED done successfully.");
-                    };
-                    // Callback di errore
-                    var errorCallback = function(error) {
-                        console.log("Chiamata POST fallita checkOperationMacrofase6:", error);
-                    };
-                    CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that, false,true);
-
-
-                }
-            }
         },
         onOpenSinottico: function(){
             var that=this;
