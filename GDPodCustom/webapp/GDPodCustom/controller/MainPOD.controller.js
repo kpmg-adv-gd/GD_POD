@@ -324,14 +324,17 @@ sap.ui.define([
             let orderMaterial = that.getInfoModel().getProperty("/selectedSFC/material/material");
             let sfc = that.getView().getModel("PODSfcModel").getProperty("/sfc");
             let workCenter = that.getInfoModel().getProperty("/selectedSFC/WORKCENTER");
+            let orderType = that.getInfoModel().getProperty("/selectedSFC/ORDER_TYPE");
 
             let checkModificheLastOperation = false;
             let checkMancantiLastOperation = false;
+            let checkMachLastOperation = false;
             let valueModifica = that.getInfoModel().getProperty("/selectedSFC/ECO_TYPE");
             //Controllo se l'operazione che sto completando è l'ultima operazione dell'sfc da completare
             let operations = that.getView().getModel("PODOperationModel").getProperty("/operations");
             if(!operations.some(obj => obj?.routingOperation?.operationActivity?.operationActivity !== operation && obj?.QUANTITY?.quantityDone !== 1 )){
                 checkMancantiLastOperation=true;
+                if(orderType === "MACH") checkMachLastOperation=true;
                 if(!!valueModifica) checkModificheLastOperation = true;
                 if (!that.checkOpenDefectBlocked()) {
                     that.showErrorMessageBox(that.getI18n("mainPOD.podMessage.completeDefectBLocked"));
@@ -349,7 +352,8 @@ sap.ui.define([
                 sfc: sfc,
                 checkModificheLastOperation: checkModificheLastOperation,
                 valueModifica: valueModifica,
-                checkMancantiLastOperation: checkMancantiLastOperation
+                checkMancantiLastOperation: checkMancantiLastOperation,
+                checkMachLastOperation: checkMachLastOperation
             }
 
             // Callback di successo
