@@ -15,34 +15,40 @@
                     </OverflowToolbar>
                     </t:extension>
                     <t:columns>
-                        <t:Column width="35%">
+                        <t:Column width="33%">
                             <Label text="{i18n>orderBOM.treeTable.material}"/>
                             <t:template>
                                 <Text text="{BomModel>Material}"/>
                             </t:template>
                         </t:Column>
-                        <t:Column width="35%" visible="{BomModel>/isNotMacrMach}" >
+                        <t:Column width="33%" visible="{BomModel>/isNotMacrMach}" >
                             <Label text="{i18n>orderBOM.treeTable.materialDescription}"/>
                             <t:template>
                                 <Text text="{BomModel>MaterialDescription}"/>
                             </t:template>
                         </t:Column>
-                        <t:Column width="10%">
+                        <t:Column width="8%">
                             <Label text="{i18n>orderBOM.treeTable.quantity}"/>
                             <t:template>
                                 <Text text="{BomModel>Quantity}"/>
                             </t:template>
                         </t:Column>
-                        <t:Column width="10%">
+                        <t:Column width="8%">
                             <Label text="{i18n>orderBOM.treeTable.fluxType}"/>
                             <t:template>
                                 <Text text="{BomModel>FluxType}"/>
                             </t:template>
                         </t:Column>     
-                        <t:Column width="10%">
+                        <t:Column width="6%">
                             <Label text="{i18n>orderBOM.treeTable.missingParts}"/>
                             <t:template>
                                 <Text text="{BomModel>MissingParts}"/>
+                            </t:template>
+                        </t:Column> 
+                        <t:Column width="10%">
+                            <Label text="{i18n>orderBOM.treeTable.missingPartsDate}"/>
+                            <t:template>
+                                <Text text="{BomModel>MissingPartsDate}"/>
                             </t:template>
                         </t:Column>
                     </t:columns>

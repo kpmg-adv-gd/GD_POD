@@ -64,7 +64,7 @@
                     <HBox width="100%" height="50%" renderType="Bare" justifyContent="SpaceBetween">
                         <HBox renderType="Bare" alignItems="Center" width="20%">
                             <Label text="Material" width="auto" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
-                            <Input id="materialId" width="auto" value="{/defect/material}" showSuggestion="true" class="markingMediumLabelValue"/>
+                            <Input id="materialId" width="auto" value="{/defect/material}" showSuggestion="true" class="markingMediumLabelValue" liveChange="onLiveChangeMaterial"/>
                         </HBox>
                         <HBox renderType="Bare" alignItems="Center" width="24%">
                             <Label text="{/defect/typeOrderDesc}" width="auto" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
@@ -72,9 +72,9 @@
                         </HBox>
                         <HBox renderType="Bare" alignItems="Center" width="40%">
                             <Label text="Assembly" width="auto" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
-                            <Select id="assemblyId" selectedKey="{/defect/assembly}" width="70%" items="{/assemblies}" showSecondaryValues="true" tooltip="Component in which the defect was detected">
+                            <ComboBox id="assemblyId" class="GDComboBoxField" selectedKey="{/defect/assembly}" width="70%" items="{/assemblies}" showSecondaryValues="true" tooltip="Component in which the defect was detected">
                                 <core:ListItem key="{material}" text="{material}" additionalText="{description}" />
-                            </Select>
+                            </ComboBox>
                         </HBox>
                         <HBox renderType="Bare" alignItems="Center" width="15%">
                             <Label text="N° of Def." width="auto" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd" required="true"/>
