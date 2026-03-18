@@ -115,6 +115,18 @@
                                     <Text wrapping="false" text="{PODSelectionModel>MATERIALEPADRE}"  />
                                 </t:template>
                             </t:Column>
+                            <t:Column sortProperty="USER_STATUS" filterProperty="USER_STATUS" width="16%">
+                                <Label text="{i18n>podSelection.table.userStatus}"  />
+                                <t:template>
+                                    <Text wrapping="false" text="{PODSelectionModel>USER_STATUS}"  />
+                                </t:template>
+                            </t:Column>
+                            <t:Column sortProperty="UNLOAD_POINT" filterProperty="UNLOAD_POINT" width="16%">
+                                <Label text="{i18n>podSelection.table.unloadPoint}"  />
+                                <t:template>
+                                    <Text wrapping="false" text="{PODSelectionModel>UNLOAD_POINT}"  />
+                                </t:template>
+                            </t:Column>
                             <t:Column sortProperty="status/code" width="5%"  hAlign="Center" >
                                 <Label text="{i18n>podSelection.table.status}"  />
                                 <t:template>
