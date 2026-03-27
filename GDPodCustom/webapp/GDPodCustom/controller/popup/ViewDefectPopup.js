@@ -22,9 +22,9 @@ sap.ui.define([
                 that.defectSelected.files = defectStandard.fileIds;
             }
 
-            if (that.defectSelected.type_order == "GRPF") that.defectSelected.type_order = "Purch. Doc.";
-            else if (that.defectSelected.type_order == "ZMGF") that.defectSelected.type_order = "";
-            else that.defectSelected.type_order = "Prod. Order.";
+            if (that.defectSelected.typeOrder == "GRPF") that.defectSelected.typeOrder = "Purch. Doc.";
+            else if (that.defectSelected.typeOrder == "ZMGF") that.defectSelected.typeOrder = "";
+            else that.defectSelected.typeOrder = "Prod. Order.";
 
             that._initDialog("kpmg.custom.pod.GDPodCustom.GDPodCustom.view.popup.ViewDefectPopup", oView, that.ViewDefectModel);
             

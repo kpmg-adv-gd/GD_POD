@@ -65,7 +65,7 @@
                             <Label width="auto" text="{/defect/material}"  class="markingMediumLabelValue"/>
                         </HBox>
                         <HBox renderType="Bare" alignItems="Center" width="auto">
-                            <Label text="{/defect/type_order}" width="auto" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
+                            <Label text="{/defect/typeOrder}" width="auto" class="markingMediumLabel markingMediumLabelWidth13Rem sapUiSmallMarginEnd"/>
                             <Label width="auto" text="{/defect/mes_order}"  class="markingMediumLabelValue" />
                         </HBox>
                         <HBox renderType="Bare" alignItems="Center" width="auto">
