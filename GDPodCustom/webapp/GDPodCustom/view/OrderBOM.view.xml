@@ -27,22 +27,28 @@
                                 <Text text="{BomModel>MaterialDescription}"/>
                             </t:template>
                         </t:Column>
-                        <t:Column width="10%">
+                        <t:Column width="7%">
                             <Label text="{i18n>orderBOM.treeTable.quantity}"/>
                             <t:template>
                                 <Text text="{BomModel>Quantity}"/>
                             </t:template>
                         </t:Column>
-                        <t:Column width="10%">
+                        <t:Column width="7%">
                             <Label text="{i18n>orderBOM.treeTable.fluxType}"/>
                             <t:template>
                                 <Text text="{BomModel>FluxType}"/>
                             </t:template>
                         </t:Column>     
-                        <t:Column width="10%">
-                            <Label text="{i18n>orderBOM.treeTable.missingParts}"/>
+                        <t:Column width="8%">
+                            <Label text="{i18n>orderBOM.treeTable.missingOrders}"/>
                             <t:template>
-                                <Text text="{BomModel>MissingParts}"/>
+                                <Text text="{BomModel>MissingOrders}"/>
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="8%">
+                            <Label text="{i18n>orderBOM.treeTable.missingComponents}"/>
+                            <t:template>
+                                <Text text="{BomModel>MissingComponents}"/>
                             </t:template>
                         </t:Column>
                     </t:columns>
