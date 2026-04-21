@@ -21,7 +21,7 @@
                                 <Text text="{BomModel>Material}"/>
                             </t:template>
                         </t:Column>
-                        <t:Column width="33%" visible="{BomModel>/isNotMacrMach}" >
+                        <t:Column width="33%" >
                             <Label text="{i18n>orderBOM.treeTable.materialDescription}"/>
                             <t:template>
                                 <Text text="{BomModel>MaterialDescription}"/>
@@ -45,7 +45,7 @@
                                 <Text text="{BomModel>MissingParts}"/>
                             </t:template>
                         </t:Column> 
-                        <t:Column width="10%">
+                        <t:Column width="10%" visible="false">
                             <Label text="{i18n>orderBOM.treeTable.missingPartsDate}"/>
                             <t:template>
                                 <Text text="{BomModel>MissingPartsDate}"/>

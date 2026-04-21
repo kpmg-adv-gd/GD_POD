@@ -32,13 +32,16 @@
                             <t:Column width="20%">
                                 <Label text="{i18n>modifiche.table.material}"  />
                                 <t:template>
-                                    <Text wrapping="false" text="{ModificheModel>material}"  />
+                                    <Text wrapping="false" text="{ModificheModel>material}" />
                                 </t:template>
                             </t:Column>
                             <t:Column width="20%">
                                 <Label text="{i18n>modifiche.table.child_material}"  />
                                 <t:template>
-                                    <Text wrapping="false" text="{ModificheModel>child_material}"  />
+                                    <HBox renderType="Bare" width="100%">
+                                        <Text wrapping="false" text="{ModificheModel>child_material}" visible="{= ${ModificheModel>type} !== 'MK' }"  />
+                                        <Link wrapping="false" width="50%" href="{ModificheModel>link}" text="{ModificheModel>child_material}" target="_blank"  class="markingMediumLabelValue" visible="{= ${ModificheModel>type} === 'MK' }" />
+                                    </HBox>
                                 </t:template>
                             </t:Column>
                             <t:Column width="8%">
