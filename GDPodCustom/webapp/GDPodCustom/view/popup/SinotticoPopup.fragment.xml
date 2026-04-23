@@ -17,7 +17,7 @@
                         <FlexItemData growFactor="1" baseSize="100%"/>
                     </t:layoutData>
                     <t:extension>
-                        <OverflowToolbar style="Clear" height="auto">
+                    <OverflowToolbar style="Clear" height="auto">
 
                         <ToolbarSpacer/>
                         <!-- Espansione livelli -->
