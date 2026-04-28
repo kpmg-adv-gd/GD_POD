@@ -296,6 +296,7 @@ sap.ui.define([
                         that._selectedProcessId = oContext.getProperty("process_id");
                         that._selectedFluxType = oContext.getProperty("flux_type");
                         that._selectedTypeModification = oContext.getProperty("type");
+                        that._selectedVarianceModifica = oContext.getProperty("variance");
                         that._oConfirmUpdateButton.setEnabled(true);
                     }
                 });
@@ -363,6 +364,7 @@ sap.ui.define([
             that._selectedProcessId = null;
             that._selectedFluxType = null;
             that._selectedTypeModification = null;
+            that._selectedVarianceModifica = null;
             that.onGetUpdateTable();
             that._oUpdatePopover.openBy(oEvent.getSource());
 
@@ -372,9 +374,15 @@ sap.ui.define([
 
             if (!!that._selectedProgEco ) {
                 that.getView().byId("selectedUpdateText").setText(that._selectedProgEco);
+                if(!!that._selectedVarianceModifica){
+                    that.getView().byId("selectedVarianceText").setText(that._selectedVarianceModifica);
+                }
                 that._oUpdatePopover.close();
             } else if (!!that._selectedProcessId ){
                 that.getView().byId("selectedUpdateText").setText(that._selectedProcessId);
+                if(!!that._selectedVarianceModifica){
+                    that.getView().byId("selectedVarianceText").setText(that._selectedVarianceModifica);
+                }
                 that._oUpdatePopover.close();
             } else {
                 sap.m.MessageToast.show("No Modification selected.");
