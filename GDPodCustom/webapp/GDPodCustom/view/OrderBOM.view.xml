@@ -51,7 +51,7 @@
                                 <Text text="{BomModel>MissingComponents}"/>
                             </t:template>
                         </t:Column> 
-                        <t:Column width="10%" visible="false">
+                        <t:Column width="10%">
                             <Label text="{i18n>orderBOM.treeTable.missingPartsDate}"/>
                             <t:template>
                                 <Text text="{BomModel>MissingPartsDate}"/>
