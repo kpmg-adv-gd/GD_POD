@@ -331,7 +331,8 @@ sap.ui.define([
                             mappa[prog] = {
                                 progressive: prog,
                                 left: null,
-                                right: null
+                                right: null,
+                                m: null
                             };
                         }
 
@@ -341,6 +342,10 @@ sap.ui.define([
 
                         if (item.flux_type === "I") {
                             mappa[prog].right = item;
+                        }
+
+                        if (item.flux_type === "M") {
+                            mappa[prog].m = item;
                         }
 
                     });
