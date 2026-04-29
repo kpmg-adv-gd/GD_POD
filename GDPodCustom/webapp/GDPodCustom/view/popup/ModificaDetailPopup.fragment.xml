@@ -98,7 +98,7 @@
 
             <VBox width="100%" class="sapUiMediumMarginTop" renderType="Bare" >
                 <Title text="{i18n>modifiche.detail.table.qtyToChange}"  level="H3" class="detailTableTitle"/>
-                    <Table items="{detailModificaModel>/rows}">
+                    <Table items="{detailModificaModel>/mRows}">
                         <columns>
                             <Column><Text text="{i18n>modifiche.detail.table.child_material}"/></Column>
                             <Column><Text text="{i18n>modifiche.detail.table.description}"/></Column>
@@ -107,9 +107,9 @@
                         <items>
                             <ColumnListItem>
                                 <cells>
-                                    <Text text="{detailModificaModel>m/child_material}" class="detailTableText" />
-                                    <Text text="{detailModificaModel>m/child_material_description}" class="detailTableText" />
-                                    <Text text="{detailModificaModel>m/qty}" class="detailTableText" />
+                                    <Text text="{detailModificaModel>child_material}" class="detailTableText" />
+                                    <Text text="{detailModificaModel>child_material_description}" class="detailTableText" />
+                                    <Text text="{detailModificaModel>qty}" class="detailTableText" />
                                 </cells>
                             </ColumnListItem>
                         </items>
