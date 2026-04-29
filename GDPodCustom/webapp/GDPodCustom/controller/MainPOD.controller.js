@@ -45,6 +45,35 @@ sap.ui.define([
             var that = this;
             that.oDefectModel.setProperty("/", oData.defects);
         },
+        loadMacroPhase: function () {
+            var that=this;
+            let BaseProxyURL = that.getInfoModel().getProperty("/BaseProxyURL");
+            let pathAPI = "/db/getMacroPhase";
+            let url = BaseProxyURL+pathAPI;
+
+            let plant = that.getInfoModel().getProperty("/plant");
+
+            let params = {
+                plant: plant,
+            }
+
+            // Callback di successo
+            var successCallback = function(response) {
+                that.getView().getModel("PODOperationModel").getProperty("/operations").forEach(opt => {
+                    try {
+                        opt.macroPhase = response.filter(item => item.id == opt.MF)[0].description;
+                    } catch (e) {
+                        opt.macroPhase = "";
+                    }
+                });
+                that.getView().getModel("PODOperationModel").refresh();
+            };
+            // Callback di errore
+            var errorCallback = function(error) {
+                console.log("Chiamata POST fallita:", error);
+            };
+            CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that);
+        },
         loadPODOperationsModel: function(){
             var that=this;
             let BaseProxyURL = that.getInfoModel().getProperty("/BaseProxyURL");
@@ -72,6 +101,11 @@ sap.ui.define([
             var successCallback = function(response) {
                 that.getView().getModel("PODOperationModel").setProperty("/operations",response.result);
                 that.getView().getModel("PODOperationModel").setProperty("/BusyLoadingOpTable",false);
+                
+                if (that.getView().getModel("PODSfcModel").getProperty("/ORDER_TYPE") == "MACH") {
+                    that.loadMacroPhase();
+                }
+
                 that.getDefects();
             };
             // Callback di errore
@@ -278,19 +312,31 @@ sap.ui.define([
             let BaseProxyURL = that.getInfoModel().getProperty("/BaseProxyURL");
             let pathAPIStartOperation = "/api/sfc/v1/sfcs/start";
             let url = BaseProxyURL+pathAPIStartOperation;
+            let userId = that.getInfoModel().getProperty("/user_id");
 
             let plant = that.getInfoModel().getProperty("/plant");
+            let dataSFC = that.getView().getModel("PODSfcModel").getProperty("/");
             let selectedOperation = that.getInfoModel().getProperty("/selectedOperation");
             let operation = selectedOperation.routingOperation.operationActivity.operationActivity;
             let resource = selectedOperation.RESOURCE;
             let sfc = that.getView().getModel("PODSfcModel").getProperty("/sfc");
-            
 
             let params = {
                 plant: plant,
                 operation: operation,
                 resource: resource,
-                sfc: sfc
+                sfc: sfc,
+                userId: userId,
+                order: dataSFC.order, 
+                routing: dataSFC.routing.routing,
+                routingVersion: dataSFC.routing.version,
+                material: dataSFC.material.material,
+                parentMaterial: dataSFC.MATERIALEPADRE,
+                stepId: selectedOperation.stepId,
+                workCenter: dataSFC.WORKCENTER,
+                project: dataSFC.COMMESSA,
+                wbe: dataSFC.WBE,
+                machineSection: dataSFC.SEZIONEMACCHINA,
             }
 
             // Callback di successo
@@ -314,6 +360,7 @@ sap.ui.define([
             let BaseProxyURL = that.getInfoModel().getProperty("/BaseProxyURL");
             let pathAPICompleteOperation = "/api/sfc/v1/sfcs/complete";
             let url = BaseProxyURL+pathAPICompleteOperation;
+            let userId = that.getInfoModel().getProperty("/user_id");
 
             let plant = that.getInfoModel().getProperty("/plant");
             let project = that.getInfoModel().getProperty("/selectedSFC/COMMESSA");
@@ -353,7 +400,8 @@ sap.ui.define([
                 checkModificheLastOperation: checkModificheLastOperation,
                 valueModifica: valueModifica,
                 checkMancantiLastOperation: checkMancantiLastOperation,
-                checkMachLastOperation: checkMachLastOperation
+                checkMachLastOperation: checkMachLastOperation,
+                userId: userId
             }
 
             // Callback di successo

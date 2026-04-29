@@ -22,9 +22,9 @@ sap.ui.define([
                 that.defectSelected.files = defectStandard.fileIds;
             }
 
-            if (that.defectSelected.type_order == "GRPF") that.defectSelected.type_order = "Purch. Doc.";
-            else if (that.defectSelected.type_order == "ZMGF") that.defectSelected.type_order = "";
-            else that.defectSelected.type_order = "Prod. Order.";
+            if (that.defectSelected.typeOrder == "GRPF") that.defectSelected.typeOrder = "Purch. Doc.";
+            else if (that.defectSelected.typeOrder == "ZMGF") that.defectSelected.typeOrder = "";
+            else that.defectSelected.typeOrder = "Prod. Order.";
 
             that._initDialog("kpmg.custom.pod.GDPodCustom.GDPodCustom.view.popup.ViewDefectPopup", oView, that.ViewDefectModel);
             
@@ -111,6 +111,47 @@ sap.ui.define([
             var that = this;
             var oDialog = that.getView().byId("uploadViewDialog");
             oDialog.open();
+        },
+
+        onDownloadInfo: function () {
+            var that = this;
+            var datas = that.ViewDefectModel.getProperty("/defect");
+            var wbe = that.ViewDefectModel.getProperty("/wbe");
+            var sfc = that.ViewDefectModel.getProperty("/sfc");
+            var workCenter = that.ViewDefectModel.getProperty("/wc");
+
+			let BaseProxyURL = that.MainPODcontroller.getInfoModel().getProperty("/BaseProxyURL");
+			let pathOrderBomApi = "/api/downloadInfoDefect";
+			let url = BaseProxyURL + pathOrderBomApi;
+
+			let params = {
+				info: datas,
+                wbe: wbe,
+                sfc: sfc,
+                workCenter: workCenter
+			};
+
+			// Callback di successo
+			var successCallback = function (response) {
+				try {
+					var pdfBase64 = response.base64;
+					var byteCharacters = atob(pdfBase64);
+					var byteNumbers = new Array(byteCharacters.length).fill().map((_,i)=>byteCharacters.charCodeAt(i));
+					var byteArray = new Uint8Array(byteNumbers);
+					var blob = new Blob([byteArray], { type: "application/pdf" });
+
+					var url = URL.createObjectURL(blob);
+					var link = document.createElement("a");
+					link.href = url;
+					window.open(url, "_blank");
+				} catch (e) { console.log (e.message) }
+			}
+			// Callback di errore
+			var errorCallback = function (error) {
+				that.MainPODcontroller.showErrorMessageBox(error);
+			};
+
+			CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that, true, false);
         },
 
         onClosePopup: function () {

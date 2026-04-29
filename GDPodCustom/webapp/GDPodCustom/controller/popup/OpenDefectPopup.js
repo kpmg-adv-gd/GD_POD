@@ -200,6 +200,9 @@ sap.ui.define([
             // Callback di successo
             var successCallback = function (response) {
                 var assemblies = [];
+                if (that.OpenDefectModel.getProperty("/defect/material") != "") assemblies.push(
+                    { material: that.OpenDefectModel.getProperty("/defect/material"), description: that.OpenDefectModel.getProperty("/defect/material"), isMaterial: true }
+                )
                 response.bomResponse[0].components.forEach(item => {
                     var material = item.material.material;
                     if (item.customValues.filter(cf => cf.attribute == "DESCRIZIONE COMPONENTE").length > 0) {
@@ -209,16 +212,50 @@ sap.ui.define([
                     }
                     assemblies.push({
                         material: material,
-                        description: description
+                        description: description,
+                        isMaterial: false
                     })
                 });
-                this.OpenDefectModel.setProperty("/assemblies", [...[ { material: "", description: "" }], ...assemblies]);
+                this.OpenDefectModel.setProperty("/assemblies", [...[ { material: "", description: "", isMaterial: false }], ...assemblies]);
             };
             // Callback di errore
             var errorCallback = function (error) {
                 console.log("Chiamata GET fallita: ", error);
             };
             CommonCallManager.callProxy("GET", url, {}, true, successCallback, errorCallback, that);
+        },
+        onLiveChangeMaterial: function (oEvent) {
+            var sValue = oEvent.getParameter("value");
+            var assemblies = this.OpenDefectModel.getProperty("/assemblies");
+            // Eventualmente modifico selezione
+            var assemblySelected = this.OpenDefectModel.getProperty("/defect/assembly");
+            if (assemblies.filter(item => item.material == assemblySelected).length > 0 &&
+                assemblies.filter(item => item.material == assemblySelected)[0].isMaterial) {
+                var modifiedValueAssembly = true;
+            }else{
+                var modifiedValueAssembly = false;
+            }
+            // Aggiorno lista Assembly
+            var listUpdated = [{ material: "", description: "", isMaterial: false }];
+            if (sValue != "") {
+                listUpdated.push({
+                    material: sValue,
+                    description: sValue,
+                    isMaterial: true
+                });
+            }
+            assemblies.filter(item => !item.isMaterial && item.material != "").forEach(item => {
+                listUpdated.push({
+                    material: item.material,
+                    description: item.description,
+                    isMaterial: false
+                });
+            });
+            this.OpenDefectModel.setProperty("/assemblies", listUpdated);
+            // Aggiorno selezione
+            if (modifiedValueAssembly) {
+                this.OpenDefectModel.setProperty("/defect/assembly", sValue)
+            }
         },
         getPriority: function () {
             var that = this;
