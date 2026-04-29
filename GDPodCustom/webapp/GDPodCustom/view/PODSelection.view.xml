@@ -151,10 +151,13 @@
                                     <Text wrapping="false" text="{PODSelectionModel>DATADIFINESCHEDULATA}"  />
                                 </t:template>
                             </t:Column>    -->
-                            <t:Column sortProperty="MANCANTI" width="5%" hAlign="Center">
+                            <t:Column sortProperty="COMPONENTIMANCANTI" width="5%" hAlign="Center">
                                 <Label text="{i18n>podSelection.table.missingComponents}"  />
                                 <t:template>
-                                    <core:Icon src="sap-icon://alert" color="#E5BE01" visible="{= (${PODSelectionModel>MANCANTI} === 'true') ? true:false}" class="statusIcon" />
+                                    <HBox width="100%" height="100%" renderType="Bare" justifyContent="Center" alignItems="Center" >
+                                        <core:Icon src="sap-icon://cancel-maintenance" color="#E75E25" visible="{= ${PODSelectionModel>ORDINIMANCANTI} === 'true' &amp;&amp; ${PODSelectionModel>COMPONENTIMANCANTI} === 'false' }" tooltip="{i18n>podSelection.tooltip.missingOrder}" class="statusIcon" />
+                                        <core:Icon src="sap-icon://alert" color="#E5BE01" visible="{= ${PODSelectionModel>COMPONENTIMANCANTI} === 'true' }"  tooltip="{i18n>podSelection.tooltip.missingComponents}" class="statusIcon" />
+                                    </HBox>
                                 </t:template>
                             </t:Column>
                             <t:Column sortProperty="ECO_TYPE" width="5%" hAlign="Center">
