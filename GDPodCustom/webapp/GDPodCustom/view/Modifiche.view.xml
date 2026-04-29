@@ -21,7 +21,7 @@
                                     <Text wrapping="false" text="{ModificheModel>type}"  />
                                 </t:template>
                             </t:Column>
-                            <t:Column width="14%" >
+                            <t:Column width="15%" >
                                 <Label text="{i18n>modifiche.table.progEco}"  />
                                 <t:template>
                                     <VBox>
@@ -29,38 +29,44 @@
                                     </VBox>
                                 </t:template>
                             </t:Column>
-                            <t:Column width="20%">
+                            <t:Column width="19%">
                                 <Label text="{i18n>modifiche.table.material}"  />
                                 <t:template>
                                     <Text wrapping="false" text="{ModificheModel>material}"  />
                                 </t:template>
                             </t:Column>
-                            <t:Column width="20%">
+                            <t:Column width="19%">
                                 <Label text="{i18n>modifiche.table.child_material}"  />
                                 <t:template>
                                     <Text wrapping="false" text="{ModificheModel>child_material}"  />
                                 </t:template>
                             </t:Column>
-                            <t:Column width="8%">
+                            <t:Column width="7%">
                                 <Label text="{i18n>modifiche.table.qty}"  />
                                 <t:template>
                                     <Text wrapping="false" text="{ModificheModel>qty}"  />
                                 </t:template>
                             </t:Column>
-                            <t:Column width="8%">
+                            <t:Column width="7%">
                                 <Label text="{i18n>modifiche.table.flux_type}"  />
                                 <t:template>
                                     <Text wrapping="false" text="{ModificheModel>flux_type}"  />
                                 </t:template>
                             </t:Column>
-                            <t:Column width="20%">
+                            <t:Column width="17%">
                                 <Label text="{i18n>modifiche.table.status}"  />
                                 <t:template>
                                     <Select selectedKey="{ModificheModel>status}" change="onStatusChange" items="{path: '/StatusCollection', sorter: { path: 'key' } }">
                                         <core:Item key="{key}" text="{text}" />
                                     </Select>
                                 </t:template>
-                            </t:Column> 
+                            </t:Column>
+                            <t:Column width="8%" hAlign="Center">
+                                <Label text="{i18n>modifiche.table.detail}" />
+                                <t:template>
+                                    <Button icon="sap-icon://detail-view" type="Emphasized" visible="{= ${ModificheModel>type} === 'MT' }" press="onOpenDettaglioModifica" />
+                                </t:template>
+                            </t:Column>
                         </t:columns>
                     </t:Table>
                 </VBox>
@@ -115,12 +121,18 @@
                                     <Text wrapping="false" text="{ModificheModel>flux_type}"  />
                                 </t:template>
                             </t:Column>
-                            <t:Column width="30%" >
+                            <t:Column width="22%" >
                                 <Label text="{i18n>modifiche.table.status}"  />
                                 <t:template>
                                     <Select selectedKey="{ModificheModel>status}" change="onStatusChangeMA" items="{path: '/StatusCollection', sorter: { path: 'key' } }">
                                         <core:Item key="{key}" text="{text}" />
                                     </Select>
+                                </t:template>
+                            </t:Column>
+                            <t:Column width="8%" hAlign="Center">
+                                <Label text="{i18n>modifiche.table.detail}" />
+                                <t:template>
+                                    <Button icon="sap-icon://detail-view"  type="Emphasized" press="onOpenDettaglioModifica" />
                                 </t:template>
                             </t:Column>   
                         </t:columns>

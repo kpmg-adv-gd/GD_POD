@@ -136,7 +136,11 @@ sap.ui.define([
             let pathReasonForVarianceApi = "/db/getReasonsForVariance";
             let url = BaseProxyURL + pathReasonForVarianceApi;
 
-            let params = {};
+            let plant = infoModel.getProperty("/plant");
+
+            let params = {
+                plant: plant
+            };
 
             // Callback di successo
             var successCallback = function (response) {
@@ -297,6 +301,7 @@ sap.ui.define([
                         that._selectedFluxType = oContext.getProperty("flux_type");
                         that._selectedTypeModification = oContext.getProperty("type");
                         that._selectedVarianceModifica = oContext.getProperty("variance");
+                        that._selectedVarianceDescription = oContext.getProperty("variance_description");
                         that._oConfirmUpdateButton.setEnabled(true);
                     }
                 });
@@ -365,6 +370,7 @@ sap.ui.define([
             that._selectedFluxType = null;
             that._selectedTypeModification = null;
             that._selectedVarianceModifica = null;
+            that._selectedVarianceDescription = null;
             that.onGetUpdateTable();
             that._oUpdatePopover.openBy(oEvent.getSource());
 
@@ -375,13 +381,15 @@ sap.ui.define([
             if (!!that._selectedProgEco ) {
                 that.getView().byId("selectedUpdateText").setText(that._selectedProgEco);
                 if(!!that._selectedVarianceModifica){
-                    that.getView().byId("selectedVarianceText").setText(that._selectedVarianceModifica);
+                    that.getView().byId("selectedVarianceText").setText(that._selectedVarianceDescription);
+                    that._selectedCause=that._selectedVarianceModifica;
                 }
                 that._oUpdatePopover.close();
             } else if (!!that._selectedProcessId ){
                 that.getView().byId("selectedUpdateText").setText(that._selectedProcessId);
                 if(!!that._selectedVarianceModifica){
-                    that.getView().byId("selectedVarianceText").setText(that._selectedVarianceModifica);
+                    that.getView().byId("selectedVarianceText").setText(that._selectedVarianceDescription);
+                    that._selectedCause=that._selectedVarianceModifica;
                 }
                 that._oUpdatePopover.close();
             } else {

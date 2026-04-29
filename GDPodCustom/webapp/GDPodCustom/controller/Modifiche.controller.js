@@ -10,6 +10,7 @@ sap.ui.define([
     return BaseController.extend("kpmg.custom.pod.GDPodCustom.GDPodCustom.controller.Modifiche", {
         oModificheModel: new JSONModel(),
         oStatusCollectionModel: new JSONModel(),
+        oDetailModificaModel: new JSONModel(),
         MarkingPopup: new MarkingPopup(),
         onInit: function () {
             var that=this;
@@ -168,7 +169,6 @@ sap.ui.define([
         },
         loadOperationModifiche: function(){
             var that=this;
-            var that=this;
             let BaseProxyURL = that.getInfoModel().getProperty("/BaseProxyURL");
             let pathGetOperationsModifiche = "/db/getOperationModificheBySfc";
             let url = BaseProxyURL+pathGetOperationsModifiche; 
@@ -297,7 +297,90 @@ sap.ui.define([
         stripLeadingZeros: function(value) {
             if (!value) return value;
             return value.replace(/^0+/, '');
+        },
+        onOpenDettaglioModifica: function (oEvent) {
+            var that=this;
+            var oContext = oEvent.getSource().getBindingContext("ModificheModel");
+            var oObject = oContext.getObject();
+
+            let BaseProxyURL = that.getInfoModel().getProperty("/BaseProxyURL");
+            let pathModificheDetail = "/db/getModificaDetail";
+            let url = BaseProxyURL+pathModificheDetail;
+
+            let plant = that.getInfoModel().getProperty("/plant") || "";
+            let process_id =  oObject.process_id;
+            let material = oObject.material;
+
+            let params= {
+                plant: plant,
+                process_id: process_id,
+                material: material
+            };
+
+            // Callback di successo
+            var successCallback = function (response) {
+
+                var mappa = {};
+
+                if (Array.isArray(response)) {
+                    response.forEach(function (item) {
+
+                        var prog = item.progressive;
+
+                        if (!mappa[prog]) {
+                            mappa[prog] = {
+                                progressive: prog,
+                                left: null,
+                                right: null,
+                                m: null
+                            };
+                        }
+
+                        if (item.flux_type === "D") {
+                            mappa[prog].left = item;
+                        }
+
+                        if (item.flux_type === "I") {
+                            mappa[prog].right = item;
+                        }
+
+                        if (item.flux_type === "M") {
+                            mappa[prog].m = item;
+                        }
+
+                    });
+                }
+
+                var aRows = Object.values(mappa).sort(function(a,b){
+                    return a.progressive - b.progressive;
+                });
+
+                var oDetailModel = new sap.ui.model.json.JSONModel({
+                    header: oObject,
+                    rows: aRows
+                });
+
+                if (!that._oDialog) {
+                    that._oDialog = sap.ui.xmlfragment(
+                        "kpmg.custom.pod.GDPodCustom.GDPodCustom.view.popup.ModificaDetailPopup",
+                        that
+                    );
+                    that.getView().addDependent(that._oDialog);
+                }
+
+                that._oDialog.setModel(oDetailModel, "detailModificaModel");
+                that._oDialog.open();
+            };
+            // Callback di errore
+            var errorCallback = function(error) {
+                console.log("Chiamata POST fallita:", error);
+            };
+            CommonCallManager.callProxy("POST", url, params, true, successCallback, errorCallback, that, false,true);
+
+        },
+        onCloseDettaglio: function () {
+            this._oDialog.close();
         }
-        
+                
     });
 });
