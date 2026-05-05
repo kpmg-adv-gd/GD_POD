@@ -499,7 +499,8 @@ sap.ui.define([
                 modification: modification,
                 cancellationFlag: false,
                 cancelled_confirmation: null,
-                defectId: defectId != "" ? defectId : null
+                defectId: defectId != "" ? defectId : null,
+                phase: "Assembly"
             }
 
             let BaseProxyURL = infoModel.getProperty("/BaseProxyURL");
